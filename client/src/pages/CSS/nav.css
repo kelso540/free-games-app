@@ -1,0 +1,170 @@
+:root{
+    --white: #FFFFFA;
+    --black: #000103; 
+    --gray: #333138;
+    --green: #749C75;
+    --red: #FF312E; 
+}
+a{
+    text-decoration: none;
+}
+.Link{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 20px;
+    color: var(--white);
+}
+.Link:hover{
+    color: var(--red);
+}
+.navDiv{
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--gray);
+    z-index: 2;
+}
+.header{
+    font-size: x-large;
+    padding-right: 10px;
+}
+.profile-container-loggedIn{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    gap: 10px;
+    padding-right: 10px;
+}
+.profile-container-loggedOut{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end; 
+    gap: 10px;
+    padding-right: 10px;
+}
+.header-modal{
+    position: fixed;
+    bottom: 5px;
+    left: 20px;
+    right: 20px;
+    background-color: rgb(112, 107, 107);
+    color: white;
+    border-radius: 8px;
+    padding: 10px;
+}
+.clearX{
+    position: absolute;
+    top: -10px;
+    right: 12px; 
+    cursor: pointer;
+}
+.clearX:hover{
+    color: var(--red);
+}
+.greenSuccess{
+    color: green;
+    font-size: large; 
+}
+.haveAccount{
+    font-size: large;
+}
+.signUp{
+    cursor: pointer;
+    font-size: medium;
+}
+.signUp:hover{
+    color: var(--red);
+}
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.navLink{
+    border: solid 5px transparent;
+    color: var(--white);
+    cursor: pointer;
+    font-size: large;
+}
+.navLink:hover{
+    border-bottom: solid 5px var(--red);
+}
+.navLinkB{
+    border: solid 5px transparent;
+    color: var(--white);
+    cursor: pointer;
+    font-size: medium;
+}
+.navLinkB:hover{
+    border-bottom: solid 5px var(--red);
+}
+.login-btn{
+    border: solid 2px transparent;
+    background-color: var(--red);
+    color: var(--white);
+    font-size: 16px;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+.login-btn:hover{
+    border: solid 2px var(--red);
+    background-color: var(--white);
+    color: var(--black);
+}
+.time{
+    color: var(--green);
+    padding-bottom: 5px;
+    padding-right: 10px;
+    cursor: default;
+}
+.inputDiv{
+    width: 40%;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+.inputDiv > input{
+    height: 30px;
+    border: solid 1px var(--gray);
+    border-radius: 20px;
+    width: 40%;
+    padding-left: 10px;
+    margin: 0 5px;
+}
+.allBtn{
+    background-color: var(--black);
+    color: var(--white);
+    border: solid 2px transparent;
+    border-radius: 20px;
+    padding: 7px;
+    cursor: pointer;
+    margin: 0 5px;
+    font-size: 16px;
+}
+.allBtn:hover{
+    background-color: var(--white);
+    color: var(--gray);
+    border: solid 2px var(--black);
+}
+.inputDiv > select{
+    height: 30px;
+    border-radius: 20px;
+    margin: 0 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+form > input{
+    width: 40%;
+    height: 30px;
+    border-radius: 20px; 
+    border: solid 1px var(--black);
+    margin: 5px;
+    padding-left: 10px;
+}

@@ -6,7 +6,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {UserContext} from '../context/UserContext';
 import './CSS/nav.css';
 
-export default function Nav({baseUrl}) {
+export default function Nav({baseUrl, time, updatedData, handleInput, getAllGames, inputValue, spinnerDiv, genres, filterSports, filterShooter, filterStrategy, filterMMORPG, filterFighting}) {
 
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -15,9 +15,9 @@ export default function Nav({baseUrl}) {
   const [backgroundColor, setBackgroundColor] = useState('default');
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [modal, setModal] = useState(false);
-  const [userExists, setUserExists] = useState(true);
+  const [userExists, setUserExists] = useState(false);
   const [message, setMessage] = useState('');
-  const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected} = useContext(UserContext);
+  const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected} = useContext(UserContext);
 
   user.username = holdUsername;
   user.imageUrl = holdAvatar; 
@@ -74,36 +74,45 @@ export default function Nav({baseUrl}) {
       navigate('/'); 
     }
 
+    const handleCategory = (e) => {
+      setSelected(e.target.value); 
+    }
+
   return (
-    <div>
-      <h1><Link to='/'>Free For All Games <FontAwesomeIcon icon={faGamepad} size='3x'/></Link></h1>
+    <div className='navDiv'>
+      <Link to='/' className='Link'><strong className='header'>Free For All Games</strong><FontAwesomeIcon icon={faGamepad} size='3x'/></Link>
+      <div className='inputDiv'>
+        <input type='text' onChange={handleInput} value={inputValue} placeholder='Type here to search for games'/>
+        <button className='allBtn' onClick={getAllGames}>Show All Games</button>
+        <select value={selected} onChange={handleCategory}>
+          {
+            genres.map((item)=>{
+              return <option key={item.id} value={item.value}>{item.text}</option>
+            })
+          }
+        </select>
+        </div>
         {
          loggedIn ?
-         <div className='profile-container-loggedin'>
-           <div className='img-container'>
-            <p>Welcome {user.username}</p>
-            {
-              (hasAvatar) ?
-              <img src={user.imageUrl} alt="avatar"/>
-              :null 
-            }
-            <Link to='/userProfile'>Profile</Link>
-           </div>  
-           <button className='logout-btn' onClick={handleLogout}>Logout</button>
-           <Link to='/saved'>Saved Games</Link>
-         </div>
+         <div className='profile-container-loggedIn'>
+            <Link to='/saved' className='navLinkB'>Saved Games</Link>
+            <Link to='/userProfile' className='navLinkB'>Profile</Link>  
+            <button className='login-btn' onClick={handleLogout}>Logout</button>
+          </div>
          
-         : <div className='profile-container-loggedout'>
-             <p>Login to save games!</p>
-             <button className='login-btn' onClick={()=>setModal(!modal)}>Login</button>
-           </div>
+         :<div className='profile-container-loggedOut'>
+            <strong className='time'>{time}</strong>
+            <Link to='/about' className='navLink'>About</Link>
+            <Link to='/contact' className='navLink'>Contact</Link>
+            <button className='login-btn' onClick={()=>setModal(!modal)}>Login</button>
+          </div>
         }
      
 
       
       {
         modal ? <div className='header-modal'>
-                   <h3 onClick={()=>{setModal(false)}}>X</h3>
+                   <h3 onClick={()=>{setModal(false)}} className='clearX'>X</h3>
            {
               userExists ? <div> 
                 <h2>Login</h2>
@@ -112,7 +121,7 @@ export default function Nav({baseUrl}) {
                   <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
                   <button className='login-btn' type="submit">Submit</button>
                 </form>
-                <p>Don't have an account? <span onClick={()=>{setUserExists(false)}}>Sign up</span></p>
+                <p className='haveAccount'>Don't have an account? <span onClick={()=>{setUserExists(false)}} className='signUp'>Sign up</span></p>
                 {message !== '' ? <p>{message}</p> : null}
               </div>
               : <div> 
@@ -123,8 +132,8 @@ export default function Nav({baseUrl}) {
                   <button className='login-btn' type="submit">Submit</button>
                 </form>
                 {
-                  signupSuccess ? <p style={{"color":"green"}}>Signed up successfully. <span onClick={()=>{setUserExists(true)}}>Login</span></p>
-                  : <p>Already have an account? <span onClick={()=>{setUserExists(true)}}>Login</span></p>
+                  signupSuccess ? <p className='greenSuccess'>Signed up successfully. <span onClick={()=>{setUserExists(true)}}>Login</span></p>
+                  : <p className='haveAccount'>Already have an account? <span onClick={()=>{setUserExists(true)}} className='signUp'>Login</span></p>
                 }
               </div>
            }

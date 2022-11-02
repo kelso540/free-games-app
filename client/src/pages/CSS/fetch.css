@@ -1,0 +1,70 @@
+:root{
+    --white: #FFFFFA;
+    --black: #000103; 
+    --gray: #333138;
+    --green: #749C75;
+    --red: #FF312E; 
+}
+.img-container{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    top: 80px;
+    font-size: x-large;
+    padding-right: 20px;
+}
+.logoDiv{ 
+    background-image: url('');
+    background-size: cover;
+    background-position: 0 -200px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;  
+    text-align: end;
+    padding-top: 70px;
+    padding-right: 70px;
+}
+.welcome{
+    font-size: 70px;
+}
+.enjoy{
+    font-size: 40px;
+}
+.log{
+    font-size: 30px;
+}
+.below{
+    font-size: 20px;
+}
+.FREETOGAME{
+    color: var(--green);
+}
+.FREETOGAME:hover{
+    color: var(--red);
+}
+.avatar{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    contain: content;
+}
+.slideOffScreen{
+    position: fixed;
+    bottom: 10px;
+    right: -60px;
+    transition: right 1s;
+    cursor: pointer;
+    color: var(--gray);
+    padding: 10px;
+  }
+.toTopArrowDiv{
+    position: fixed;
+    bottom: 10px;
+    right: 5px;
+    transition: right 1s;
+    cursor: pointer;
+    color: var(--gray);
+    padding: 10px;
+}

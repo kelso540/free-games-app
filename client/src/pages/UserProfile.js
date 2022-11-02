@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {UserContext} from '../context/UserContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './CSS/user.css';
 
 export default function UserProfile({baseUrl}) {
 
@@ -106,12 +107,12 @@ export default function UserProfile({baseUrl}) {
   return (
     <div>
         <h1>Your Profile</h1>
-        <h2>Current username {user.username}</h2>
+        <h2>Current username <strong className='userName'>{user.username}</strong></h2>
 
         <h2>Change your username</h2>
         <form onSubmit={changeUserId}>
             <input type="text" value={newUsername} placeholder="Enter new user id" onChange={(e)=>setNewUsername(e.target.value)} required/>
-            <button type='submit'>Change</button>
+            <button className='userBtn' type='submit'>Change</button>
             {
               (displayUserSuccess)?
               <p>Success!</p>
@@ -120,9 +121,17 @@ export default function UserProfile({baseUrl}) {
         </form>
 
         <h2>{(hasAvatar)? 'Change' :'Add'} your profile image</h2>
+        {
+          (hasAvatar) ?
+          <img className='avatar' src={user.imageUrl} alt="avatar"/>
+          :null 
+        }
         <form onSubmit={changeUserAvatar}>
             <input type="text" value={newAvatar} placeholder="Enter image url" onChange={(e)=>setNewAvatar(e.target.value)} required/>
-            <button type='submit'>{(hasAvatar)? 'Change' :'Add'}</button><button onClick={removeUserAvatar}>Remove</button>
+            <div className='buttons'>
+              <button className='userBtn' type='submit'>{(hasAvatar)? 'Change' :'Add'}</button>
+              <button className='userBtn' onClick={removeUserAvatar}>Remove Image</button>
+            </div>
             {
               (displayImgSuccess)?
               <p>Success!</p>
@@ -130,6 +139,7 @@ export default function UserProfile({baseUrl}) {
             }
         </form>
 
+        <h2>Change your background color</h2>
         <select value={colorSelected} onChange={handleChangeColor}>
           {
             colors.map((item)=>{
@@ -137,19 +147,20 @@ export default function UserProfile({baseUrl}) {
             })
           }
         </select>
-        <button onClick={changeUserBackgroundColor}>Change</button> 
+        <button className='userBtn' onClick={changeUserBackgroundColor}>Save</button> 
             {
               (displayBkgSuccess)?
               <p>Success!</p>
               :null
             }
-        <button onClick={areYouSure}>Delete Account</button>
+        <h2>Delete Account</h2>
+        <button className='userBtn' onClick={areYouSure}>Delete Account</button>
             {
               (check)?
               <div>
                 <p>Are you sure?</p>
-                <button onClick={deleteAccount}>Yes</button>
-                <button onClick={()=>setCheck(false)}>No</button>
+                <button className='userBtn' onClick={deleteAccount}>Yes</button>
+                <button className='userBtn' onClick={()=>setCheck(false)}>No</button>
               </div>
               :null
             }
