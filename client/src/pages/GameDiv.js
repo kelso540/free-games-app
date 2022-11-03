@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import axios from 'axios';
 import {UserContext} from '../context/UserContext';
+import './CSS/games.css';
 
 export default function GameDiv({id, dev, url, genre, platform, release, description, imgUrl, name, saved, baseUrl}) {
 
@@ -17,17 +18,17 @@ export default function GameDiv({id, dev, url, genre, platform, release, descrip
 }
 
   return (
-    <div>
+    <div className='singleGameDiv'>
         <h1>{name}</h1>
-        <h3>{dev}</h3>
-        <img src={imgUrl} alt='GamePicture' />
-        <h4>{description}</h4>
-        <h5>{genre}</h5>
-        <strong>{release}</strong> <strong>{platform}</strong>
-        <a href={url}>Play Here!</a>
+        <h2>{dev}</h2>
+        <img src={imgUrl} alt='GamePicture' className='gameImg' />
+        <h3>{description}</h3>
+        <h3>{genre}</h3>
+        <h3>Release date: {release}</h3> <h3>Platform: {platform}</h3>
+        <a href={url} className='clickHere'> Click Here to Play!</a>
         { (loggedIn) ?
             <div>
-              <button onClick={()=>addNewSavedGame(name, imgUrl, description, url)}>Save</button>
+              <button onClick={()=>addNewSavedGame(name, imgUrl, description, url)} className='addButton'>Add to Saved Games</button>
             </div>
             :<div></div>
         }

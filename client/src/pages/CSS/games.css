@@ -1,0 +1,32 @@
+.singleGameDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 400px;
+    height: 900px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.gameImg{
+    border-radius: 10px;
+    box-shadow: 2px 4px 8px;
+}
+.clickHere:hover{
+    color:var(--red); 
+}
+.addButton{
+    margin: 20px 0;
+    background-color: var(--green);
+    color: var(--white);
+    border: solid 2px transparent;
+    border-radius: 20px;
+    padding: 7px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.addButton:hover{
+    background-color: var(--white);
+    color: var(--black);
+    border: solid 2px var(--green);
+}

@@ -36,16 +36,21 @@ const [holdAvatar, setHoldAvatar] = useState('');
 const [holdColor, setHoldColor] = useState('');
 const [colorSelected, setColorSelected] = useState('');
 const [time, setTime] = useState(''); 
+const [displayHead, setDisplayHead] = useState(false); 
+const [category, setCategory] = useState(''); 
+const [userBtn, setUserBtn] = useState(true); 
 
   // mmorpg, shooter, strategy, moba, racing, sports, social, sandbox, open-world, survival, pvp, pve, pixel, voxel, zombie, turn-based, first-person, third-Person, top-down, tank, space, sailing, side-scroller, superhero, permadeath, card, battle-royale, mmo, mmofps, mmotps, 3d, 2d, anime, fantasy, sci-fi, fighting, action-rpg, action, military, martial-arts, flight, low-spec, tower-defense, horror, mmorts
 
   const changeBackgroundColor = () => {
-    let body = document.querySelector('body'); 
+    let body = document.querySelector('body');  
     body.style.backgroundColor = colorSelected; 
     if(colorSelected === 'black' || colorSelected === '#558564' || colorSelected === '#361134' || colorSelected === '#772014'){
       body.style.color = 'white';
+      setUserBtn(false); 
     } else {
       body.style.color = 'black';
+      setUserBtn(true); 
     }
   }
 
@@ -70,6 +75,8 @@ const [time, setTime] = useState('');
   useEffect(()=>{
     if(inputValue.length < 1){
       setUpdatedData([]); 
+      setDisplayHead(false);
+      setCategory('')
     }
   }, [inputValue]); 
 
@@ -84,54 +91,68 @@ const [time, setTime] = useState('');
     let filtered = data.filter(item=>item.title.toLowerCase().includes(e.target.value.toLowerCase()));
     setUpdatedData(filtered); 
     setInputValue(e.target.value);
+    setCategory(e.target.value)
+    setDisplayHead(true); 
   }
 
   const getAllGames = () => {
+    setDisplayHead(true);
     setSpinnerDiv(false);
     setSelected("Select category");
     setInputValue('');
-    setTimeout(showAllGames, 700)
+    setTimeout(showAllGames, 700);
   }
 
   const showAllGames = () => {
     setSpinnerDiv(true);
     setUpdatedData(data);
+    setCategory('All Games')
   }
 
   const filterSports = () => {
     let filterGames = data.filter(item=>item.genre === 'Sports' || item.genre === 'Racing')
+    setDisplayHead(true);
     setUpdatedData(filterGames);
+    setCategory('Sports')
   }
 
   const filterShooter = () => {
     let filterGames = data.filter(item=>item.genre === 'Shooter')
+    setDisplayHead(true);
     setUpdatedData(filterGames);
+    setCategory('Shooter')
   }
 
   const filterStrategy = () => {
     let filterGames = data.filter(item=>item.genre === 'Strategy')
+    setDisplayHead(true);
     setUpdatedData(filterGames);
+    setCategory('Strategy')
   }
 
   const filterMMORPG = () => {
     let filterGames = data.filter(item=>item.genre === 'MMORPG')
+    setDisplayHead(true);
     setUpdatedData(filterGames);
+    setCategory('MMORPG')
   }
 
   const filterFighting = () => {
     let filterGames = data.filter(item=>item.genre === 'Fighting')
+    setDisplayHead(true);
     setUpdatedData(filterGames);
+    setCategory('Fighting')
   }
 
   return (
-    <UserContext.Provider value={{user, setUser, savedGames, setSavedGames, userSavedGames, setUserSavedGames, data, updatedData, setUpdatedData, loggedIn, setLoggedIn, selected, setSelected, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, colorSelected, setColorSelected, changeBackgroundColor}}>
+    <UserContext.Provider value={{user, setUser, savedGames, setSavedGames, userSavedGames, setUserSavedGames, data, updatedData, setUpdatedData, loggedIn, setLoggedIn, selected, setSelected, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, colorSelected, setColorSelected, changeBackgroundColor, displayHead, setDisplayHead, category, setCategory}}>
       <div className="App">
         <BrowserRouter>
         <Nav baseUrl={baseUrl} time={time} updatedData={updatedData} handleInput={handleInput} getAllGames={getAllGames} inputValue={inputValue} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres}/>
         <Routes>
           <Route path='/' element={<Fetch updatedData={updatedData} handleInput={handleInput} getAllGames={getAllGames} inputValue={inputValue} baseUrl={baseUrl} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres} />} />
           <Route path='/saved' element={<Saved baseUrl={baseUrl} />} />
-          <Route path='/userProfile' element={<UserProfile baseUrl={baseUrl} />} />
+          <Route path='/userProfile' element={<UserProfile baseUrl={baseUrl} userBtn={userBtn} />} />
           <Route path='/about' element={<About />} />
           <Route path='/contact' element={<Contact />} />
         </Routes>

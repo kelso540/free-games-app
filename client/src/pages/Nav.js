@@ -17,7 +17,7 @@ export default function Nav({baseUrl, time, updatedData, handleInput, getAllGame
   const [modal, setModal] = useState(false);
   const [userExists, setUserExists] = useState(false);
   const [message, setMessage] = useState('');
-  const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected} = useContext(UserContext);
+  const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead} = useContext(UserContext);
 
   user.username = holdUsername;
   user.imageUrl = holdAvatar; 
@@ -69,7 +69,8 @@ export default function Nav({baseUrl, time, updatedData, handleInput, getAllGame
     const handleLogout = () => {
       setUser({})
       setLoggedIn(false)
-      setColorSelected('white')
+      setDisplayHead(false)
+      setColorSelected('#f2e9e4')
       changeBackgroundColor()
       navigate('/'); 
     }

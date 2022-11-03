@@ -1,9 +1,11 @@
-:root{
-    --white: #FFFFFA;
-    --black: #000103; 
-    --gray: #333138;
-    --green: #749C75;
-    --red: #FF312E; 
+.gamesResults{
+    margin-top: 70px;
+}
+.gameResultsDiv{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
 }
 .img-container{
     display: flex;
@@ -16,9 +18,6 @@
     padding-right: 20px;
 }
 .logoDiv{ 
-    background-image: url('');
-    background-size: cover;
-    background-position: 0 -200px;
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;  
@@ -67,4 +66,42 @@
     cursor: pointer;
     color: var(--gray);
     padding: 10px;
+}
+.wizardHat{
+    position: absolute;
+    left: 380px;
+    bottom: 150px;
+    rotate: 20deg;
+}
+.headset{
+    position: absolute;
+    left: 180px;
+    bottom: 140px;
+    rotate: -20deg;
+}
+.logoDivB{ 
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    padding-top: 70px;
+    padding-right: 70px;
+    margin-top: 70px;
+}
+.provided{
+    font-size: medium;
+}
+.wizardHatB{
+    position: relative;
+    top: 30px;
+    padding-right: 40px;
+    rotate: 20deg;
+}
+.headsetB{
+    position: relative;
+    top: 30px;
+    padding-left: 40px;
+    rotate: -20deg;
+}
+.category{
+    padding-bottom: 20px;
 }

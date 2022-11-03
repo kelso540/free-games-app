@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './CSS/user.css';
 
-export default function UserProfile({baseUrl}) {
+export default function UserProfile({baseUrl, userBtn}) {
 
     const navigate = useNavigate(); 
 
@@ -112,7 +112,7 @@ export default function UserProfile({baseUrl}) {
         <h2>Change your username</h2>
         <form onSubmit={changeUserId}>
             <input type="text" value={newUsername} placeholder="Enter new user id" onChange={(e)=>setNewUsername(e.target.value)} required/>
-            <button className='userBtn' type='submit'>Change</button>
+            <button className={(userBtn)?'userBtn':'userBtnDark'} type='submit'>Change</button>
             {
               (displayUserSuccess)?
               <p>Success!</p>
@@ -129,8 +129,8 @@ export default function UserProfile({baseUrl}) {
         <form onSubmit={changeUserAvatar}>
             <input type="text" value={newAvatar} placeholder="Enter image url" onChange={(e)=>setNewAvatar(e.target.value)} required/>
             <div className='buttons'>
-              <button className='userBtn' type='submit'>{(hasAvatar)? 'Change' :'Add'}</button>
-              <button className='userBtn' onClick={removeUserAvatar}>Remove Image</button>
+              <button className={(userBtn)?'userBtn':'userBtnDark'} type='submit'>{(hasAvatar)? 'Change' :'Add'}</button>
+              <button className={(userBtn)?'userBtn':'userBtnDark'} onClick={removeUserAvatar}>Remove Image</button>
             </div>
             {
               (displayImgSuccess)?
@@ -147,20 +147,20 @@ export default function UserProfile({baseUrl}) {
             })
           }
         </select>
-        <button className='userBtn' onClick={changeUserBackgroundColor}>Save</button> 
+        <button className={(userBtn)?'userBtn':'userBtnDark'} onClick={changeUserBackgroundColor}>Save</button> 
             {
               (displayBkgSuccess)?
               <p>Success!</p>
               :null
             }
         <h2>Delete Account</h2>
-        <button className='userBtn' onClick={areYouSure}>Delete Account</button>
+        <button className={(userBtn)?'userBtn':'userBtnDark'} onClick={areYouSure}>Delete Account</button>
             {
               (check)?
               <div>
                 <p>Are you sure?</p>
-                <button className='userBtn' onClick={deleteAccount}>Yes</button>
-                <button className='userBtn' onClick={()=>setCheck(false)}>No</button>
+                <button className={(userBtn)?'userBtn':'userBtnDark'} onClick={deleteAccount}>Yes</button>
+                <button className={(userBtn)?'userBtn':'userBtnDark'} onClick={()=>setCheck(false)}>No</button>
               </div>
               :null
             }

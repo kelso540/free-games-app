@@ -1,10 +1,3 @@
-:root{
-    --white: #FFFFFA;
-    --black: #000103; 
-    --gray: #333138;
-    --green: #749C75;
-    --red: #FF312E; 
-}
 .userName{
     font-size: larger;
 }
@@ -19,6 +12,21 @@
     color: var(--gray);
 }
 .userBtn:hover{
+    border: solid 2px var(--red);
+    background-color: var(--gray);
+    color: var(--white);
+}
+.userBtnDark{
+    background-color: var(--white);
+    border: solid 2px var(--gray);
+    border-radius: 20px;
+    padding: 10px;
+    font-size: large;
+    cursor: pointer;
+    margin: 10px;
+    color: var(--gray);
+}
+.userBtnDark:hover{
     border: solid 2px var(--red);
     background-color: var(--gray);
     color: var(--white);

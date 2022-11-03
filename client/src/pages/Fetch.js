@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import GameDiv from './GameDiv';
-import { faCircleUp, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faCircleUp, faSpinner, faHatWizard, faHeadset } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {UserContext} from '../context/UserContext';
 import './CSS/fetch.css'; 
@@ -9,7 +9,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
 
   const [display, setDisplay] = useState(false);
 
-  const {setUpdatedData, selected, setSelected, user, setUser, hasAvatar, loggedIn} = useContext(UserContext);
+  const {setUpdatedData, selected, setSelected, user, setUser, hasAvatar, loggedIn, displayHead, setDisplayHead, category, setCategory} = useContext(UserContext);
 
     const games = updatedData.map((item)=>{
         return <GameDiv key={item.id} id={item.id} dev={item.developer} url={item.game_url} genre={item.genre} platform={item.platform} release={item.release_date} description={item.short_description} imgUrl={item.thumbnail} name={item.title} baseUrl={baseUrl}/>
@@ -66,22 +66,33 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
         :null
       }
       {
-        (loggedIn)?null
-          :<div className='logoDiv'>
-          <div>
-            <h1 className='welcome'>Welcome to Free to Play Games</h1>
-            <h2 className='enjoy'>Enjoy a database of free games provided by <a href='https://www.freetogame.com/api-doc' className='FREETOGAME'>FREETOGAME</a></h2>
-            <h3 className='log'>Log in or Sign up to save games and customize your profile</h3>
-            <h3 className='below'>Search for games above!</h3>
+        (displayHead)?null
+          :(loggedIn)?
+          <div className='logoDivB'>
+            <div>
+              <FontAwesomeIcon icon={faHatWizard} size='7x' className='wizardHatB' />
+              <strong className='enjoy'>Search for games above! <span className='provided'>provided by</span> <a href='https://www.freetogame.com/api-doc' className='FREETOGAME'>FREETOGAME</a></strong>
+              <FontAwesomeIcon icon={faHeadset} size='7x' className='headsetB' />
+            </div>
           </div>
-        </div>
+            :<div className='logoDiv'>
+            <div>
+              <h1 className='welcome'>Welcome to Free to Play Games</h1>
+              <h2 className='enjoy'>Enjoy a database of free games provided by <a href='https://www.freetogame.com/api-doc' className='FREETOGAME'>FREETOGAME</a></h2>
+              <h3 className='log'>Log in or Sign up to save games and customize your profile</h3>
+              <h3 className='below'>Search for games above!</h3>
+              <FontAwesomeIcon icon={faHatWizard} size='7x' className='wizardHat' />
+              <FontAwesomeIcon icon={faHeadset} size='7x' className='headset' />
+            </div>
+          </div>    
       }
-        {
+      {
           (spinnerDiv) ?
             <div className='gamesResults'>
-              {games}
+              <h2 className='category'>{category}</h2>
+              <div className='gameResultsDiv'>{games}</div>
             </div>
-            : <div>
+            :<div className='gamesResults'>
               <FontAwesomeIcon icon={faSpinner} size='3x' className='fa-spin-pulse' />
             </div>
         }
