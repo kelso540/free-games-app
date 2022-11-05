@@ -1,10 +1,11 @@
 exports.up = function(knex) {
     return knex.schema.createTable('users', tbl => {
-        tbl.increments()
+        tbl.increments() //id 
         tbl.text('username', 120).notNullable().unique().index()
         tbl.text('password', 200).notNullable()
         tbl.text('imageUrl').notNullable()
         tbl.text('backgroundColor').notNullable()
+        // tbl.integer('id').notNullable()
         tbl.timestamps(true, true) 
     })
 
@@ -14,7 +15,7 @@ exports.up = function(knex) {
         tbl.text('imgUrl').notNullable()
         tbl.text('description').notNullable()
         tbl.text('url').notNullable()
-        tbl.integer('user_id').notNullable().unsigned().references('id').inTable('user').onDelete('CASCADE').onUpdate('CASCADE')
+        tbl.integer('user_id').notNullable().unsigned().references('id').inTable('users').onDelete('CASCADE').onUpdate('CASCADE')
         tbl.timestamps(true, true)
     })
 }

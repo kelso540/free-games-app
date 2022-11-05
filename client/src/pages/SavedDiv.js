@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {UserContext} from '../context/UserContext';
 import axios from 'axios';
+import './CSS/games.css';
 
 export default function SavedDiv({id, baseUrl, url, description, imgUrl, name}) {
 
@@ -16,12 +17,12 @@ export default function SavedDiv({id, baseUrl, url, description, imgUrl, name}) 
   }
 
   return (
-    <div>
+    <div className='singleGameDiv'>
         <h1>{name}</h1>
-        <img src={imgUrl} alt='GamePicture' />
+        <img src={imgUrl} alt='GamePicture' className='gameImg' />
         <h4>{description}</h4>
-        <a href={url}>Play Here!</a>
-        <button onClick={deleteSavedGame}>Remove</button>
+        <a href={url}><h3 className='clickToPlay clickHere'>Click Here to Play!</h3></a>
+        <button onClick={deleteSavedGame} className='removeFromSaved'>Remove</button>
     </div>
   )
 }

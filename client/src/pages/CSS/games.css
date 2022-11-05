@@ -1,7 +1,7 @@
 .singleGameDiv{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     width: 400px;
     height: 900px;
@@ -29,4 +29,22 @@
     background-color: var(--white);
     color: var(--black);
     border: solid 2px var(--green);
+}
+.clickToPlay{
+    font-size: large;
+    font-weight: bolder;
+}
+.removeFromSaved{
+    background-color: var(--red);
+    border: solid 2px transparent;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: large;
+    color: var(--white);
+    cursor: pointer;
+}
+.removeFromSaved:hover{
+    background-color: var(--white);
+    border: solid 2px var(--red);
+    color: var(--black);
 }

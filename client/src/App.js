@@ -20,7 +20,7 @@ function App() {
     {id: 6, name: 'Fighting', text: 'Fighting'}
   ]
 
-const baseUrl = 'http://localhost:9000';
+const baseUrl = 'https://search-free-games.herokuapp.com';
 const [user, setUser] = useState([]);
 const [savedGames, setSavedGames] = useState([]);
 const [userSavedGames, setUserSavedGames] = useState([])

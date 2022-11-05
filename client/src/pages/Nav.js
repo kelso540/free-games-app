@@ -15,7 +15,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
   const [backgroundColor, setBackgroundColor] = useState('default');
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [modal, setModal] = useState(false);
-  const [userExists, setUserExists] = useState(false);
+  const [userExists, setUserExists] = useState(true);
   const [message, setMessage] = useState('');
   const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory} = useContext(UserContext);
 
@@ -26,6 +26,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
   const handleAvatar = () => {
     if(holdAvatar !== 'default'){
       setHasAvatar(true); 
+    } else {
+      setHasAvatar(false);
     }
   }
 

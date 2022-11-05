@@ -8,8 +8,9 @@ function getallUsers(){
     return db('users'); 
 }
 async function addUser(user){
-    await db('users').insert(user)
-    return db('users').where({username:user.username})
+    // await db('users').insert(user)
+    // return db('users').where({username:user.username})
+    return await db('users').insert(user, ['id', 'username'])
 }
 function removeUser(id){
     return db('users').where({id:id}).del(); 

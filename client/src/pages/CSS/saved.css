@@ -1,0 +1,14 @@
+.gamesResultsB{
+    margin-top: 70px;
+}
+.gameResultsDivB{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.savedGamesHeader{
+    position: relative;
+    top: 100px;
+    font-size: 50px;
+}
