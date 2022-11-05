@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js", 
+    "start": "node index.js",
     "server": "nodemon index.js"
   },
   "author": "KELSEY JACKSON",
@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "heroku": "^7.65.0",
     "knex": "^2.3.0",
     "nodemon": "^2.0.20",
     "sqlite3": "^5.1.2"
