@@ -140,7 +140,7 @@ export default function UserProfile({baseUrl, userBtn}) {
         </form>
 
         <h2>Change your background color</h2>
-        <select value={colorSelected} onChange={handleChangeColor}>
+        <select className='genreSelect' value={colorSelected} onChange={handleChangeColor}>
           {
             colors.map((item)=>{
               return <option key={item.id} value={item.color}> {item.text} </option>

@@ -31,3 +31,10 @@
     background-color: var(--gray);
     color: var(--white);
 }
+.genreSelect{
+    height: 30px;
+    border-radius: 20px;
+    margin: 0 5px;
+    padding: 5px;
+    cursor: pointer;
+}

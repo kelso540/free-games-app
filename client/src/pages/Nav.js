@@ -6,7 +6,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {UserContext} from '../context/UserContext';
 import './CSS/nav.css';
 
-export default function Nav({baseUrl, time, updatedData, handleInput, getAllGames, inputValue, spinnerDiv, genres, filterSports, filterShooter, filterStrategy, filterMMORPG, filterFighting}) {
+export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue, spinnerDiv, genres, filterSports, filterShooter, filterStrategy, filterMMORPG, filterFighting}) {
 
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -17,7 +17,7 @@ export default function Nav({baseUrl, time, updatedData, handleInput, getAllGame
   const [modal, setModal] = useState(false);
   const [userExists, setUserExists] = useState(false);
   const [message, setMessage] = useState('');
-  const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead} = useContext(UserContext);
+  const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory} = useContext(UserContext);
 
   user.username = holdUsername;
   user.imageUrl = holdAvatar; 
@@ -79,9 +79,15 @@ export default function Nav({baseUrl, time, updatedData, handleInput, getAllGame
       setSelected(e.target.value); 
     }
 
+    const reSetHome = () => {
+      setUpdatedData([]);
+      setDisplayHead(false);
+      setCategory(''); 
+    }
+
   return (
     <div className='navDiv'>
-      <Link to='/' className='Link'><strong className='header'>Free For All Games</strong><FontAwesomeIcon icon={faGamepad} size='3x'/></Link>
+      <Link to='/' className='Link' onClick={reSetHome}><strong className='header'>Free For All Games</strong><FontAwesomeIcon icon={faGamepad} size='3x'/></Link>
       <div className='inputDiv'>
         <input type='text' onChange={handleInput} value={inputValue} placeholder='Type here to search for games'/>
         <button className='allBtn' onClick={getAllGames}>Show All Games</button>
