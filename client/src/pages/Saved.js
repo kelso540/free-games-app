@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import SavedDiv from './SavedDiv';
 import axios from 'axios';
 import {UserContext} from '../context/UserContext';
@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './CSS/saved.css';
 import './CSS/games.css';
 
-export default function Saved({baseUrl}) {
+export default function Saved({baseUrl}) { 
 
   const {user, setUser, userSavedGames, setUserSavedGames} = useContext(UserContext);
 
@@ -15,10 +15,9 @@ export default function Saved({baseUrl}) {
     axios.get(`${baseUrl}/savedGames`)
     .then(res=>{
       console.log(res.data)
-      const saved = res.data; 
+      const saved = res.data 
       const filterSaved = saved.filter(item=>item.user_id === user.id)
-      const filterDuplicates = filterSaved.map(item=>item.name)
-      setUserSavedGames(filterSaved)
+      setUserSavedGames(filterSaved);
     })
     .catch(err=>console.log(err))
   }, [baseUrl, setUserSavedGames, user, setUser]) 
@@ -29,8 +28,9 @@ export default function Saved({baseUrl}) {
 
   return (
     <div className='gamesResultsB'>
-      <h1 className='savedGamesHeader'>Saved Games <FontAwesomeIcon icon={faFloppyDisk} /></h1>
-      <div className='gamesResultsDivB'>{saved}</div>
+      <div className='gamesResultsDivB'>
+        {saved}
+      </div>
     </div>
   )
 }

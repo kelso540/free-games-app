@@ -192,6 +192,12 @@ form > input{
     opacity: 0;
     transition: all .5s;
 }
+.navLogo{
+    font-size: x-large;
+    color: var(--white);
+    position: relative;
+    top: 10px;
+}
 
 @media screen and (max-width: 1200px){
     .header{
@@ -212,6 +218,9 @@ form > input{
         font-size: medium;
         position: relative;
         left: 10px;
+    }
+    .navLogo{
+        top: 10px;
     }
 }
 
@@ -300,5 +309,8 @@ form > input{
         position: relative;
         bottom: 5px;
         left: 0;
+    }
+    .navLogo{
+        top: 20px;
     }
 }

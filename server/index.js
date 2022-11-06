@@ -89,15 +89,14 @@ router.get('/savedGames', (req, res)=>{
         res.status(200).json(allGames)
     })
     .catch(error=>{
-        res.status(500).json({message:'cannot get destinations'})
+        res.status(500).json({message:'cannot get game'})
     })
 })
 
 //Create saved game
 router.post('/users/:id/savedGames', (req,res)=>{
     const {id} = req.params;
-    const newGame = req.body;
-    console.log(newGame); 
+    const newGame = req.body; 
     if(!newGame.user_id){
         newGame['user_id'] = parseInt(id, 10); 
     }

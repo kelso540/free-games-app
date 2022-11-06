@@ -19,6 +19,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
   const [userExists, setUserExists] = useState(true);
   const [message, setMessage] = useState('');
   const [menu, setMenu] = useState(false); 
+  const [showNavInput, setShowNavInput] = useState(true);
+  const [navPage, setNavPage] = useState('');
   const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory} = useContext(UserContext);
 
   user.username = holdUsername;
@@ -92,6 +94,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
       setDisplayHead(false);
       setCategory('');
       setMenu(false);
+      setShowNavInput(true);
     }
 
     const displayMenu = () => {
@@ -103,69 +106,96 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
       setModal(!modal);
     }
 
+    const setLogoSaved = () => {
+      setShowNavInput(false);
+      setNavPage('Saved Games');
+      setMenu(false); 
+    }
+    const setLogoProfile = () => {
+      setShowNavInput(false);
+      setNavPage('Profile Page');
+      setMenu(false); 
+    }
+    const setLogoAbout = () => {
+      setShowNavInput(false);
+      setNavPage('About'); 
+      setMenu(false);
+    }
+    const setLogoContact = () => {
+      setShowNavInput(false);
+      setNavPage('Contact'); 
+      setMenu(false);
+    }
+
   return (
     <div>
-    <div className='navDiv'>
-      <Link to='/' className='Link' onClick={reSetHome}><strong className='header'>All Games For Free</strong><FontAwesomeIcon icon={faGamepad} size='3x'/><br></br><strong className='smallLogo'>AGFF</strong></Link>
-      <div className='inputDiv'>
-        <input type='text' onChange={handleInput} value={inputValue} placeholder='Type here to search for games'/>
-        <button className='allBtn' onClick={getAllGames}>Show All Games</button>
-        <select value={selected} onChange={handleCategory}>
-          {
-            genres.map((item)=>{
-              return <option key={item.id} value={item.value}>{item.text}</option>
-            })
-          }
-        </select>
+      <div className='navDiv'>
+        <Link to='/' className='Link' onClick={reSetHome}><strong className='header'>All Games For Free</strong><FontAwesomeIcon icon={faGamepad} size='3x'/><br></br><strong className='smallLogo'>AGFF</strong></Link>
+        {
+        (showNavInput) ?
+        <div className='inputDiv'>
+          <input type='text' onChange={handleInput} value={inputValue} placeholder='Type here to search for games'/>
+          <button className='allBtn' onClick={getAllGames}>Show All Games</button>
+          <select value={selected} onChange={handleCategory}>
+            {
+              genres.map((item)=>{
+                return <option key={item.id} value={item.value}>{item.text}</option>
+              })
+            }
+          </select>
         </div>
+        :<div className='navLogo'>
+          {navPage}
+        </div>
+        }
         {
          loggedIn ?
          <div className='profile-container-loggedIn'>
-            <Link to='/saved' className='navLinkB'>Saved Games</Link>
-            <Link to='/userProfile' className='navLinkB'>Profile</Link>  
+            <Link to='/saved' className='navLinkB' onClick={setLogoSaved}>Saved Games</Link>
+            <Link to='/userProfile' className='navLinkB' onClick={setLogoProfile}>Profile</Link>  
             <button className='login-btn' onClick={handleLogout}>Logout</button>
           </div>
          
          :<div className='profile-container-loggedOut'>
             <strong className='time'>{time}</strong>
-            <Link to='/about' className='navLink'>About</Link>
-            <Link to='/contact' className='navLink'>Contact</Link>
+            <Link to='/about' className='navLink' onClick={setLogoAbout}>About</Link>
+            <Link to='/contact' className='navLink' onClick={setLogoContact}>Contact</Link>
             <button className='login-btn' onClick={()=>setModal(!modal)}>Login</button>
           </div>
         }
      
 
       
-      {
-        modal ? <div className='header-modal'>
-                   <h3 onClick={()=>{setModal(false)}} className='clearX'>X</h3>
-           {
-              userExists ? <div> 
-                <h2>Login</h2>
-                <form onSubmit={handleLogin}>
-                  <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
-                  <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
-                  <button className='login-btn' type="submit">Submit</button>
-                </form>
-                <p className='haveAccount'>Don't have an account? <span onClick={()=>{setUserExists(false)}} className='signUp'>Sign up</span></p>
-                {message !== '' ? <p>{message}</p> : null}
-              </div>
-              : <div> 
-                <h2>Sign Up</h2>
-                <form onSubmit={handleSignup}>
-                  <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
-                  <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
-                  <button className='login-btn' type="submit">Submit</button>
-                </form>
-                {
-                  signupSuccess ? <p className='greenSuccess'>Signed up successfully. <span onClick={()=>{setUserExists(true)}}>Login</span></p>
-                  : <p className='haveAccount'>Already have an account? <span onClick={()=>{setUserExists(true)}} className='signUp'>Login</span></p>
-                }
-              </div>
-           }
-        </div> 
-        : null
-      }
+        {
+          modal ? <div className='header-modal'>
+                     <h3 onClick={()=>{setModal(false)}} className='clearX'>X</h3>
+             {
+                userExists ? <div> 
+                  <h2>Login</h2>
+                  <form onSubmit={handleLogin}>
+                    <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
+                    <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
+                    <button className='login-btn' type="submit">Submit</button>
+                  </form>
+                  <p className='haveAccount'>Don't have an account? <span onClick={()=>{setUserExists(false)}} className='signUp'>Sign up</span></p>
+                  {message !== '' ? <p>{message}</p> : null}
+                </div>
+                : <div> 
+                  <h2>Sign Up</h2>
+                  <form onSubmit={handleSignup}>
+                    <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
+                    <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
+                    <button className='login-btn' type="submit">Submit</button>
+                  </form>
+                  {
+                    signupSuccess ? <p className='greenSuccess'>Signed up successfully. <span onClick={()=>{setUserExists(true)}}>Login</span></p>
+                    : <p className='haveAccount'>Already have an account? <span onClick={()=>{setUserExists(true)}} className='signUp'>Login</span></p>
+                  }
+                </div>
+             }
+          </div> 
+          : null
+        }
     </div>
 
 
@@ -175,11 +205,16 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
 
   <div className='mobileNavDiv'>
     <Link to='/' className='mobileLink' onClick={reSetHome}><FontAwesomeIcon icon={faGamepad} size='2x'/><br></br><strong className='smallLogo'>AGFF</strong></Link>
-    <div className='mobileInputDiv'>
-      <input type='text' onChange={handleInput} value={inputValue} placeholder='Type to search'/>
-      <button className='allBtn' onClick={getAllGames}>All</button>
-    </div>
-
+    {
+      (showNavInput) ?
+      <div className='mobileInputDiv'>
+        <input type='text' onChange={handleInput} value={inputValue} placeholder='Type to search'/>
+        <button className='allBtn' onClick={getAllGames}>All</button>
+      </div>
+      :<div className='navLogo'>
+          {navPage}
+      </div>
+    }
     <div>
       {
         (menu)?<FontAwesomeIcon icon={faX} size='2x' onClick={displayMenu} className='bars' />
@@ -199,8 +234,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
               }
             </select>
           </div>
-          <Link to='/saved' className='navLinkB' onClick={()=>setMenu(!menu)}>Saved Games</Link>
-          <Link to='/userProfile' className='navLinkB' onClick={()=>setMenu(!menu)}>Profile</Link>  
+          <Link to='/saved' className='navLinkB' onClick={setLogoSaved}>Saved Games</Link>
+          <Link to='/userProfile' className='navLinkB' onClick={setLogoProfile}>Profile</Link>  
           <button className='login-btn' onClick={handleLogout}>Logout</button>
         </div>
 
@@ -216,8 +251,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
               }
             </select>
           </div>
-          <Link to='/about' className='navLink' onClick={()=>setMenu(!menu)}>About</Link>
-          <Link to='/contact' className='navLink' onClick={()=>setMenu(!menu)}>Contact</Link>
+          <Link to='/about' className='navLink' onClick={setLogoAbout}>About</Link>
+          <Link to='/contact' className='navLink' onClick={setLogoContact}>Contact</Link>
           <button className='login-btn' onClick={hideMenu}>Login</button>
         </div>
       }
