@@ -69,7 +69,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
         (displayHead)?null
           :(loggedIn)?
           <div className='logoDivB'>
-            <div>
+            <div className='logoInnerB'>
               <FontAwesomeIcon icon={faHatWizard} size='7x' className='wizardHatB' />
               <strong className='enjoy'>Search for games above! <span className='provided'>provided by</span> <a href='https://www.freetogame.com/api-doc' className='FREETOGAME'>FREETOGAME</a></strong>
               <FontAwesomeIcon icon={faHeadset} size='7x' className='headsetB' />
@@ -77,7 +77,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
           </div>
             :<div className='logoDiv'>
             <div>
-              <h1 className='welcome'>Welcome to Free to Play Games</h1>
+              <h1 className='welcome'>Welcome to All Games For Free</h1>
               <h2 className='enjoy'>Enjoy a database of free games provided by <a href='https://www.freetogame.com/api-doc' className='FREETOGAME'>FREETOGAME</a></h2>
               <h3 className='log'>Log in or Sign up to save games and customize your profile</h3>
               <h3 className='below'>Search for games above!</h3>

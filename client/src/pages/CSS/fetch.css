@@ -1,5 +1,5 @@
 .gamesResults{
-    margin-top: 70px;
+    margin-top: 90px;
 }
 .gameResultsDiv{
     display: flex;
@@ -104,4 +104,63 @@
 }
 .category{
     padding-bottom: 20px;
+}
+
+@media screen and (max-width: 1200px) {
+    .wizardHat{
+        position: static;
+        rotate: 20deg;
+        margin-right: 20px;
+    }
+    .headset{
+        position: static;
+        rotate: -20deg;
+    }     
+    .logoInnerB{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .wizardHatB{
+        font-size: xx-large;
+        top: 0;
+        margin-bottom: 10px;
+        margin-right: 70px;
+        padding-right: 0;
+    }
+    .headsetB{
+        font-size: xx-large;
+        top: 10px; 
+        margin-left: 70px;
+        padding-left: 0;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .welcome{
+        font-size: 30px;
+    }
+    .enjoy{
+        font-size: 20px;
+    }
+    .log{
+        font-size: 15px;
+    }
+    .below{
+        font-size: 10px;
+    }
+    .logoDiv{ 
+        align-items: flex-end;  
+        text-align: end;
+        padding-top: 70px;
+        padding-right: 10px;
+    }
+    .img-container{
+        font-size: larger;
+    }
+    .logoDivB{
+        padding-right: 0;
+    }
 }

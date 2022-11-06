@@ -4,7 +4,15 @@
     justify-content: center;
     align-items: center;
     width: 400px;
-    height: 900px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.singleGameDivB{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
     margin-bottom: 20px;
     padding: 10px;
 }
@@ -47,4 +55,10 @@
     background-color: var(--white);
     border: solid 2px var(--red);
     color: var(--black);
+}
+
+@media screen and (max-width: 900px) {
+    .singleGameDiv{
+        width: auto;
+    }
 }

@@ -1,7 +1,7 @@
 .gamesResultsB{
     margin-top: 70px;
 }
-.gameResultsDivB{
+.gamesResultsDivB{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
@@ -9,6 +9,14 @@
 }
 .savedGamesHeader{
     position: relative;
-    top: 100px;
+    top: 40px;
     font-size: 50px;
+}
+
+@media screen and (max-width: 950px) {
+    .savedGamesHeader{
+        font-size: x-large;
+        top: 10px; 
+        left: 10px;
+    }
 }

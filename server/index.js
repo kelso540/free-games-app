@@ -43,12 +43,12 @@ router.post('/users/register', (req, res)=>{
     })
 })
 
-//Update user id
+//Update username
 router.patch('/users/:id', (req, res)=>{
     const {id} = req.params;
     DBHelpers.updateUserId(id, req.body)
     .then(userId=>{
-        res.status(200).json({message: 'Name updated'})
+        res.status(200).json({message: `Name updated to ${userId}`})
     })
     .catch(error=>res.status(500).json(error))
 })
@@ -85,8 +85,8 @@ router.post('/users/login', (req, res)=>{
 //Get all saved games
 router.get('/savedGames', (req, res)=>{
     DBHelpers.getAllSavedGames()
-    .then(destinations=>{
-        res.status(200).json(destinations)
+    .then(allGames=>{
+        res.status(200).json(allGames)
     })
     .catch(error=>{
         res.status(500).json({message:'cannot get destinations'})
@@ -97,6 +97,7 @@ router.get('/savedGames', (req, res)=>{
 router.post('/users/:id/savedGames', (req,res)=>{
     const {id} = req.params;
     const newGame = req.body;
+    console.log(newGame); 
     if(!newGame.user_id){
         newGame['user_id'] = parseInt(id, 10); 
     }
@@ -107,8 +108,8 @@ router.post('/users/:id/savedGames', (req,res)=>{
             res.status(404).json({message:'user does not exist'})
         }
         DBHelpers.addGame(newGame, id)
-        .then(destination=>{
-            res.status(200).json(destination)
+        .then(newGameSlot=>{
+            res.status(200).json(newGameSlot)
         })
         .catch(error=>{res.status(500).json({message: `${error}'server failed'`})
     })

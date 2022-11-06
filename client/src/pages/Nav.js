@@ -1,5 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';
-import { faGamepad } from '@fortawesome/free-solid-svg-icons';
+import { useSpring, animated as s} from 'react-spring';
+import { faGamepad, faBars, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import {Link, useNavigate} from 'react-router-dom';
@@ -17,6 +18,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
   const [modal, setModal] = useState(false);
   const [userExists, setUserExists] = useState(true);
   const [message, setMessage] = useState('');
+  const [menu, setMenu] = useState(false); 
   const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory} = useContext(UserContext);
 
   user.username = holdUsername;
@@ -58,7 +60,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
         setColorSelected(res.data.backgroundColor)
         setLoggedIn(true)
         setModal(false)
-        setMessage('') 
+        setMessage('')
+        setMenu(false)
       })
       .catch(err=> console.log(err))
     }
@@ -73,23 +76,37 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
       setLoggedIn(false)
       setDisplayHead(false)
       setColorSelected('#f2e9e4')
+      setMenu(false)
       changeBackgroundColor()
+      reSetHome();
       navigate('/'); 
     }
 
     const handleCategory = (e) => {
-      setSelected(e.target.value); 
+      setSelected(e.target.value);
+      setMenu(false); 
     }
 
     const reSetHome = () => {
       setUpdatedData([]);
       setDisplayHead(false);
-      setCategory(''); 
+      setCategory('');
+      setMenu(false);
+    }
+
+    const displayMenu = () => {
+      setMenu(!menu); 
+    }
+
+    const hideMenu = () => {
+      setMenu(false); 
+      setModal(!modal);
     }
 
   return (
+    <div>
     <div className='navDiv'>
-      <Link to='/' className='Link' onClick={reSetHome}><strong className='header'>Free For All Games</strong><FontAwesomeIcon icon={faGamepad} size='3x'/></Link>
+      <Link to='/' className='Link' onClick={reSetHome}><strong className='header'>All Games For Free</strong><FontAwesomeIcon icon={faGamepad} size='3x'/><br></br><strong className='smallLogo'>AGFF</strong></Link>
       <div className='inputDiv'>
         <input type='text' onChange={handleInput} value={inputValue} placeholder='Type here to search for games'/>
         <button className='allBtn' onClick={getAllGames}>Show All Games</button>
@@ -150,5 +167,95 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
         : null
       }
     </div>
+
+
+
+
+
+
+  <div className='mobileNavDiv'>
+    <Link to='/' className='mobileLink' onClick={reSetHome}><FontAwesomeIcon icon={faGamepad} size='2x'/><br></br><strong className='smallLogo'>AGFF</strong></Link>
+    <div className='mobileInputDiv'>
+      <input type='text' onChange={handleInput} value={inputValue} placeholder='Type to search'/>
+      <button className='allBtn' onClick={getAllGames}>All</button>
+    </div>
+
+    <div>
+      {
+        (menu)?<FontAwesomeIcon icon={faX} size='2x' onClick={displayMenu} className='bars' />
+        :<FontAwesomeIcon icon={faBars} size='2x' onClick={displayMenu} className='bars' />
+      }
+      {
+       loggedIn ?
+       <div className={(menu)?'mobile-container-loggedIn' :'displayNone'}>
+          <strong className='time'>{time}</strong>
+          <div>
+            <strong style={{color: 'white'}}>Select a genre</strong>
+            <select className='mobileSelect' value={selected} onChange={handleCategory}>
+              {
+                genres.map((item)=>{
+                  return <option key={item.id} value={item.value}>{item.text}</option>
+                })
+              }
+            </select>
+          </div>
+          <Link to='/saved' className='navLinkB' onClick={()=>setMenu(!menu)}>Saved Games</Link>
+          <Link to='/userProfile' className='navLinkB' onClick={()=>setMenu(!menu)}>Profile</Link>  
+          <button className='login-btn' onClick={handleLogout}>Logout</button>
+        </div>
+
+       :<div className={(menu)?'mobile-container-loggedOut' :'displayNone'}>
+          <strong className='time'>{time}</strong>
+          <div>
+            <strong style={{color: 'white'}}>Filter a genre here </strong>
+            <select className='mobileSelect' value={selected} onChange={handleCategory}>
+              {
+                genres.map((item)=>{
+                  return <option key={item.id} value={item.value}>{item.text}</option>
+                })
+              }
+            </select>
+          </div>
+          <Link to='/about' className='navLink' onClick={()=>setMenu(!menu)}>About</Link>
+          <Link to='/contact' className='navLink' onClick={()=>setMenu(!menu)}>Contact</Link>
+          <button className='login-btn' onClick={hideMenu}>Login</button>
+        </div>
+      }
+    </div>
+
+    
+    
+      {
+      modal ? <div className='header-modal'>
+                 <h3 onClick={()=>{setModal(false)}} className='clearX'>X</h3>
+         {
+            userExists ? <div> 
+              <h2>Login</h2>
+              <form onSubmit={handleLogin}>
+                <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
+                <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
+                <button className='login-btn' type="submit">Submit</button>
+              </form>
+              <p className='haveAccount'>Don't have an account? <span onClick={()=>{setUserExists(false)}} className='signUp'>Sign up</span></p>
+              {message !== '' ? <p>{message}</p> : null}
+            </div>
+            : <div> 
+              <h2>Sign Up</h2>
+              <form onSubmit={handleSignup}>
+                <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
+                <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
+                <button className='login-btn' type="submit">Submit</button>
+              </form>
+              {
+                signupSuccess ? <p className='greenSuccess'>Signed up successfully. <span onClick={()=>{setUserExists(true)}}>Login</span></p>
+                : <p className='haveAccount'>Already have an account? <span onClick={()=>{setUserExists(true)}} className='signUp'>Login</span></p>
+              }
+            </div>
+         }
+      </div> 
+      : null
+    }
+    </div>
+</div>
   )
 }

@@ -28,6 +28,9 @@ a{
     background-color: var(--gray);
     z-index: 2;
 }
+.mobileNavDiv{
+    display: none;
+}
 .header{
     font-size: x-large;
     padding-right: 10px;
@@ -167,4 +170,135 @@ form > input{
     border: solid 1px var(--black);
     margin: 5px;
     padding-left: 10px;
+}
+.smallLogo{
+    display: none;
+}
+.displayNone{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-around;
+    gap: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background-color: var(--gray);
+    contain: content;
+    height: 0%;
+    opacity: 0;
+    transition: all .5s;
+}
+
+@media screen and (max-width: 1200px){
+    .header{
+        display: none;
+    }
+    .allBtn{
+        padding: 4px;
+        font-size: 14px;
+    }
+    .inputDiv{
+        flex-grow: 1;
+    }
+    .inputDiv > input{
+        width: 40%;
+    }
+    .smallLogo{
+        display: block;
+        font-size: medium;
+        position: relative;
+        left: 10px;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .navDiv{
+        display: none; 
+    }
+    .mobileNavDiv{
+        display: flex;
+        justify-content: space-between;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 80px;
+        background-color: var(--gray);
+        z-index: 2;       
+    }
+    .mobileLink{
+        padding: 20px 20px;
+        color: var(--white);
+    }
+    .mobileInputDiv > input{
+        flex-grow: 1;
+        height: 30px;
+        border-radius: 20px;
+        margin-top: 20px;
+        padding-left: 10px;
+    }
+    .mobileSelect{
+        height: 30px;
+        border-radius: 20px;
+        margin: 0 5px;
+        padding: 5px;
+        cursor: pointer;
+    }
+    .mobileLink:active{
+        color: var(--red);
+    }
+    .mobile-container-loggedIn{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-around;
+        gap: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: var(--gray);
+        height: 300px;
+        contain: content;
+        transition: height .5s;
+    }
+    .mobile-container-loggedOut{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: flex-end; 
+        gap: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: var(--gray);
+        height: 300px;
+        contain: content;
+        transition: height .5s;
+    }
+    .bars{
+        margin-right: 20px;
+        margin-top: 20px;
+    }
+    .allBtn{
+        padding: 10px;
+    } 
+    form > input{
+        width: 70%;
+    }
+    .smallLogo{
+        font-size: small;
+        position: relative;
+        bottom: 5px;
+        left: 0;
+    }
 }

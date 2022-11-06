@@ -17,7 +17,7 @@ export default function SavedDiv({id, baseUrl, url, description, imgUrl, name}) 
   }
 
   return (
-    <div className='singleGameDiv'>
+    <div className='singleGameDivB'>
         <h1>{name}</h1>
         <img src={imgUrl} alt='GamePicture' className='gameImg' />
         <h4>{description}</h4>
