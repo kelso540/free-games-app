@@ -19,7 +19,7 @@ export default function UserProfile({baseUrl, userBtn}) {
       {id: 7, color: 'black', text: 'Dark'},
     ]
 
-    const {hasAvatar, setHasAvatar, user, setUser, loggedIn, setLoggedIn, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, colorSelected, setColorSelected, changeBackgroundColor} = useContext(UserContext);
+    const {hasAvatar, setHasAvatar, user, setUser, loggedIn, setLoggedIn, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, colorSelected, setColorSelected, changeBackgroundColor,  navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu} = useContext(UserContext);
 
     const [displayUserSuccess, setDisplayUserSuccess] = useState(false);
     const [displayImgSuccess, setDisplayImgSuccess] = useState(false);
@@ -50,6 +50,9 @@ export default function UserProfile({baseUrl, userBtn}) {
         })
         .catch(err=> console.log(err))
         setLoggedIn(false);
+        setShowNavInput(true);
+        setNavPage(''); 
+        setMenu(false);
         navigate('/');  
     }
 

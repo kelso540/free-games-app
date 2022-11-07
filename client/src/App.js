@@ -38,7 +38,10 @@ const [colorSelected, setColorSelected] = useState('');
 const [time, setTime] = useState(''); 
 const [displayHead, setDisplayHead] = useState(false); 
 const [category, setCategory] = useState(''); 
-const [userBtn, setUserBtn] = useState(true); 
+const [userBtn, setUserBtn] = useState(true);
+const [menu, setMenu] = useState(false); 
+const [showNavInput, setShowNavInput] = useState(true);
+const [navPage, setNavPage] = useState('');
 
   // mmorpg, shooter, strategy, moba, racing, sports, social, sandbox, open-world, survival, pvp, pve, pixel, voxel, zombie, turn-based, first-person, third-Person, top-down, tank, space, sailing, side-scroller, superhero, permadeath, card, battle-royale, mmo, mmofps, mmotps, 3d, 2d, anime, fantasy, sci-fi, fighting, action-rpg, action, military, martial-arts, flight, low-spec, tower-defense, horror, mmorts
 
@@ -145,7 +148,7 @@ const [userBtn, setUserBtn] = useState(true);
   }
 
   return (
-    <UserContext.Provider value={{user, setUser, savedGames, setSavedGames, userSavedGames, setUserSavedGames, data, updatedData, setUpdatedData, loggedIn, setLoggedIn, selected, setSelected, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, colorSelected, setColorSelected, changeBackgroundColor, displayHead, setDisplayHead, category, setCategory}}>
+    <UserContext.Provider value={{user, setUser, savedGames, setSavedGames, userSavedGames, setUserSavedGames, data, updatedData, setUpdatedData, loggedIn, setLoggedIn, selected, setSelected, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, colorSelected, setColorSelected, changeBackgroundColor, displayHead, setDisplayHead, category, setCategory, navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu}}>
       <div className="App">
         <BrowserRouter>
         <Nav baseUrl={baseUrl} time={time} updatedData={updatedData} handleInput={handleInput} getAllGames={getAllGames} inputValue={inputValue} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres} />

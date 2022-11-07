@@ -17,11 +17,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
   const [modal, setModal] = useState(false);
   const [userExists, setUserExists] = useState(true);
   const [message, setMessage] = useState('');
-  const [menu, setMenu] = useState(false); 
-  const [showNavInput, setShowNavInput] = useState(true);
-  const [navPage, setNavPage] = useState('');
   const [loginSpin, setLoginSpin] = useState(false); 
-  const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory} = useContext(UserContext);
+  const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory, navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu} = useContext(UserContext);
 
   user.username = holdUsername;
   user.imageUrl = holdAvatar; 
@@ -43,10 +40,14 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
 
     .then(res=>{
       setSignupSuccess(true)
-      setMessage('Thanks for signing up! Now you can LOG IN!')
+      setLoginSpin(false)
+      setMessage('Thanks for signing up! You can now LOG IN!')
       console.log(res.data)
     })
-    .catch(err=> console.log(err))
+    .catch(function(error){
+      console.log(error)
+      setMessage('User already exists')
+    })
     }
 
     const handleLogin=(e)=>{ 
@@ -60,12 +61,16 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
         setHoldUsername(res.data.username)
         setHoldAvatar(res.data.imageUrl)
         setColorSelected(res.data.backgroundColor)
+        setLoginSpin(false)
         setLoggedIn(true)
         setModal(false)
         setMessage('')
         setMenu(false)
       })
-      .catch(err=> console.log(err))
+      .catch(function(error){
+        console.log(error)
+        setMessage('No user with that username exists')
+      })
     }
 
     useEffect(()=>{
@@ -76,6 +81,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
     const handleLogout = () => {
       setUser({})
       setLoggedIn(false)
+      setSignupSuccess(false)
       setDisplayHead(false)
       setColorSelected('#f2e9e4')
       setMenu(false)
@@ -135,6 +141,17 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
     const clearX = () => {
       setModal(false);
       setLoginSpin(false);
+      setMessage('');
+    }
+
+    const signUpLink = () => {
+      setLoginSpin(false);
+      setUserExists(false);
+    }
+
+    const logInLink = () => {
+      setLoginSpin(false);
+      setUserExists(true);
     }
 
   return (
@@ -194,7 +211,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
                   </div>
                   :<div></div>
                   }
-                  <p className='haveAccount'>Don't have an account? <span onClick={()=>{setUserExists(false)}} className='signUp'>Sign up</span></p>
+                  <p className='haveAccount'>Don't have an account? <span onClick={signUpLink} className='signUp'>Sign up</span></p>
                   {message !== '' ? <p>{message}</p> : null}
                 </div>
                 :<div> 
@@ -212,8 +229,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
                   :<div></div>
                   }
                   {
-                    signupSuccess ? <p className='greenSuccess'>Signed up successfully! <span onClick={()=>{setUserExists(true)}} className='loginLink'>Login</span></p>
-                    : <p className='haveAccount'>Already have an account? <span onClick={()=>{setUserExists(true)}} className='signUp'>Login</span></p>
+                    signupSuccess ? <p className='greenSuccess'>Signed up successfully! <span onClick={logInLink} className='loginLink'>Login</span></p>
+                    : <p className='haveAccount'>Already have an account? <span onClick={logInLink} className='signUp'>Login</span></p>
                   }
                 </div>
              }
@@ -302,7 +319,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
                   </div>
                   :<div></div>
               }
-              <p className='haveAccount'>Don't have an account? <span onClick={()=>{setUserExists(false)}} className='signUp'>Sign up</span></p>
+              <p className='haveAccount'>Don't have an account? <span onClick={signUpLink} className='signUp'>Sign up</span></p>
               {message !== '' ? <p>{message}</p> : null}
             </div>
             : <div> 
@@ -320,8 +337,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
                   :<div></div>
               }
               {
-                signupSuccess ? <p className='greenSuccess'>Signed up successfully! <span onClick={()=>{setUserExists(true)}}>Login</span></p>
-                : <p className='haveAccount'>Already have an account? <span onClick={()=>{setUserExists(true)}} className='signUp'>Login</span></p>
+                signupSuccess ? <p className='greenSuccess'>Signed up successfully! <span onClick={logInLink}>Login</span></p>
+                : <p className='haveAccount'>Already have an account? <span onClick={logInLink} className='signUp'>Login</span></p>
               }
             </div>
          }
