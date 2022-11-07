@@ -69,8 +69,15 @@ a{
     color: var(--red);
 }
 .greenSuccess{
-    color: green;
+    color: rgb(0, 255, 0);
     font-size: large; 
+}
+.loginLink{
+    cursor: pointer;
+    color:  rgb(0, 255, 0);
+}
+.loginLink:hover{
+    color:  var(--red);
 }
 .haveAccount{
     font-size: large;

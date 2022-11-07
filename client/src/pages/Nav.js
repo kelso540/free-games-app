@@ -175,7 +175,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
                   <form onSubmit={handleLogin}>
                     <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
                     <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
-                    <button className='login-btn' type="submit">Submit</button>
+                    <button className='login-btn' type="submit" onClick={reSetHome}>Submit</button>
                   </form>
                   <p className='haveAccount'>Don't have an account? <span onClick={()=>{setUserExists(false)}} className='signUp'>Sign up</span></p>
                   {message !== '' ? <p>{message}</p> : null}
@@ -185,10 +185,10 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
                   <form onSubmit={handleSignup}>
                     <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
                     <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
-                    <button className='login-btn' type="submit">Submit</button>
+                    <button className='login-btn' type="submit" onClick={reSetHome}>Submit</button>
                   </form>
                   {
-                    signupSuccess ? <p className='greenSuccess'>Signed up successfully. <span onClick={()=>{setUserExists(true)}}>Login</span></p>
+                    signupSuccess ? <p className='greenSuccess'>Signed up successfully! <span onClick={()=>{setUserExists(true)}} className='loginLink'>Login</span></p>
                     : <p className='haveAccount'>Already have an account? <span onClick={()=>{setUserExists(true)}} className='signUp'>Login</span></p>
                   }
                 </div>
@@ -269,7 +269,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
               <form onSubmit={handleLogin}>
                 <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
                 <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
-                <button className='login-btn' type="submit">Submit</button>
+                <button className='login-btn' type="submit" onClick={reSetHome}>Submit</button>
               </form>
               <p className='haveAccount'>Don't have an account? <span onClick={()=>{setUserExists(false)}} className='signUp'>Sign up</span></p>
               {message !== '' ? <p>{message}</p> : null}
@@ -279,10 +279,10 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
               <form onSubmit={handleSignup}>
                 <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
                 <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
-                <button className='login-btn' type="submit">Submit</button>
+                <button className='login-btn' type="submit" onClick={reSetHome}>Submit</button>
               </form>
               {
-                signupSuccess ? <p className='greenSuccess'>Signed up successfully. <span onClick={()=>{setUserExists(true)}}>Login</span></p>
+                signupSuccess ? <p className='greenSuccess'>Signed up successfully! <span onClick={()=>{setUserExists(true)}}>Login</span></p>
                 : <p className='haveAccount'>Already have an account? <span onClick={()=>{setUserExists(true)}} className='signUp'>Login</span></p>
               }
             </div>

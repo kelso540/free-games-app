@@ -71,7 +71,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
           <div className='logoDivB'>
             <div className='logoInnerB'>
               <FontAwesomeIcon icon={faHatWizard} size='7x' className='wizardHatB' />
-              <strong className='enjoy'>Search for games above! <span className='provided'>provided by</span> <a href='https://www.freetogame.com/api-doc' className='FREETOGAME'>FREETOGAME</a></strong>
+              <strong className='enjoy'>Search for games above! <span className='provided'>provided by</span> <a href='https://www.freetogame.com/' className='FREETOGAME'>FREETOGAME</a></strong>
               <FontAwesomeIcon icon={faHeadset} size='7x' className='headsetB' />
             </div>
           </div>

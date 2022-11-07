@@ -7,7 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './CSS/saved.css';
 import './CSS/games.css';
 
-export default function Saved({baseUrl}) { 
+export default function Saved({baseUrl}) {
+
+  const [newArray, setNewArray] = useState([]); 
+  const [uniqueName, setUniqueName] = useState('');  
 
   const {user, setUser, userSavedGames, setUserSavedGames} = useContext(UserContext);
 
@@ -17,6 +20,17 @@ export default function Saved({baseUrl}) {
       console.log(res.data)
       const saved = res.data 
       const filterSaved = saved.filter(item=>item.user_id === user.id)
+      const uniqueGames = filterSaved.filter((item, index, array)=>{
+        if(uniqueName === item.name){
+          setNewArray(current=>[...current, item])
+          setUniqueName(item.name);
+        }
+        setUniqueName(item.name); 
+        console.log('unique ' + uniqueName);
+        console.log('current ' + item.name)
+        return true
+      })
+      console.log(uniqueGames);
       setUserSavedGames(filterSaved);
     })
     .catch(err=>console.log(err))

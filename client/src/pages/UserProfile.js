@@ -100,8 +100,15 @@ export default function UserProfile({baseUrl, userBtn}) {
       setColorSelected(e.target.value);
     }
 
+    const scrollDown = () => {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+      });
+    }
+
     const areYouSure = () => {
       setCheck(true);
+      setTimeout(scrollDown, 100);
     }
 
   return (
