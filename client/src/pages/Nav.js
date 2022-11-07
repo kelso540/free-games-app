@@ -1,6 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
-import { useSpring, animated as s} from 'react-spring';
-import { faGamepad, faBars, faX } from '@fortawesome/free-solid-svg-icons';
+import { faGamepad, faBars, faX, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import {Link, useNavigate} from 'react-router-dom';
@@ -21,6 +20,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
   const [menu, setMenu] = useState(false); 
   const [showNavInput, setShowNavInput] = useState(true);
   const [navPage, setNavPage] = useState('');
+  const [loginSpin, setLoginSpin] = useState(false); 
   const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory} = useContext(UserContext);
 
   user.username = holdUsername;
@@ -80,6 +80,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
       setColorSelected('#f2e9e4')
       setMenu(false)
       changeBackgroundColor()
+      setLoginSpin(false);
       reSetHome();
       navigate('/'); 
     }
@@ -127,6 +128,15 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
       setMenu(false);
     }
 
+    const showSpinner = () => {
+      setLoginSpin(true); 
+    }
+
+    const clearX = () => {
+      setModal(false);
+      setLoginSpin(false);
+    }
+
   return (
     <div>
       <div className='navDiv'>
@@ -168,25 +178,39 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
       
         {
           modal ? <div className='header-modal'>
-                     <h3 onClick={()=>{setModal(false)}} className='clearX'>X</h3>
+                     <h3 onClick={clearX} className='clearX'>X</h3>
              {
                 userExists ? <div> 
                   <h2>Login</h2>
                   <form onSubmit={handleLogin}>
                     <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
                     <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
-                    <button className='login-btn' type="submit" onClick={reSetHome}>Submit</button>
+                    <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
                   </form>
+                  { 
+                  (loginSpin) ? 
+                  <div>
+                    <FontAwesomeIcon icon={faSpinner} size='3x' className='fa-spin-pulse' />
+                  </div>
+                  :<div></div>
+                  }
                   <p className='haveAccount'>Don't have an account? <span onClick={()=>{setUserExists(false)}} className='signUp'>Sign up</span></p>
                   {message !== '' ? <p>{message}</p> : null}
                 </div>
-                : <div> 
+                :<div> 
                   <h2>Sign Up</h2>
                   <form onSubmit={handleSignup}>
                     <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
                     <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
-                    <button className='login-btn' type="submit" onClick={reSetHome}>Submit</button>
+                    <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
                   </form>
+                  { 
+                  (loginSpin) ? 
+                  <div>
+                    <FontAwesomeIcon icon={faSpinner} size='3x' className='fa-spin-pulse' />
+                  </div>
+                  :<div></div>
+                  }
                   {
                     signupSuccess ? <p className='greenSuccess'>Signed up successfully! <span onClick={()=>{setUserExists(true)}} className='loginLink'>Login</span></p>
                     : <p className='haveAccount'>Already have an account? <span onClick={()=>{setUserExists(true)}} className='signUp'>Login</span></p>
@@ -262,15 +286,22 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
     
       {
       modal ? <div className='header-modal'>
-                 <h3 onClick={()=>{setModal(false)}} className='clearX'>X</h3>
+                 <h3 onClick={clearX} className='clearX'>X</h3>
          {
             userExists ? <div> 
               <h2>Login</h2>
               <form onSubmit={handleLogin}>
                 <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
                 <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
-                <button className='login-btn' type="submit" onClick={reSetHome}>Submit</button>
+                <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
               </form>
+              { 
+                  (loginSpin) ? 
+                  <div>
+                    <FontAwesomeIcon icon={faSpinner} size='3x' className='fa-spin-pulse' />
+                  </div>
+                  :<div></div>
+              }
               <p className='haveAccount'>Don't have an account? <span onClick={()=>{setUserExists(false)}} className='signUp'>Sign up</span></p>
               {message !== '' ? <p>{message}</p> : null}
             </div>
@@ -279,8 +310,15 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
               <form onSubmit={handleSignup}>
                 <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
                 <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
-                <button className='login-btn' type="submit" onClick={reSetHome}>Submit</button>
+                <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
               </form>
+              { 
+                  (loginSpin) ? 
+                  <div>
+                    <FontAwesomeIcon icon={faSpinner} size='3x' className='fa-spin-pulse' />
+                  </div>
+                  :<div></div>
+              }
               {
                 signupSuccess ? <p className='greenSuccess'>Signed up successfully! <span onClick={()=>{setUserExists(true)}}>Login</span></p>
                 : <p className='haveAccount'>Already have an account? <span onClick={()=>{setUserExists(true)}} className='signUp'>Login</span></p>

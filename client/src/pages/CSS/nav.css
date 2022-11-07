@@ -205,6 +205,9 @@ form > input{
     position: relative;
     top: 10px;
 }
+.fa-spin-pulse{
+    margin-top: 5px;
+}
 
 @media screen and (max-width: 1200px){
     .header{
