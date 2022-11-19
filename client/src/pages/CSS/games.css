@@ -1,11 +1,33 @@
 .singleGameDiv{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     width: 400px;
     margin-bottom: 20px;
     padding: 10px;
+}
+.gameDesc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    height: 180px;
+}
+.gameDev{
+    height: 70px;
+}
+.gameName{
+    height: 70px;
+}
+.gameGenre{
+    height: 20px;
+}
+.gameRelease{
+    height: 20px;
+}
+.gamePlatform{
+    height: 20px;
 }
 .singleGameDivB{
     display: flex;
@@ -19,6 +41,7 @@
 .gameImg{
     border-radius: 10px;
     box-shadow: 2px 4px 8px;
+    height: 200px;
 }
 .clickHere:hover{
     color:var(--red); 

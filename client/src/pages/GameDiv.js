@@ -24,12 +24,13 @@ export default function GameDiv({id, dev, url, genre, platform, release, descrip
 
   return (
     <div className='singleGameDiv'>
-        <h1>{name}</h1>
-        <h2>{dev}</h2>
+        <h1 className='gameName'>{name}</h1>
+        <h2 className='gameDev'>{dev}</h2>
         <img src={imgUrl} alt='GamePicture' className='gameImg' />
-        <h3>{description}</h3>
-        <h3>{genre}</h3>
-        <h3>Release date: {release}</h3> <h3>Platform: {platform}</h3>
+        <h3 className='gameDesc'>{description}</h3>
+        <h3 className='gameGenre'>{genre}</h3>
+        <h3 className='gameRelease'>Release date: {release}</h3> 
+        <h3 className='gamePlatform'>Platform: {platform}</h3>
         <a href={url} className='clickHere'> Click Here to Play!</a>
         { (loggedIn) ?
             <div>

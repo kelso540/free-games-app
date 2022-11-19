@@ -17,7 +17,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
   const [modal, setModal] = useState(false);
   const [userExists, setUserExists] = useState(true);
   const [message, setMessage] = useState('');
-  const [loginSpin, setLoginSpin] = useState(false); 
+  const [loginSpin, setLoginSpin] = useState(false);
+  const [displayMessage, setDisplayMessage] = useState(false); 
   const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory, navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu} = useContext(UserContext);
 
   user.username = holdUsername;
@@ -37,16 +38,14 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
       axios.post(`${baseUrl}/users/register`, {
       username, password, imageUrl, backgroundColor //match to same names on table
     })
-
     .then(res=>{
       setSignupSuccess(true)
       setLoginSpin(false)
+      setDisplayMessage(true)
       setMessage('Thanks for signing up! You can now LOG IN!')
-      console.log(res.data)
     })
-    .catch(function(error){
-      console.log(error)
-      setMessage('User already exists')
+    .catch(function(){
+      messageDisplay();
     })
     }
 
@@ -56,7 +55,6 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
         username, password
       })
       .then(res=>{
-        console.log(res)
         setUser(res.data)
         setHoldUsername(res.data.username)
         setHoldAvatar(res.data.imageUrl)
@@ -66,10 +64,13 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
         setModal(false)
         setMessage('')
         setMenu(false)
+        setUsername('');
+        setPassword('');
       })
-      .catch(function(error){
-        console.log(error)
-        setMessage('No user with that username exists')
+      .catch(function(){
+        setMessage('No user with that username exists sign up!')
+        setDisplayMessage(true)
+        setLoginSpin(false)
       })
     }
 
@@ -79,13 +80,14 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
     }, [handleLogin])
 
     const handleLogout = () => {
-      setUser({})
-      setLoggedIn(false)
-      setSignupSuccess(false)
-      setDisplayHead(false)
-      setColorSelected('#f2e9e4')
-      setMenu(false)
-      changeBackgroundColor()
+      setUser({});
+      setUserExists(false);
+      setLoggedIn(false);
+      setSignupSuccess(false);
+      setDisplayHead(false);
+      setColorSelected('#f2e9e4');
+      setMenu(false);
+      changeBackgroundColor();
       setLoginSpin(false);
       reSetHome();
       navigate('/'); 
@@ -109,6 +111,10 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
     }
 
     const hideMenu = () => {
+      setLoginSpin(false);
+      setUsername('');
+      setPassword('');
+      setMessage('');
       setMenu(false); 
       setModal(!modal);
     }
@@ -135,24 +141,52 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
     }
 
     const showSpinner = () => {
-      setLoginSpin(true); 
+      setLoginSpin(true);
+      setDisplayMessage(true); 
     }
+
+    useEffect(()=>{
+      if(username.length <= 0 || password.length <= 0){
+        setLoginSpin(false);
+      }
+    },[showSpinner])
 
     const clearX = () => {
       setModal(false);
       setLoginSpin(false);
+      setUsername('');
+      setPassword('');
       setMessage('');
     }
 
     const signUpLink = () => {
       setLoginSpin(false);
       setUserExists(false);
+      setMessage('');
+      setDisplayMessage(false); 
     }
 
     const logInLink = () => {
       setLoginSpin(false);
       setUserExists(true);
+      setDisplayMessage(true);
     }
+
+    const messageDisplay = () => {
+      setLoginSpin(false);
+      setMessage('User already exists!');
+      setDisplayMessage(true);
+      logInLink();
+    }
+
+    const logInButton = () => {
+      setModal(!modal);
+      setLoginSpin(false);
+      setUsername('');
+      setPassword('');
+      setMessage('');
+    }
+
 
   return (
     <div>
@@ -187,7 +221,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
             <strong className='time'>{time}</strong>
             <Link to='/about' className='navLink' onClick={setLogoAbout}>About</Link>
             <Link to='/contact' className='navLink' onClick={setLogoContact}>Contact</Link>
-            <button className='login-btn' onClick={()=>setModal(!modal)}>Login</button>
+            <button className='login-btn' onClick={logInButton}>Login</button>
           </div>
         }
      
@@ -200,8 +234,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
                 userExists ? <div> 
                   <h2>Login</h2>
                   <form onSubmit={handleLogin}>
-                    <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
-                    <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
+                    <input required type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
+                    <input required type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
                     <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
                   </form>
                   { 
@@ -212,13 +246,13 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
                   :<div></div>
                   }
                   <p className='haveAccount'>Don't have an account? <span onClick={signUpLink} className='signUp'>Sign up</span></p>
-                  {message !== '' ? <p>{message}</p> : null}
+                  {(displayMessage) ? <p>{message}</p> : null}
                 </div>
                 :<div> 
                   <h2>Sign Up</h2>
                   <form onSubmit={handleSignup}>
-                    <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
-                    <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
+                    <input required type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
+                    <input required type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
                     <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
                   </form>
                   { 
@@ -229,7 +263,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
                   :<div></div>
                   }
                   {
-                    signupSuccess ? <p className='greenSuccess'>Signed up successfully! <span onClick={logInLink} className='loginLink'>Login</span></p>
+                    signupSuccess ? <p className='greenSuccess'>Signed up successfully! <span onClick={handleLogin} className='loginLink'>Login</span></p>
                     : <p className='haveAccount'>Already have an account? <span onClick={logInLink} className='signUp'>Login</span></p>
                   }
                 </div>
@@ -308,8 +342,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
             userExists ? <div> 
               <h2>Login</h2>
               <form onSubmit={handleLogin}>
-                <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
-                <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
+                <input required type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
+                <input required type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
                 <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
               </form>
               { 
@@ -320,13 +354,13 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
                   :<div></div>
               }
               <p className='haveAccount'>Don't have an account? <span onClick={signUpLink} className='signUp'>Sign up</span></p>
-              {message !== '' ? <p>{message}</p> : null}
+              {(displayMessage) ? <p>{message}</p> : null}
             </div>
             : <div> 
               <h2>Sign Up</h2>
               <form onSubmit={handleSignup}>
-                <input type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
-                <input type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
+                <input required type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
+                <input required type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
                 <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
               </form>
               { 
@@ -337,7 +371,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
                   :<div></div>
               }
               {
-                signupSuccess ? <p className='greenSuccess'>Signed up successfully! <span onClick={logInLink}>Login</span></p>
+                signupSuccess ? <p className='greenSuccess'>Signed up successfully! <span onClick={handleLogin}>Login</span></p>
                 : <p className='haveAccount'>Already have an account? <span onClick={logInLink} className='signUp'>Login</span></p>
               }
             </div>
