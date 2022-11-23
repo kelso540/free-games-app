@@ -8,6 +8,7 @@ import {UserContext} from './context/UserContext';
 import UserProfile from './pages/UserProfile';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import PORT from './config'; 
 //hello
 function App() {
 
@@ -20,7 +21,7 @@ function App() {
     {id: 6, name: 'Fighting', text: 'Fighting'}
   ]
 
-const baseUrl = 'https://search-free-games.herokuapp.com';
+const baseUrl = PORT;
 const [user, setUser] = useState([]);
 const [savedGames, setSavedGames] = useState([]);
 const [userSavedGames, setUserSavedGames] = useState([])
