@@ -70,13 +70,13 @@
 .wizardHat{
     position: absolute;
     left: 380px;
-    bottom: 150px;
+    bottom: 70px;
     rotate: 20deg;
 }
 .headset{
     position: absolute;
     left: 180px;
-    bottom: 140px;
+    bottom: 70px;
     rotate: -20deg;
 }
 .logoDivB{ 

@@ -115,7 +115,7 @@ export default function UserProfile({baseUrl, userBtn}) {
     }
 
   return (
-    <div>
+    <div className='profileDiv'>
         <h1>Your Profile</h1>
         <h2>Current username <strong className='userName'>{user.username}</strong></h2>
 

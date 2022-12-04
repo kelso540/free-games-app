@@ -27,7 +27,9 @@ export default function GameDiv({id, dev, url, genre, platform, release, descrip
         <h1 className='gameName'>{name}</h1>
         <h2 className='gameDev'>{dev}</h2>
         <img src={imgUrl} alt='GamePicture' className='gameImg' />
-        <h3 className='gameDesc'>{description}</h3>
+        <div className='gameDescDiv'>
+          <h3 className='gameDesc'>{description}</h3>
+        </div>
         <h3 className='gameGenre'>{genre}</h3>
         <h3 className='gameRelease'>Release date: {release}</h3> 
         <h3 className='gamePlatform'>Platform: {platform}</h3>

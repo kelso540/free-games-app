@@ -8,7 +8,7 @@ import {UserContext} from './context/UserContext';
 import UserProfile from './pages/UserProfile';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import PORT from './config'; 
+import KEYS from './config'; 
 //hello
 function App() {
 
@@ -21,7 +21,7 @@ function App() {
     {id: 6, name: 'Fighting', text: 'Fighting'}
   ]
 
-const baseUrl = PORT;
+const baseUrl = KEYS.PORT;
 const [user, setUser] = useState([]);
 const [savedGames, setSavedGames] = useState([]);
 const [userSavedGames, setUserSavedGames] = useState([])
@@ -66,7 +66,7 @@ const [navPage, setNavPage] = useState('');
       const options = {
       method: 'GET',
       headers: {
-          'X-RapidAPI-Key': '3b06dacf6fmshe11e830ce7c4671p118b98jsn8436ff84c2db',
+          'X-RapidAPI-Key': KEYS.GAME_API,
           'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com'
       }
       };
@@ -149,7 +149,7 @@ const [navPage, setNavPage] = useState('');
   }
 
   return (
-    <UserContext.Provider value={{user, setUser, savedGames, setSavedGames, userSavedGames, setUserSavedGames, data, updatedData, setUpdatedData, loggedIn, setLoggedIn, selected, setSelected, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, colorSelected, setColorSelected, changeBackgroundColor, displayHead, setDisplayHead, category, setCategory, navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu}}>
+    <UserContext.Provider value={{user, setUser, savedGames, setSavedGames, userSavedGames, setUserSavedGames, data, updatedData, setUpdatedData, loggedIn, setLoggedIn, selected, setSelected, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, colorSelected, setColorSelected, changeBackgroundColor, displayHead, setDisplayHead, category, setCategory, navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu, spinnerDiv, setSpinnerDiv}}>
       <div className="App">
         <BrowserRouter>
         <Nav baseUrl={baseUrl} time={time} updatedData={updatedData} handleInput={handleInput} getAllGames={getAllGames} inputValue={inputValue} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres} />

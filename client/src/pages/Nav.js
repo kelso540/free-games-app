@@ -6,7 +6,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {UserContext} from '../context/UserContext';
 import './CSS/nav.css';
 
-export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue, spinnerDiv, genres, filterSports, filterShooter, filterStrategy, filterMMORPG, filterFighting}) {
+export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue, genres, filterSports, filterShooter, filterStrategy, filterMMORPG, filterFighting}) {
 
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -19,7 +19,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
   const [message, setMessage] = useState('');
   const [loginSpin, setLoginSpin] = useState(false);
   const [displayMessage, setDisplayMessage] = useState(false); 
-  const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory, navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu} = useContext(UserContext);
+  const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory, navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu, spinnerDiv, setSpinnerDiv} = useContext(UserContext);
 
   user.username = holdUsername;
   user.imageUrl = holdAvatar; 
@@ -66,6 +66,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
         setMenu(false)
         setUsername('');
         setPassword('');
+        reSetHome(); 
       })
       .catch(function(){
         setMessage('No user with that username exists sign up!')

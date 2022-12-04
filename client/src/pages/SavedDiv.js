@@ -18,9 +18,11 @@ export default function SavedDiv({id, baseUrl, url, description, imgUrl, name}) 
 
   return (
     <div className='singleGameDivB'>
-        <h1>{name}</h1>
+        <h1 className='gameName'>{name}</h1>
         <img src={imgUrl} alt='GamePicture' className='gameImg' />
-        <h4>{description}</h4>
+        <div className='gameDescDiv'>
+          <h4>{description}</h4>
+        </div>
         <a href={url}><h3 className='clickToPlay clickHere'>Click Here to Play!</h3></a>
         <button onClick={deleteSavedGame} className='removeFromSaved'>Remove</button>
     </div>

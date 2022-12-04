@@ -4,15 +4,20 @@
     justify-content: space-between;
     align-items: center;
     width: 400px;
-    margin-bottom: 20px;
+    margin: 0 0 40px 0;
     padding: 10px;
+    border: solid 1px var(--black);
+    border-radius: 8px;
 }
-.gameDesc{
+.gameDescDiv{
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding-top: 10px;
-    height: 180px;
+    align-items: flex-start;
+    margin-top: 10px;
+    height: 80px;
+    contain: content;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 .gameDev{
     height: 70px;
@@ -40,7 +45,7 @@
 }
 .gameImg{
     border-radius: 10px;
-    box-shadow: 2px 4px 8px;
+    box-shadow: 2px 4px 8px var(--black);
     height: 200px;
 }
 .clickHere:hover{
@@ -83,5 +88,6 @@
 @media screen and (max-width: 900px) {
     .singleGameDiv{
         width: auto;
+        border-bottom: solid 2px var(--black);
     }
 }
