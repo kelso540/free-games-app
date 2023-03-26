@@ -15,7 +15,7 @@ export default function GameDiv({id, dev, url, genre, platform, release, descrip
 
   const addNewSavedGame = async(name, imgUrl, description, url)=>{
     try {
-      const docRef = await addDoc(collection(db, "savedGames"), {
+      const docRef = await addDoc(collection(db, "games"), {
         name: name,
         imgUrl: imgUrl,
         description: description, 
