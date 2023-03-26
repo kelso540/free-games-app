@@ -56,10 +56,10 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
       {
         (loggedIn)?
         <div className='img-container'>
-        <strong>Welcome {user.username}</strong>
+        <strong>Welcome {user.email}</strong>
           {
             (hasAvatar) ?
-            <img className='avatar' src={user.imageUrl} alt="avatar"/>
+            <img className='avatar' src={user.photoURL} alt="avatar"/>
             :null 
           }
         </div>

@@ -5,6 +5,8 @@ import axios from 'axios';
 import {Link, useNavigate} from 'react-router-dom';
 import {UserContext} from '../context/UserContext';
 import './CSS/nav.css';
+import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../Firebase';
 
 export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue, genres, filterSports, filterShooter, filterStrategy, filterMMORPG, filterFighting}) {
 
@@ -21,9 +23,9 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
   const [displayMessage, setDisplayMessage] = useState(false); 
   const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory, navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu, spinnerDiv, setSpinnerDiv} = useContext(UserContext);
 
-  user.username = holdUsername;
-  user.imageUrl = holdAvatar; 
-  user.backgroundColor = colorSelected; 
+  // user.email = holdUsername;
+  // user.photoURL = holdAvatar; 
+  // user.displayName = colorSelected; 
 
   const handleAvatar = () => {
     if(holdAvatar !== 'default'){
@@ -33,32 +35,48 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
     }
   }
 
-  const handleSignup=(e)=>{
-      e.preventDefault()
-      axios.post(`${baseUrl}/users/register`, {
-      username, password, imageUrl, backgroundColor //match to same names on table
-    })
-    .then(res=>{
+  const handleSignup = (e)=>{
+    e.preventDefault(); 
+    createUserWithEmailAndPassword(auth, username, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      console.log(user)
       setSignupSuccess(true)
       setLoginSpin(false)
       setDisplayMessage(true)
-      setMessage('Thanks for signing up! You can now LOG IN!')
+      setMessage('Thanks for signing up! You can now LOG IN!') 
     })
     .catch(function(){
       messageDisplay();
-    })
-    }
+    });
+}; 
 
-    const handleLogin=(e)=>{ 
-      e.preventDefault()
-      axios.post(`${baseUrl}/users/login`, {
-        username, password
-      })
-      .then(res=>{
-        setUser(res.data)
-        setHoldUsername(res.data.username)
-        setHoldAvatar(res.data.imageUrl)
-        setColorSelected(res.data.backgroundColor)
+  // const handleSignup=(e)=>{
+  //     e.preventDefault()
+  //     axios.post(`${baseUrl}/users/register`, {
+  //     username, password, imageUrl, backgroundColor //match to same names on table
+  //   })
+  //   .then(res=>{
+  //     setSignupSuccess(true)
+  //     setLoginSpin(false)
+  //     setDisplayMessage(true)
+  //     setMessage('Thanks for signing up! You can now LOG IN!')
+  //   })
+  //   .catch(function(){
+  //     messageDisplay();
+  //   })
+  //   }
+
+
+  const handleLogin = (e)=>{
+    e.preventDefault(); 
+    signInWithEmailAndPassword(auth, username, password)
+        .then((userCredential) => {
+        setUser(userCredential.user)
+        setHoldUsername(userCredential.user.email)
+        setHoldAvatar(userCredential.user.photoURL)
+        setColorSelected(userCredential.user.displayName)
         setLoginSpin(false)
         setLoggedIn(true)
         setModal(false)
@@ -67,32 +85,88 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
         setUsername('');
         setPassword('');
         reSetHome(); 
-      })
-      .catch(function(){
-        setMessage('No user with that username exists sign up!')
+    })
+    .catch((error)=>{
+      console.log(error.code)
+      if(error.code === 'auth/wrong-password'){
+        setMessage('Incorrect password.')
         setDisplayMessage(true)
         setLoginSpin(false)
-      })
-    }
+      }
+      else if(error.code === 'auth/too-many-requests') {
+        setMessage('Too many requests try again later.')
+        setDisplayMessage(true)
+        setLoginSpin(false)
+      } else {
+      setMessage('No user with that username exists sign up!')
+      setDisplayMessage(true)
+      setLoginSpin(false)
+      }
+    });
+}
+
+    // const handleLogin=(e)=>{ 
+    //   e.preventDefault()
+    //   axios.post(`${baseUrl}/users/login`, {
+    //     username, password
+    //   })
+    //   .then(res=>{
+    //     setUser(res.data)
+    //     setHoldUsername(res.data.username)
+    //     setHoldAvatar(res.data.imageUrl)
+    //     setColorSelected(res.data.backgroundColor)
+    //     setLoginSpin(false)
+    //     setLoggedIn(true)
+    //     setModal(false)
+    //     setMessage('')
+    //     setMenu(false)
+    //     setUsername('');
+    //     setPassword('');
+    //     reSetHome(); 
+    //   })
+    //   .catch(function(){
+    //     setMessage('No user with that username exists sign up!')
+    //     setDisplayMessage(true)
+    //     setLoginSpin(false)
+    //   })
+    // }
+
+    const handleLogout = ()=>{
+      signOut(auth).then(() => {
+        setUser({});
+        setUserExists(true);
+        setLoggedIn(false);
+        setSignupSuccess(false);
+        setDisplayHead(false);
+        setColorSelected('#f2e9e4');
+        setMenu(false);
+        changeBackgroundColor();
+        setLoginSpin(false);
+        reSetHome();
+        navigate('/');
+      }).catch((error) => {
+        console.log(error)
+      });
+    };
 
     useEffect(()=>{
       changeBackgroundColor();
       handleAvatar();
     }, [handleLogin])
 
-    const handleLogout = () => {
-      setUser({});
-      setUserExists(false);
-      setLoggedIn(false);
-      setSignupSuccess(false);
-      setDisplayHead(false);
-      setColorSelected('#f2e9e4');
-      setMenu(false);
-      changeBackgroundColor();
-      setLoginSpin(false);
-      reSetHome();
-      navigate('/'); 
-    }
+    // const handleLogout = () => {
+    //   setUser({});
+    //   setUserExists(false);
+    //   setLoggedIn(false);
+    //   setSignupSuccess(false);
+    //   setDisplayHead(false);
+    //   setColorSelected('#f2e9e4');
+    //   setMenu(false);
+    //   changeBackgroundColor();
+    //   setLoginSpin(false);
+    //   reSetHome();
+    //   navigate('/'); 
+    // }
 
     const handleCategory = (e) => {
       setSelected(e.target.value);
@@ -235,7 +309,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
                 userExists ? <div> 
                   <h2>Login</h2>
                   <form onSubmit={handleLogin}>
-                    <input required type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
+                    <input required type="email" placeholder="Enter email" onChange={(e)=>setUsername(e.target.value)}/>
                     <input required type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
                     <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
                   </form>

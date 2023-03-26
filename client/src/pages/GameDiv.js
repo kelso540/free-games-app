@@ -4,6 +4,8 @@ import {UserContext} from '../context/UserContext';
 import './CSS/games.css';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { collection, addDoc } from "firebase/firestore"; 
+import { db } from '../Firebase';
 
 export default function GameDiv({id, dev, url, genre, platform, release, description, imgUrl, name, saved, baseUrl}) {
 
@@ -11,16 +13,31 @@ export default function GameDiv({id, dev, url, genre, platform, release, descrip
 
   const {user, loggedIn} = useContext(UserContext);
 
-  const addNewSavedGame=(name, imgUrl, description, url)=>{ 
-    axios.post(`${baseUrl}/users/${user.id}/savedGames`, {
-    name, imgUrl, description, url
-   })
-   .then(res=>{
-     console.log(res)
-     setSuccess(true)
-   })
-   .catch(err=> console.log(err))
-}
+  const addNewSavedGame = async(name, imgUrl, description, url)=>{
+    try {
+      const docRef = await addDoc(collection(db, "savedGames"), {
+        name: name,
+        imgUrl: imgUrl,
+        description: description, 
+        url: url,
+      });
+      console.log("Document written with ID: ", docRef.id);
+      setSuccess(true)
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
+//   const addNewSavedGame=(name, imgUrl, description, url)=>{ 
+//     axios.post(`${baseUrl}/users/${user.id}/savedGames`, {
+//     name, imgUrl, description, url
+//    })
+//    .then(res=>{
+//      console.log(res)
+//      setSuccess(true)
+//    })
+//    .catch(err=> console.log(err))
+// }
 
   return (
     <div className='singleGameDiv'>

@@ -3,6 +3,8 @@ import {UserContext} from '../context/UserContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './CSS/user.css';
+import { auth } from '../Firebase';
+import { updateProfile, deleteUser, updateEmail } from "firebase/auth";
 
 export default function UserProfile({baseUrl, userBtn}) {
 
@@ -28,76 +30,142 @@ export default function UserProfile({baseUrl, userBtn}) {
     const [newAvatar, setNewAvatar] = useState('');
     const [check, setCheck] = useState(false);  
 
-    const changeUserId=(e)=>{ 
+    const changeUserId=(e)=>{
       e.preventDefault();
-        axios.patch(`${baseUrl}/users/${user.id}`,  {
-            username: newUsername
-        })
-        .then(res=>{
-         console.log(res)
-        })
-        .catch(err=> console.log(err))
+      updateEmail(auth.currentUser, newUsername).then(() => {
         setNewUsername('');
         setDisplayUserSuccess(true);
         setHoldUsername(newUsername);
-    }
+      }).catch((error) => {
+        console.log(error)
+      });
+    };
 
-    const deleteAccount=(e)=>{ 
+    // const changeUserId=(e)=>{ 
+    //   e.preventDefault();
+    //     axios.patch(`${baseUrl}/users/${user.id}`,  {
+    //         username: newUsername
+    //     })
+    //     .then(res=>{
+    //      console.log(res)
+    //     })
+    //     .catch(err=> console.log(err))
+    //     setNewUsername('');
+    //     setDisplayUserSuccess(true);
+    //     setHoldUsername(newUsername);
+    // }
+
+    const deleteAccount=(e)=>{
       e.preventDefault();
-        axios.delete(`${baseUrl}/users/${user.id}`)
-        .then(res=>{
-         console.log(res)
-        })
-        .catch(err=> console.log(err))
+      const user = auth.currentUser;
+      deleteUser(user).then(() => {
         setLoggedIn(false);
         setShowNavInput(true);
         setNavPage(''); 
         setMenu(false);
-        navigate('/');  
-    }
+        navigate('/'); 
+      }).catch((error) => {
+        console.log(error)
+      });
+    };
 
-    const changeUserAvatar=(e)=>{ 
+    // const deleteAccount=(e)=>{ 
+    //   e.preventDefault();
+    //     axios.delete(`${baseUrl}/users/${user.id}`)
+    //     .then(res=>{
+    //      console.log(res)
+    //     })
+    //     .catch(err=> console.log(err))
+    //     setLoggedIn(false);
+    //     setShowNavInput(true);
+    //     setNavPage(''); 
+    //     setMenu(false);
+    //     navigate('/');  
+    // }
+
+    const changeUserAvatar=(e)=>{
       e.preventDefault();
-        axios.patch(`${baseUrl}/users/${user.id}`,  {
-          imageUrl: newAvatar
-        })
-        .then(res=>{
-        console.log(res)
-        })
-        .catch(err=> console.log(err))
+      updateProfile(auth.currentUser, {
+        photoURL: newAvatar,
+      }).then(() => {
         setHasAvatar(true); 
         setNewAvatar('');
         setHoldAvatar(newAvatar);
         setDisplayImgSuccess(true);
-    }
+      }).catch((error) => {
+        console.log(error)
+      });
+    };
 
-    const removeUserAvatar=(e)=>{ 
+    const removeUserAvatar=(e)=>{
       e.preventDefault();
-        axios.patch(`${baseUrl}/users/${user.id}`,  {
-          imageUrl: 'default'
-        })
-        .then(res=>{
-        console.log(res)
-        })
-        .catch(err=> console.log(err))
+      updateProfile(auth.currentUser, {
+        photoURL: 'default',
+      }).then(() => {
         setHasAvatar(false); 
         setNewAvatar('');
         setHoldAvatar('default');
         setDisplayImgSuccess(true);
-    }
+      }).catch((error) => {
+        console.log(error)
+      });
+    };
 
-    const changeUserBackgroundColor=(e)=>{ 
+  
+    // const changeUserAvatar=(e)=>{ 
+    //   e.preventDefault();
+    //     axios.patch(`${baseUrl}/users/${user.id}`,  {
+    //       imageUrl: newAvatar
+    //     })
+    //     .then(res=>{
+    //     console.log(res)
+    //     })
+    //     .catch(err=> console.log(err))
+    //     setHasAvatar(true); 
+    //     setNewAvatar('');
+    //     setHoldAvatar(newAvatar);
+    //     setDisplayImgSuccess(true);
+    // }
+
+    // const removeUserAvatar=(e)=>{ 
+    //   e.preventDefault();
+    //     axios.patch(`${baseUrl}/users/${user.id}`,  {
+    //       imageUrl: 'default'
+    //     })
+    //     .then(res=>{
+    //     console.log(res)
+    //     })
+    //     .catch(err=> console.log(err))
+    //     setHasAvatar(false); 
+    //     setNewAvatar('');
+    //     setHoldAvatar('default');
+    //     setDisplayImgSuccess(true);
+    // }
+
+    const changeUserBackgroundColor=(e)=>{
       e.preventDefault();
-        axios.patch(`${baseUrl}/users/${user.id}`,  {
-          backgroundColor: colorSelected
-        })
-        .then(res=>{
-          console.log(res)
-        })
-        .catch(err=> console.log(err))
+      updateProfile(auth.currentUser, {
+        displayName: colorSelected,
+      }).then(() => {
         changeBackgroundColor();
         setDisplayBkgSuccess(true);
-    }
+      }).catch((error) => {
+        console.log(error)
+      });
+    };
+
+    // const changeUserBackgroundColor=(e)=>{ 
+    //   e.preventDefault();
+    //     axios.patch(`${baseUrl}/users/${user.id}`,  {
+    //       backgroundColor: colorSelected
+    //     })
+    //     .then(res=>{
+    //       console.log(res)
+    //     })
+    //     .catch(err=> console.log(err))
+    //     changeBackgroundColor();
+    //     setDisplayBkgSuccess(true);
+    // }
 
     const handleChangeColor = (e) => {
       setColorSelected(e.target.value);
@@ -117,11 +185,11 @@ export default function UserProfile({baseUrl, userBtn}) {
   return (
     <div className='profileDiv'>
         <h1>Your Profile</h1>
-        <h2>Current username <strong className='userName'>{user.username}</strong></h2>
+        <h2>Current email <strong className='userName'>{user.email}</strong></h2>
 
-        <h2>Change your username</h2>
+        <h2>Change your email</h2>
         <form onSubmit={changeUserId}>
-            <input type="text" value={newUsername} placeholder="Enter new user id" onChange={(e)=>setNewUsername(e.target.value)} required/>
+            <input type="email" value={newUsername} placeholder="Enter new email address" onChange={(e)=>setNewUsername(e.target.value)} required/>
             <button className={(userBtn)?'userBtn':'userBtnDark'} type='submit'>Change</button>
             {
               (displayUserSuccess)?
@@ -133,7 +201,7 @@ export default function UserProfile({baseUrl, userBtn}) {
         <h2>{(hasAvatar)? 'Change' :'Add'} your profile image</h2>
         {
           (hasAvatar) ?
-          <img className='avatar' src={user.imageUrl} alt="avatar"/>
+          <img className='avatar' src={user.photoURL} alt="avatar"/>
           :null 
         }
         <form onSubmit={changeUserAvatar}>
