@@ -14,8 +14,10 @@ export default function GameDiv({id, dev, url, genre, platform, release, descrip
   const {user, loggedIn} = useContext(UserContext);
 
   const addNewSavedGame = async(name, imgUrl, description, url)=>{
+    console.log(user);
     try {
       const docRef = await addDoc(collection(db, "games"), {
+        user: user.uid,
         name: name,
         imgUrl: imgUrl,
         description: description, 

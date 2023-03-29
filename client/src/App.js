@@ -155,7 +155,7 @@ const [navPage, setNavPage] = useState('');
         <Nav baseUrl={baseUrl} time={time} updatedData={updatedData} handleInput={handleInput} getAllGames={getAllGames} inputValue={inputValue} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres} />
         <Routes>
           <Route path='/' element={<Fetch updatedData={updatedData} handleInput={handleInput} getAllGames={getAllGames} inputValue={inputValue} baseUrl={baseUrl} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres} />} />
-          <Route path='/saved' element={<Saved baseUrl={baseUrl} />} />
+          <Route path='/saved' element={<Saved user={user} baseUrl={baseUrl} />} />
           <Route path='/userProfile' element={<UserProfile baseUrl={baseUrl} userBtn={userBtn} />} />
           <Route path='/about' element={<About />} />
           <Route path='/contact' element={<Contact />} />
