@@ -1,20 +1,39 @@
-import React, {useContext} from 'react';
-import {UserContext} from '../context/UserContext';
-import axios from 'axios';
+import React, { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 import './CSS/games.css';
+import { doc, deleteDoc, collection, getDocs, where, query } from "firebase/firestore";
+import { db } from '../Firebase';
 
-export default function SavedDiv({id, baseUrl, url, description, imgUrl, name}) {
+export default function SavedDiv({url, description, imgUrl, name}) {
 
-  const {userSavedGames, setUserSavedGames} = useContext(UserContext);
+  const {user, setUserSavedGames} = useContext(UserContext);
 
-  const deleteSavedGame = () => {
-    axios.delete(`${baseUrl}/savedGames/${id}`)
-    .then(res=>{
-      console.log(res)
-    })
-    const deleteSaved = userSavedGames.filter(item=>item.id !== id);
-    setUserSavedGames(deleteSaved); 
-  }
+  const deleteSavedGame = async () => {
+    console.log(name);
+    await deleteDoc(doc(db, "games", name));
+    getData();
+  };
+
+    const getData = async ()=>{
+      const q = query(collection(db, "games"),  where("user", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+      const newData = [];
+      querySnapshot.forEach((doc) => {
+        const newItem = doc.data();
+        newData.push(newItem);
+      });
+      setUserSavedGames(newData); 
+    };
+
+
+  // const deleteSavedGame = () => {
+  //   axios.delete(`${baseUrl}/savedGames/${id}`)
+  //   .then(res=>{
+  //     console.log(res)
+  //   })
+  //   const deleteSaved = userSavedGames.filter(item=>item.id !== id);
+  //   setUserSavedGames(deleteSaved); 
+  // }
 
   return (
     <div className='singleGameDivB'>

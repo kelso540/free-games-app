@@ -1,29 +1,31 @@
-import React, {useContext, useState} from 'react';
-import axios from 'axios';
+import React, {useContext, useState, useEffect} from 'react';
 import {UserContext} from '../context/UserContext';
 import './CSS/games.css';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { collection, addDoc } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore"; 
 import { db } from '../Firebase';
+import {Link, useNavigate} from 'react-router-dom';
 
 export default function GameDiv({id, dev, url, genre, platform, release, description, imgUrl, name, saved, baseUrl}) {
 
-  const [success, setSuccess] = useState(false); 
+  const navigate = useNavigate();
+
+  const [success, setSuccess] = useState(false);
 
   const {user, loggedIn} = useContext(UserContext);
 
   const addNewSavedGame = async(name, imgUrl, description, url)=>{
     console.log(user);
     try {
-      const docRef = await addDoc(collection(db, "games"), {
+      const docRef = await setDoc(doc(db, "games", name), {
         user: user.uid,
         name: name,
         imgUrl: imgUrl,
         description: description, 
         url: url,
       });
-      console.log("Document written with ID: ", docRef.id);
+      // console.log("Document written with ID: ", docRef.id);
       setSuccess(true)
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -42,27 +44,16 @@ export default function GameDiv({id, dev, url, genre, platform, release, descrip
 // }
 
   return (
-    <div className='singleGameDiv'>
-        <h1 className='gameName'>{name}</h1>
-        <h2 className='gameDev'>{dev}</h2>
+    <div className='singleGameDiv' onClick={()=>navigate(`/gameDetails/${id}`)}>
         <img src={imgUrl} alt='GamePicture' className='gameImg' />
-        <div className='gameDescDiv'>
-          <h3 className='gameDesc'>{description}</h3>
-        </div>
-        <h3 className='gameGenre'>{genre}</h3>
-        <h3 className='gameRelease'>Release date: {release}</h3> 
-        <h3 className='gamePlatform'>Platform: {platform}</h3>
-        <a href={url} className='clickHere'> Click Here to Play!</a>
-        { (loggedIn) ?
+        { (loggedIn) &&
             <div>
-              <button onClick={()=>addNewSavedGame(name, imgUrl, description, url)} className='addButton'><FontAwesomeIcon icon={faDownload} /> Add to Saved Games</button>
+              <button onClick={()=>addNewSavedGame(name, imgUrl, description, url)} className='addButton'><FontAwesomeIcon icon={faDownload} /></button>
             </div>
-            :<div></div>
         }
         {
-          (success)?
+          (success) &&
           <p>Success!</p>
-          :null
         }
     </div>
   )

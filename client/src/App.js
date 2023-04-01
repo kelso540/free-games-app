@@ -9,6 +9,7 @@ import UserProfile from './pages/UserProfile';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import KEYS from './config'; 
+import GameDetails from './pages/GameDetails';
 //hello
 function App() {
 
@@ -155,6 +156,7 @@ const [navPage, setNavPage] = useState('');
         <Nav baseUrl={baseUrl} time={time} updatedData={updatedData} handleInput={handleInput} getAllGames={getAllGames} inputValue={inputValue} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres} />
         <Routes>
           <Route path='/' element={<Fetch updatedData={updatedData} handleInput={handleInput} getAllGames={getAllGames} inputValue={inputValue} baseUrl={baseUrl} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres} />} />
+          <Route path='/gameDetails/:id' element={<GameDetails />} />
           <Route path='/saved' element={<Saved user={user} baseUrl={baseUrl} />} />
           <Route path='/userProfile' element={<UserProfile baseUrl={baseUrl} userBtn={userBtn} />} />
           <Route path='/about' element={<About />} />
