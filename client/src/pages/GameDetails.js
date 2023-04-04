@@ -36,21 +36,31 @@ export default function GameDetails() {
 
   return (
     <div className='detailsDiv'>
-        <h1 className='gameName'>{game.title}</h1>
-        <h2 className='gameDev'>{game.developer}</h2>
-        <img src={game.thumbnail} alt='GamePicture' className='gameImg' />
-        <div className='gameDescDiv'>
-          <h3 className='gameDesc'>{game.short_description}</h3>
-        </div>
-        <h3 className='gameGenre'>{game.genre}</h3>
-        <h3 className='gameRelease'>Release date: {game.release_date}</h3> 
-        <h3 className='gamePlatform'>Platform: {game.platform}</h3>
-        <a href={game.game_url} target="_blank" rel="noopener noreferrer" className='clickHere'> Click Here to Play!</a>
-        { (loggedIn) &&
-            <div>
+        <h1 className='gameNameDetails'>{game.title}</h1>
+        <h2 className='gameDevDetails'>{game.developer}</h2>
+        { 
+          (loggedIn) &&
               <button onClick={()=>addNewSavedGame(game.title, game.thumbnail, game.short_description, game.game_url)} className='addButton'><FontAwesomeIcon icon={faDownload} /> Add to Saved Games</button>
-            </div>
         }
+          <img src={game.thumbnail} alt='GamePicture' className='gameImgDetails' />
+        <div className='gameDescDivDetails'>
+          <h3 className='gameDescDetails'>{game.short_description}</h3>
+        </div>
+        <div className='strategyDivDetails'>
+          <div>
+            <h4>Genre:</h4>
+            <h3 className='gameTextDetails'>{game.genre}</h3>
+          </div>
+          <div>
+            <h4>Release Date:</h4>
+            <h3 className='gameTextDetails'>Release date: {game.release_date}</h3> 
+          </div>
+          <div>
+            <h4>Platform:</h4>
+            <h3 className='gameTextDetails'>{game.platform}</h3>
+          </div>
+        </div>
+        <a href={game.game_url} target="_blank" rel="noopener noreferrer" className='clickHere'> Click Here to Play!</a>
         {
           (success) &&
           <p>Success!</p>

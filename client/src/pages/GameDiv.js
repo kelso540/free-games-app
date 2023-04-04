@@ -48,7 +48,7 @@ export default function GameDiv({id, dev, url, genre, platform, release, descrip
         <img src={imgUrl} alt='GamePicture' className='gameImg' />
         { (loggedIn) &&
             <div>
-              <button onClick={()=>addNewSavedGame(name, imgUrl, description, url)} className='addButton'><FontAwesomeIcon icon={faDownload} /></button>
+              <button onClick={()=>addNewSavedGame(name, imgUrl, description, url)} className='addButtonGame'><FontAwesomeIcon icon={faDownload} /></button>
             </div>
         }
         {

@@ -7,31 +7,19 @@
     margin: 0 0 40px 0;
     padding: 10px;
     border-radius: 8px;
+    position: relative;
+    cursor: pointer;
 }
 .gameDescDiv{
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     margin-top: 10px;
-    height: 80px;
-    contain: content;
-    overflow-y: scroll;
-    overflow-x: hidden;
 }
-.gameDev{
-    height: 70px;
-}
-.gameName{
-    height: 70px;
-}
-.gameGenre{
-    height: 20px;
-}
-.gameRelease{
-    height: 20px;
-}
-.gamePlatform{
-    height: 20px;
+.addButtonGame{
+    position: absolute;
+    top: 0;
+    right: 35px;
 }
 .singleGameDivB{
     display: flex;
@@ -47,23 +35,23 @@
     box-shadow: 2px 4px 8px var(--black);
     height: 200px;
 }
-.clickHere:hover{
-    color:var(--red); 
-}
-.addButton{
-    margin: 20px 0;
-    background-color: var(--green);
+.addButtonGame{
+    display: block;
+    background-color: var(--black);
     color: var(--white);
-    border: solid 2px transparent;
+    border: solid 2px var(--red);
     border-radius: 20px;
     padding: 7px;
     cursor: pointer;
     font-size: 16px;
 }
-.addButton:hover{
+.addButtonGame:hover{
     background-color: var(--white);
     color: var(--black);
     border: solid 2px var(--green);
+}
+.clickHere:hover{
+    color:var(--red); 
 }
 .clickToPlay{
     font-size: large;
@@ -88,5 +76,8 @@
     .singleGameDiv{
         width: auto;
         border-bottom: solid 2px var(--black);
+    }
+    .gameDesc{
+        width: 100%;
     }
 }
