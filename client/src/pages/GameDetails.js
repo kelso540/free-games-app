@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,6 +8,8 @@ import { db } from '../Firebase';
 import './CSS/details.css'; 
 
 export default function GameDetails() {
+
+  const navigate = useNavigate(); 
 
   const { user, data, loggedIn } = useContext(UserContext);
   const [success, setSuccess] = useState(false);
@@ -36,6 +38,7 @@ export default function GameDetails() {
 
   return (
     <div className='detailsDiv'>
+      <div><h2 onClick={()=>navigate(-1)}>Back</h2></div>
         <h1 className='gameNameDetails'>{game.title}</h1>
         <h2 className='gameDevDetails'>{game.developer}</h2>
         { 
@@ -53,7 +56,7 @@ export default function GameDetails() {
           </div>
           <div>
             <h4>Release Date:</h4>
-            <h3 className='gameTextDetails'>Release date: {game.release_date}</h3> 
+            <h3 className='gameTextDetails'>{game.release_date}</h3> 
           </div>
           <div>
             <h4>Platform:</h4>

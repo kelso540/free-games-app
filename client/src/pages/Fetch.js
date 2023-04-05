@@ -8,12 +8,52 @@ import './CSS/fetch.css';
 export default function Fetch({updatedData, handleInput, getAllGames, inputValue, baseUrl, spinnerDiv, genres, filterSports, filterShooter, filterStrategy, filterMMORPG, filterFighting}) {
 
   const [display, setDisplay] = useState(false);
+  const [pages, setPages] = useState([updatedData.length / 21 - 1]); 
+  const [pageNumberA, setPageNumberA] = useState(21);
+  const [pageNumberB, setPageNumberB] = useState(0);
 
   const {setUpdatedData, selected, setSelected, user, setUser, hasAvatar, loggedIn, displayHead, setDisplayHead, category, setCategory} = useContext(UserContext);
 
-    const games = updatedData.map((item)=>{
-        return <GameDiv key={item.id} id={item.id} dev={item.developer} url={item.game_url} genre={item.genre} platform={item.platform} release={item.release_date} description={item.short_description} imgUrl={item.thumbnail} name={item.title} baseUrl={baseUrl}/>
-      })
+  // useEffect(()=>{
+  //   getAllGames();
+  // }, []);
+
+  const games = updatedData.filter((item, index)=>index > pageNumberB && index < pageNumberA).map((item)=>{
+      return <GameDiv 
+      key={item.id} 
+      id={item.id} 
+      dev={item.developer} 
+      url={item.game_url} 
+      genre={item.genre} 
+      platform={item.platform} 
+      release={item.release_date} 
+      description={item.short_description} 
+      imgUrl={item.thumbnail} 
+      name={item.title} />
+  });
+
+  const addPage = (number)=>{
+    const currentPageStart = number * 21;  
+    setPageNumberB(currentPageStart); 
+    setPageNumberA(currentPageStart + 21);
+    console.log(pageNumberA);
+    console.log(pageNumberB);
+  };
+
+  useEffect(()=>{
+    const setNumberOfPages = ()=>{
+      console.log(updatedData.length);
+      let counter = 0; 
+      const numberOfPages = (updatedData.length / 21) - 1;
+      const newArray = [];  
+      for(let i = 0; i < numberOfPages; i++){
+        counter++;
+        newArray.push(counter); 
+      }; 
+      setPages(newArray);
+    };
+    setNumberOfPages();
+  }, [filterSports, filterShooter, filterFighting, filterStrategy, filterMMORPG]); 
 
     useEffect(()=>{ //when selected state changes this code runs
       if (selected === 'Sports'){
@@ -34,7 +74,9 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
       if(selected === "Select category"){
         setUpdatedData([]);
       }
-    }, [selected, user, setUser])
+      setPageNumberA(21);
+      setPageNumberB(0);
+    }, [selected])
 
     useEffect(() => {
       document.addEventListener("scroll", () => {
@@ -90,7 +132,14 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
           (spinnerDiv) ?
             <div className='gamesResults'>
               <h2 className='category'>{category}</h2>
-              <div className='gameResultsDiv'>{games}</div>
+              <div className='gameResultsDiv'>
+                {games}
+              </div>
+              <div className='pageNumbersDiv'>
+                {displayHead &&
+                  pages.map(item=><p key={item} className='number' onClick={()=>addPage(item)}>{item}</p>)
+                }
+              </div>
             </div>
             :<div className='gamesResults'>
               <FontAwesomeIcon icon={faSpinner} size='3x' className='fa-spin-pulse' />

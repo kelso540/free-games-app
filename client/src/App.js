@@ -105,12 +105,13 @@ const [navPage, setNavPage] = useState('');
     setSpinnerDiv(false);
     setSelected("Select category");
     setInputValue('');
-    setTimeout(showAllGames, 700);
+    setTimeout(showAllGames, 300);
   }
 
   const showAllGames = () => {
     setSpinnerDiv(true);
     setUpdatedData(data);
+    console.log('hitter')
     setCategory('All Games')
   }
 
@@ -153,7 +154,7 @@ const [navPage, setNavPage] = useState('');
     <UserContext.Provider value={{user, setUser, savedGames, setSavedGames, userSavedGames, setUserSavedGames, data, updatedData, setUpdatedData, loggedIn, setLoggedIn, selected, setSelected, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, colorSelected, setColorSelected, changeBackgroundColor, displayHead, setDisplayHead, category, setCategory, navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu, spinnerDiv, setSpinnerDiv}}>
       <div className="App">
         <BrowserRouter>
-        <Nav baseUrl={baseUrl} time={time} updatedData={updatedData} handleInput={handleInput} getAllGames={getAllGames} inputValue={inputValue} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres} />
+        <Nav baseUrl={baseUrl} time={time} updatedData={updatedData} handleInput={handleInput} getAllGames={()=>getAllGames()} inputValue={inputValue} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres} />
         <Routes>
           <Route path='/' element={<Fetch updatedData={updatedData} handleInput={handleInput} getAllGames={getAllGames} inputValue={inputValue} baseUrl={baseUrl} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres} />} />
           <Route path='/gameDetails/:id' element={<GameDetails />} />

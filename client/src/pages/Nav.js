@@ -194,25 +194,10 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
       setModal(!modal);
     }
 
-    const setLogoSaved = () => {
+    const setLogo = (page) => {
       setShowNavInput(false);
-      setNavPage('Saved Games');
+      setNavPage(page);
       setMenu(false); 
-    }
-    const setLogoProfile = () => {
-      setShowNavInput(false);
-      setNavPage('Profile Page');
-      setMenu(false); 
-    }
-    const setLogoAbout = () => {
-      setShowNavInput(false);
-      setNavPage('About'); 
-      setMenu(false);
-    }
-    const setLogoContact = () => {
-      setShowNavInput(false);
-      setNavPage('Contact'); 
-      setMenu(false);
     }
 
     const showSpinner = () => {
@@ -287,15 +272,15 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
         {
          loggedIn ?
          <div className='profile-container-loggedIn'>
-            <Link to='/saved' className='navLinkB' onClick={setLogoSaved}>Saved Games</Link>
-            <Link to='/userProfile' className='navLinkB' onClick={setLogoProfile}>Profile</Link>  
+            <Link to='/saved' className='navLinkB' onClick={()=>setLogo('Saved Games')}>Saved Games</Link>
+            <Link to='/userProfile' className='navLinkB' onClick={()=>setLogo('Profile Page')}>Profile</Link>  
             <button className='login-btn' onClick={handleLogout}>Logout</button>
           </div>
          
          :<div className='profile-container-loggedOut'>
             <strong className='time'>{time}</strong>
-            <Link to='/about' className='navLink' onClick={setLogoAbout}>About</Link>
-            <Link to='/contact' className='navLink' onClick={setLogoContact}>Contact</Link>
+            <Link to='/about' className='navLink' onClick={()=>setLogo('About')}>About</Link>
+            <Link to='/contact' className='navLink' onClick={()=>setLogo('Contact')}>Contact</Link>
             <button className='login-btn' onClick={logInButton}>Login</button>
           </div>
         }
@@ -384,8 +369,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
               }
             </select>
           </div>
-          <Link to='/saved' className='navLinkB' onClick={setLogoSaved}>Saved Games</Link>
-          <Link to='/userProfile' className='navLinkB' onClick={setLogoProfile}>Profile</Link>  
+          <Link to='/saved' className='navLinkB' onClick={()=>setLogo('Saved Games')}>Saved Games</Link>
+          <Link to='/userProfile' className='navLinkB' onClick={()=>setLogo('Profile Page')}>Profile</Link>  
           <button className='login-btn' onClick={handleLogout}>Logout</button>
         </div>
 
@@ -401,8 +386,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
               }
             </select>
           </div>
-          <Link to='/about' className='navLink' onClick={setLogoAbout}>About</Link>
-          <Link to='/contact' className='navLink' onClick={setLogoContact}>Contact</Link>
+          <Link to='/about' className='navLink' onClick={()=>setLogo('About')}>About</Link>
+          <Link to='/contact' className='navLink' onClick={()=>setLogo('Contact')}>Contact</Link>
           <button className='login-btn' onClick={hideMenu}>Login</button>
         </div>
       }

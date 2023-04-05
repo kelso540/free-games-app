@@ -105,6 +105,17 @@
 .category{
     padding-bottom: 20px;
 }
+.pageNumbersDiv{
+    display: flex;  
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    column-gap: 30px;
+}
+.number:hover{
+    cursor: pointer;
+    color: var(--red);
+}
 
 @media screen and (max-width: 1200px) {
     .wizardHat{
