@@ -38,6 +38,12 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
     setPageNumberA(currentPageStart + 21);
     console.log(pageNumberA);
     console.log(pageNumberB);
+    const allNumbersOnPage = document.querySelectorAll('.number'); 
+    const selectNumber = document.getElementById(number);
+    for(let i = 0; i < allNumbersOnPage.length; i++){
+      allNumbersOnPage[i].style.textDecoration = 'none'; 
+    } 
+    selectNumber.style.textDecoration = 'underline'; 
   };
 
   useEffect(()=>{
@@ -51,9 +57,15 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
         newArray.push(counter); 
       }; 
       setPages(newArray);
+      setTimeout(()=>{
+        const allNumbersOnPage = document.querySelectorAll('.number');
+        if(allNumbersOnPage.length > 0){
+          allNumbersOnPage[0].style.textDecoration = 'underline'; 
+        }
+      }, 500); 
     };
     setNumberOfPages();
-  }, [filterSports, filterShooter, filterFighting, filterStrategy, filterMMORPG]); 
+  }, [updatedData.length]); 
 
     useEffect(()=>{ //when selected state changes this code runs
       if (selected === 'Sports'){
@@ -137,7 +149,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
               </div>
               <div className='pageNumbersDiv'>
                 {displayHead &&
-                  pages.map(item=><p key={item} className='number' onClick={()=>addPage(item)}>{item}</p>)
+                  pages.map(item=><p key={item} id={item} className='number' onClick={()=>addPage(item)}>{item}</p>)
                 }
               </div>
             </div>
