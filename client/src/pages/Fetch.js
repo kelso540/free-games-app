@@ -7,10 +7,12 @@ import './CSS/fetch.css';
 
 export default function Fetch({updatedData, handleInput, getAllGames, inputValue, baseUrl, spinnerDiv, genres, filterSports, filterShooter, filterStrategy, filterMMORPG, filterFighting}) {
 
+  const resultsPerPage = 16;
+
   const [display, setDisplay] = useState(false);
-  const [pages, setPages] = useState([updatedData.length / 21 - 1]); 
-  const [pageNumberA, setPageNumberA] = useState(21);
-  const [pageNumberB, setPageNumberB] = useState(0);
+  const [pages, setPages] = useState([updatedData.length / resultsPerPage - 1]); 
+  const [pageNumberA, setPageNumberA] = useState(resultsPerPage);
+  const [pageNumberB, setPageNumberB] = useState(0); 
 
   const {setUpdatedData, selected, setSelected, user, setUser, hasAvatar, loggedIn, displayHead, setDisplayHead, category, setCategory} = useContext(UserContext);
 
@@ -33,9 +35,9 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
   });
 
   const addPage = (number)=>{
-    const currentPageStart = number * 21;  
+    const currentPageStart = number * resultsPerPage;  
     setPageNumberB(currentPageStart); 
-    setPageNumberA(currentPageStart + 21);
+    setPageNumberA(currentPageStart + resultsPerPage);
     console.log(pageNumberA);
     console.log(pageNumberB);
     const allNumbersOnPage = document.querySelectorAll('.number'); 
@@ -50,7 +52,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
     const setNumberOfPages = ()=>{
       console.log(updatedData.length);
       let counter = 0; 
-      const numberOfPages = (updatedData.length / 21) - 1;
+      const numberOfPages = (updatedData.length / resultsPerPage) - 1;
       const newArray = [];  
       for(let i = 0; i < numberOfPages; i++){
         counter++;
@@ -86,7 +88,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
       if(selected === "Select category"){
         setUpdatedData([]);
       }
-      setPageNumberA(21);
+      setPageNumberA(resultsPerPage);
       setPageNumberB(0);
     }, [selected])
 
