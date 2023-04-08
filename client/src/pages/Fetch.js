@@ -7,7 +7,7 @@ import './CSS/fetch.css';
 
 export default function Fetch({updatedData, handleInput, getAllGames, inputValue, baseUrl, spinnerDiv, genres, filterSports, filterShooter, filterStrategy, filterMMORPG, filterFighting}) {
 
-  const resultsPerPage = 16;
+  const resultsPerPage = 21;
 
   const [display, setDisplay] = useState(false);
   const [pages, setPages] = useState([updatedData.length / resultsPerPage - 1]); 
@@ -15,10 +15,6 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
   const [pageNumberB, setPageNumberB] = useState(0); 
 
   const {setUpdatedData, selected, setSelected, user, setUser, hasAvatar, loggedIn, displayHead, setDisplayHead, category, setCategory} = useContext(UserContext);
-
-  // useEffect(()=>{
-  //   getAllGames();
-  // }, []);
 
   const games = updatedData.filter((item, index)=>index > pageNumberB && index < pageNumberA).map((item)=>{
       return <GameDiv 
@@ -87,7 +83,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
       }
       if(selected === "Select category"){
         setUpdatedData([]);
-        getAllGames(); 
+        getAllGames();
       }
       setPageNumberA(resultsPerPage);
       setPageNumberB(0);
