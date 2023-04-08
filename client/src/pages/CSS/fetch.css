@@ -1,5 +1,6 @@
 .gamesResults{
-    margin-top: 90px;
+    margin: 90px auto;
+    max-width: 1440px;
 }
 .gameResultsDiv{
     display: flex;
@@ -111,6 +112,7 @@
     align-items: center;
     font-size: 30px;
     column-gap: 30px;
+    flex-wrap: wrap;
 }
 .number:hover{
     cursor: pointer;

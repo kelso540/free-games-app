@@ -87,10 +87,11 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
       }
       if(selected === "Select category"){
         setUpdatedData([]);
+        getAllGames(); 
       }
       setPageNumberA(resultsPerPage);
       setPageNumberB(0);
-    }, [selected])
+    }, [selected]); 
 
     useEffect(() => {
       document.addEventListener("scroll", () => {
