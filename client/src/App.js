@@ -1,6 +1,6 @@
 import './App.css';
 import Fetch from './pages/Fetch';
-import {useEffect, useState} from 'react'; 
+import {useCallback, useEffect, useState} from 'react'; 
 import Nav from './pages/Nav';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Saved from './pages/Saved';
@@ -12,6 +12,8 @@ import KEYS from './config';
 import GameDetails from './pages/GameDetails';
 //hello
 function App() {
+
+  const resultsPerPage = 21;
 
   const genres = [
     {id: 1, name: '', text: 'Select genre'},
@@ -44,6 +46,8 @@ const [userBtn, setUserBtn] = useState(true);
 const [menu, setMenu] = useState(false); 
 const [showNavInput, setShowNavInput] = useState(true);
 const [navPage, setNavPage] = useState('');
+const [pageNumberA, setPageNumberA] = useState(resultsPerPage);
+const [pageNumberB, setPageNumberB] = useState(0);
 const [overallPage, setOverallPage] = useState(null); 
 
   // mmorpg, shooter, strategy, moba, racing, sports, social, sandbox, open-world, survival, pvp, pve, pixel, voxel, zombie, turn-based, first-person, third-Person, top-down, tank, space, sailing, side-scroller, superhero, permadeath, card, battle-royale, mmo, mmofps, mmotps, 3d, 2d, anime, fantasy, sci-fi, fighting, action-rpg, action, military, martial-arts, flight, low-spec, tower-defense, horror, mmorts
@@ -121,45 +125,13 @@ const [overallPage, setOverallPage] = useState(null);
     setOverallPage(1); 
   }
 
-  const filterSports = () => {
-    let filterGames = data.filter(item=>item.genre === 'Sports' || item.genre === 'Racing')
+  const filterCategory = useCallback((category) => {
+    let filterGames = data.filter(item=>item.genre === category);
     setDisplayHead(true);
     setUpdatedData(filterGames);
-    setCategory('Sports')
-    setInputValue('');
-  }
-
-  const filterShooter = () => {
-    let filterGames = data.filter(item=>item.genre === 'Shooter')
-    setDisplayHead(true);
-    setUpdatedData(filterGames);
-    setCategory('Shooter')
-    setInputValue('');
-  }
-
-  const filterStrategy = () => {
-    let filterGames = data.filter(item=>item.genre === 'Strategy')
-    setDisplayHead(true);
-    setUpdatedData(filterGames);
-    setCategory('Strategy')
-    setInputValue('');
-  }
-
-  const filterMMORPG = () => {
-    let filterGames = data.filter(item=>item.genre === 'MMORPG')
-    setDisplayHead(true);
-    setUpdatedData(filterGames);
-    setCategory('MMORPG')
-    setInputValue('');
-  }
-
-  const filterFighting = () => {
-    let filterGames = data.filter(item=>item.genre === 'Fighting')
-    setDisplayHead(true);
-    setUpdatedData(filterGames);
-    setCategory('Fighting')
-    setInputValue('');
-  }
+    setCategory(category);
+    setInputValue(''); 
+  }, [data]);
 
   return (
     <UserContext.Provider value={{
@@ -182,13 +154,16 @@ const [overallPage, setOverallPage] = useState(null);
       showNavInput, setShowNavInput, 
       menu, setMenu, 
       spinnerDiv, setSpinnerDiv, 
-      overallPage, setOverallPage
+      overallPage, setOverallPage,
+      pageNumberA, setPageNumberA, 
+      pageNumberB, setPageNumberB, 
+      resultsPerPage
     }}>
       <div className="App">
         <BrowserRouter>
-        <Nav baseUrl={baseUrl} time={time} updatedData={updatedData} handleInput={handleInput} getAllGames={()=>getAllGames()} inputValue={inputValue} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres} />
+        <Nav baseUrl={baseUrl} time={time} updatedData={updatedData} handleInput={handleInput} getAllGames={()=>getAllGames()} inputValue={inputValue} filterCategory={filterCategory} spinnerDiv={spinnerDiv} genres={genres} />
         <Routes>
-          <Route path='/' element={<Fetch updatedData={updatedData} handleInput={handleInput} getAllGames={getAllGames} inputValue={inputValue} baseUrl={baseUrl} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres} />} />
+          <Route path='/' element={<Fetch updatedData={updatedData} handleInput={handleInput} getAllGames={getAllGames} inputValue={inputValue} baseUrl={baseUrl} filterCategory={filterCategory} spinnerDiv={spinnerDiv} genres={genres} />} />
           <Route path='/gameDetails/:id' element={<GameDetails />} />
           <Route path='/saved' element={<Saved user={user} baseUrl={baseUrl} />} />
           <Route path='/userProfile' element={<UserProfile baseUrl={baseUrl} userBtn={userBtn} />} />

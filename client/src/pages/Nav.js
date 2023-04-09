@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext, useEffect, useCallback} from 'react';
 import { faGamepad, faBars, faX, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
@@ -8,7 +8,9 @@ import './CSS/nav.css';
 import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../Firebase';
 
-export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue, genres, filterSports, filterShooter, filterStrategy, filterMMORPG, filterFighting}) {
+export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue, genres, filterCategory}) {
+
+  const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory, navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu, spinnerDiv, setSpinnerDiv, setOverallPage, resultsPerPage, setPageNumberA, setPageNumberB} = useContext(UserContext);
 
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -21,19 +23,21 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
   const [message, setMessage] = useState('');
   const [loginSpin, setLoginSpin] = useState(false);
   const [displayMessage, setDisplayMessage] = useState(false); 
-  const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory, navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu, spinnerDiv, setSpinnerDiv, setOverallPage} = useContext(UserContext);
 
   // user.email = holdUsername;
   // user.photoURL = holdAvatar; 
   // user.displayName = colorSelected; 
 
-  const handleAvatar = () => {
-    if(holdAvatar !== 'default'){
-      setHasAvatar(true); 
-    } else {
-      setHasAvatar(false);
+  useEffect(()=>{
+    const handleAvatar = () => {
+      if(holdAvatar !== 'default'){
+        setHasAvatar(true); 
+      } else {
+        setHasAvatar(false);
+      }
     }
-  }
+    handleAvatar(); 
+  }, [holdAvatar, setHasAvatar]);
 
   const handleSignup = (e)=>{
     e.preventDefault(); 
@@ -151,8 +155,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
 
     useEffect(()=>{
       changeBackgroundColor();
-      handleAvatar();
-    }, [handleLogin])
+    }, [changeBackgroundColor]);
 
     // const handleLogout = () => {
     //   setUser({});
@@ -171,8 +174,29 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
     const handleCategory = (e) => {
       setSelected(e.target.value); 
       setMenu(false); 
-      setOverallPage(1);
     }
+
+    useEffect(()=>{
+      if (selected === 'Sports'){
+        filterCategory('Sports'); 
+      };
+      if (selected === 'Shooter'){
+        filterCategory('Shooter');  
+      };
+      if (selected === 'Strategy'){
+        filterCategory('Strategy');  
+      };
+      if (selected === 'MMORPG'){
+        filterCategory('MMORPG');  
+      };
+      if (selected === 'Fighting'){
+        filterCategory('Fighting');  
+      }; 
+      setDisplayHead(true);
+      setPageNumberA(resultsPerPage); 
+      setPageNumberB(0); 
+      setOverallPage(1);
+    }, [selected, filterCategory, setDisplayHead, setOverallPage, setPageNumberA, setPageNumberB, resultsPerPage]);
 
     const reSetHome = () => {
       setUpdatedData([]);
@@ -201,16 +225,16 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
       setMenu(false); 
     }
 
-    const showSpinner = () => {
+    const showSpinner = useCallback(() => {
       setLoginSpin(true);
       setDisplayMessage(true); 
-    }
+    }, []);
 
     useEffect(()=>{
       if(username.length <= 0 || password.length <= 0){
         setLoginSpin(false);
       }
-    },[showSpinner])
+    },[username.length, password.length])
 
     const clearX = () => {
       setModal(false);
