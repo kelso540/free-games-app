@@ -7,16 +7,15 @@ import { doc, setDoc, deleteDoc, collection, getDocs, where, query } from "fireb
 import { db } from '../Firebase';
 import {useNavigate} from 'react-router-dom';
 
-export default function GameDiv({id, dev, url, genre, platform, release, description, imgUrl, name, saved, baseUrl, data, overallPage}) {
+export default function GameDiv({id, url, description, imgUrl, name}) {
 
   const navigate = useNavigate();
 
-  const [success, setSuccess] = useState(null);
+  const [success, setSuccess] = useState(undefined);
 
   const {user, loggedIn} = useContext(UserContext);
 
   const addNewSavedGame = async(id, name, imgUrl, description, url)=>{
-    console.log(user);
     try {
       setDoc(doc(db, "games", name), {
         user: user.uid,
@@ -33,7 +32,6 @@ export default function GameDiv({id, dev, url, genre, platform, release, descrip
   };
 
   const deleteSavedGame = async (name) => {
-    console.log(name);
     await deleteDoc(doc(db, "games", name)).catch(err=>console.log(err));
     setSuccess(false);
   };
@@ -48,17 +46,6 @@ export default function GameDiv({id, dev, url, genre, platform, release, descrip
     };
     setSaved(); 
   }, [name]);
-
-//   const addNewSavedGame=(name, imgUrl, description, url)=>{ 
-//     axios.post(`${baseUrl}/users/${user.id}/savedGames`, {
-//     name, imgUrl, description, url
-//    })
-//    .then(res=>{
-//      console.log(res)
-//      setSuccess(true)
-//    })
-//    .catch(err=> console.log(err))
-// }
 
   return (
     <div className='singleGameDiv'>

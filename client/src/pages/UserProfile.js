@@ -1,12 +1,11 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {UserContext} from '../context/UserContext';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './CSS/user.css';
 import { auth } from '../Firebase';
 import { updateProfile, deleteUser, updateEmail } from "firebase/auth";
 
-export default function UserProfile({baseUrl, userBtn}) {
+export default function UserProfile({ userBtn }) {
 
     const navigate = useNavigate(); 
 
@@ -21,7 +20,20 @@ export default function UserProfile({baseUrl, userBtn}) {
       {id: 7, color: 'black', text: 'Dark'},
     ]
 
-    const {hasAvatar, setHasAvatar, user, setUser, loggedIn, setLoggedIn, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, colorSelected, setColorSelected, changeBackgroundColor,  navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu} = useContext(UserContext);
+    const {
+      hasAvatar, 
+      setHasAvatar, 
+      user, 
+      setLoggedIn, 
+      setHoldUsername, 
+      setHoldAvatar,
+      colorSelected, 
+      setColorSelected, 
+      changeBackgroundColor, 
+      setNavPage, 
+      setShowNavInput, 
+      setMenu
+    } = useContext(UserContext);
 
     const [displayUserSuccess, setDisplayUserSuccess] = useState(false);
     const [displayImgSuccess, setDisplayImgSuccess] = useState(false);
@@ -41,20 +53,6 @@ export default function UserProfile({baseUrl, userBtn}) {
       });
     };
 
-    // const changeUserId=(e)=>{ 
-    //   e.preventDefault();
-    //     axios.patch(`${baseUrl}/users/${user.id}`,  {
-    //         username: newUsername
-    //     })
-    //     .then(res=>{
-    //      console.log(res)
-    //     })
-    //     .catch(err=> console.log(err))
-    //     setNewUsername('');
-    //     setDisplayUserSuccess(true);
-    //     setHoldUsername(newUsername);
-    // }
-
     const deleteAccount=(e)=>{
       e.preventDefault();
       const user = auth.currentUser;
@@ -68,20 +66,6 @@ export default function UserProfile({baseUrl, userBtn}) {
         console.log(error)
       });
     };
-
-    // const deleteAccount=(e)=>{ 
-    //   e.preventDefault();
-    //     axios.delete(`${baseUrl}/users/${user.id}`)
-    //     .then(res=>{
-    //      console.log(res)
-    //     })
-    //     .catch(err=> console.log(err))
-    //     setLoggedIn(false);
-    //     setShowNavInput(true);
-    //     setNavPage(''); 
-    //     setMenu(false);
-    //     navigate('/');  
-    // }
 
     const changeUserAvatar=(e)=>{
       e.preventDefault();
@@ -111,37 +95,6 @@ export default function UserProfile({baseUrl, userBtn}) {
       });
     };
 
-  
-    // const changeUserAvatar=(e)=>{ 
-    //   e.preventDefault();
-    //     axios.patch(`${baseUrl}/users/${user.id}`,  {
-    //       imageUrl: newAvatar
-    //     })
-    //     .then(res=>{
-    //     console.log(res)
-    //     })
-    //     .catch(err=> console.log(err))
-    //     setHasAvatar(true); 
-    //     setNewAvatar('');
-    //     setHoldAvatar(newAvatar);
-    //     setDisplayImgSuccess(true);
-    // }
-
-    // const removeUserAvatar=(e)=>{ 
-    //   e.preventDefault();
-    //     axios.patch(`${baseUrl}/users/${user.id}`,  {
-    //       imageUrl: 'default'
-    //     })
-    //     .then(res=>{
-    //     console.log(res)
-    //     })
-    //     .catch(err=> console.log(err))
-    //     setHasAvatar(false); 
-    //     setNewAvatar('');
-    //     setHoldAvatar('default');
-    //     setDisplayImgSuccess(true);
-    // }
-
     const changeUserBackgroundColor=(e)=>{
       e.preventDefault();
       updateProfile(auth.currentUser, {
@@ -153,19 +106,6 @@ export default function UserProfile({baseUrl, userBtn}) {
         console.log(error)
       });
     };
-
-    // const changeUserBackgroundColor=(e)=>{ 
-    //   e.preventDefault();
-    //     axios.patch(`${baseUrl}/users/${user.id}`,  {
-    //       backgroundColor: colorSelected
-    //     })
-    //     .then(res=>{
-    //       console.log(res)
-    //     })
-    //     .catch(err=> console.log(err))
-    //     changeBackgroundColor();
-    //     setDisplayBkgSuccess(true);
-    // }
 
     const handleChangeColor = (e) => {
       setColorSelected(e.target.value);

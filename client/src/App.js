@@ -10,7 +10,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import KEYS from './config'; 
 import GameDetails from './pages/GameDetails';
-//hello
+
 function App() {
 
   const resultsPerPage = 21;
@@ -21,10 +21,10 @@ function App() {
     {id: 3, name: 'Shooter', text: 'Shooter'},
     {id: 4, name: 'Strategy', text: 'Strategy'},
     {id: 5, name: 'MMORPG', text: 'MMORPG'},
-    {id: 6, name: 'Fighting', text: 'Fighting'}
-  ]
+    {id: 6, name: 'Fighting', text: 'Fighting'},
+    {id: 7, name: 'Racing', text: 'Racing'}
+  ];
 
-const baseUrl = KEYS.PORT;
 const [user, setUser] = useState([]);
 const [savedGames, setSavedGames] = useState([]);
 const [userSavedGames, setUserSavedGames] = useState([])
@@ -48,7 +48,7 @@ const [showNavInput, setShowNavInput] = useState(true);
 const [navPage, setNavPage] = useState('');
 const [pageNumberA, setPageNumberA] = useState(resultsPerPage);
 const [pageNumberB, setPageNumberB] = useState(0);
-const [overallPage, setOverallPage] = useState(null); 
+const [overallPage, setOverallPage] = useState(undefined); 
 
   // mmorpg, shooter, strategy, moba, racing, sports, social, sandbox, open-world, survival, pvp, pve, pixel, voxel, zombie, turn-based, first-person, third-Person, top-down, tank, space, sailing, side-scroller, superhero, permadeath, card, battle-royale, mmo, mmofps, mmotps, 3d, 2d, anime, fantasy, sci-fi, fighting, action-rpg, action, military, martial-arts, flight, low-spec, tower-defense, horror, mmorts
 
@@ -92,20 +92,17 @@ const [overallPage, setOverallPage] = useState(null);
   useEffect(()=>{ 
     const time = new Date();
     const newTime = time.toString().split(' '); 
-    console.log(newTime); 
     setTime(newTime[0] + ' ' + newTime[1] + ' ' + newTime[2] + ' ' + newTime[3])
   }, []);
 
   const handleInput = (e) => {
     let filtered = data.filter(item=>item.title.includes(e.target.value));
-    console.log(filtered);
     setUpdatedData(filtered); 
     setInputValue(e.target.value);
     setCategory(e.target.value);
     setDisplayHead(true); 
     setSelected(null); 
     setOverallPage(1);
-    console.log(overallPage);
   }
 
   const getAllGames = () => {
@@ -138,7 +135,7 @@ const [overallPage, setOverallPage] = useState(null);
       user, setUser, 
       savedGames, setSavedGames, 
       userSavedGames, setUserSavedGames, 
-      data, 
+      data, changeBackgroundColor,
       updatedData, setUpdatedData, 
       loggedIn, setLoggedIn, 
       selected, setSelected, 
@@ -147,7 +144,6 @@ const [overallPage, setOverallPage] = useState(null);
       holdAvatar, setHoldAvatar, 
       holdColor, setHoldColor, 
       colorSelected, setColorSelected, 
-      changeBackgroundColor, 
       displayHead, setDisplayHead, 
       category, setCategory, 
       navPage, setNavPage, 
@@ -161,12 +157,12 @@ const [overallPage, setOverallPage] = useState(null);
     }}>
       <div className="App">
         <BrowserRouter>
-        <Nav baseUrl={baseUrl} time={time} updatedData={updatedData} handleInput={handleInput} getAllGames={()=>getAllGames()} inputValue={inputValue} filterCategory={filterCategory} spinnerDiv={spinnerDiv} genres={genres} />
+        <Nav time={time} handleInput={handleInput} getAllGames={()=>getAllGames()} inputValue={inputValue} filterCategory={filterCategory} genres={genres} />
         <Routes>
-          <Route path='/' element={<Fetch updatedData={updatedData} handleInput={handleInput} getAllGames={getAllGames} inputValue={inputValue} baseUrl={baseUrl} filterCategory={filterCategory} spinnerDiv={spinnerDiv} genres={genres} />} />
+          <Route path='/' element={<Fetch updatedData={updatedData} spinnerDiv={spinnerDiv} />} />
           <Route path='/gameDetails/:id' element={<GameDetails />} />
-          <Route path='/saved' element={<Saved user={user} baseUrl={baseUrl} />} />
-          <Route path='/userProfile' element={<UserProfile baseUrl={baseUrl} userBtn={userBtn} />} />
+          <Route path='/saved' element={<Saved user={user} />} />
+          <Route path='/userProfile' element={<UserProfile userBtn={userBtn} />} />
           <Route path='/about' element={<About />} />
           <Route path='/contact' element={<Contact />} />
         </Routes>

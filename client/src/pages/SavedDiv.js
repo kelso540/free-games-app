@@ -7,14 +7,13 @@ import {useNavigate} from 'react-router-dom';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function SavedDiv({id, url, description, imgUrl, name}) {
+export default function SavedDiv({id, imgUrl, name}) {
 
   const navigate = useNavigate();
 
   const {user, setUserSavedGames} = useContext(UserContext);
 
   const deleteSavedGame = async (name) => {
-    console.log(name);
     await deleteDoc(doc(db, "games", name)).catch(err=>console.log(err));
     getData();
   };
@@ -29,18 +28,6 @@ export default function SavedDiv({id, url, description, imgUrl, name}) {
       });
       setUserSavedGames(newData); 
     };
-
-    console.log(imgUrl); 
-
-
-  // const deleteSavedGame = () => {
-  //   axios.delete(`${baseUrl}/savedGames/${id}`)
-  //   .then(res=>{
-  //     console.log(res)
-  //   })
-  //   const deleteSaved = userSavedGames.filter(item=>item.id !== id);
-  //   setUserSavedGames(deleteSaved); 
-  // }
 
   return (
     <div className='singleGameDivB'>

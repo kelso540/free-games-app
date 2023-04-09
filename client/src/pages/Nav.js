@@ -1,32 +1,50 @@
 import React, {useState, useContext, useEffect, useCallback} from 'react';
 import { faGamepad, faBars, faX, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
 import {Link, useNavigate} from 'react-router-dom';
 import {UserContext} from '../context/UserContext';
 import './CSS/nav.css';
 import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../Firebase';
 
-export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue, genres, filterCategory}) {
+export default function Nav({ time, handleInput, getAllGames, inputValue, genres, filterCategory }) {
 
-  const {user, setUser, loggedIn, setLoggedIn, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, changeBackgroundColor, colorSelected, setColorSelected, selected, setSelected, displayHead, setDisplayHead, updatedData, setUpdatedData, category, setCategory, navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu, spinnerDiv, setSpinnerDiv, setOverallPage, resultsPerPage, setPageNumberA, setPageNumberB} = useContext(UserContext);
+  const {
+    setUser, 
+    loggedIn, 
+    setLoggedIn, 
+    setHasAvatar, 
+    setHoldUsername, 
+    holdAvatar, 
+    setHoldAvatar, 
+    changeBackgroundColor, 
+    setColorSelected, 
+    selected, 
+    setSelected, 
+    setDisplayHead, 
+    setUpdatedData, 
+    setCategory, 
+    navPage, 
+    setNavPage, 
+    showNavInput, 
+    setShowNavInput, 
+    menu, 
+    setMenu, 
+    setOverallPage, 
+    resultsPerPage, 
+    setPageNumberA, 
+    setPageNumberB
+  } = useContext(UserContext);
 
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [imageUrl, setImageUrl] = useState('default');
-  const [backgroundColor, setBackgroundColor] = useState('default');
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [modal, setModal] = useState(false);
   const [userExists, setUserExists] = useState(true);
   const [message, setMessage] = useState('');
   const [loginSpin, setLoginSpin] = useState(false);
   const [displayMessage, setDisplayMessage] = useState(false); 
-
-  // user.email = holdUsername;
-  // user.photoURL = holdAvatar; 
-  // user.displayName = colorSelected; 
 
   useEffect(()=>{
     const handleAvatar = () => {
@@ -54,24 +72,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
     .catch(function(){
       messageDisplay();
     });
-}; 
-
-  // const handleSignup=(e)=>{
-  //     e.preventDefault()
-  //     axios.post(`${baseUrl}/users/register`, {
-  //     username, password, imageUrl, backgroundColor //match to same names on table
-  //   })
-  //   .then(res=>{
-  //     setSignupSuccess(true)
-  //     setLoginSpin(false)
-  //     setDisplayMessage(true)
-  //     setMessage('Thanks for signing up! You can now LOG IN!')
-  //   })
-  //   .catch(function(){
-  //     messageDisplay();
-  //   })
-  //   }
-
+  };
 
   const handleLogin = (e)=>{
     e.preventDefault(); 
@@ -91,7 +92,6 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
         reSetHome(); 
     })
     .catch((error)=>{
-      console.log(error.code)
       if(error.code === 'auth/wrong-password'){
         setMessage('Incorrect password.')
         setDisplayMessage(true)
@@ -107,33 +107,8 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
       setLoginSpin(false)
       }
     });
-}
+  }
 
-    // const handleLogin=(e)=>{ 
-    //   e.preventDefault()
-    //   axios.post(`${baseUrl}/users/login`, {
-    //     username, password
-    //   })
-    //   .then(res=>{
-    //     setUser(res.data)
-    //     setHoldUsername(res.data.username)
-    //     setHoldAvatar(res.data.imageUrl)
-    //     setColorSelected(res.data.backgroundColor)
-    //     setLoginSpin(false)
-    //     setLoggedIn(true)
-    //     setModal(false)
-    //     setMessage('')
-    //     setMenu(false)
-    //     setUsername('');
-    //     setPassword('');
-    //     reSetHome(); 
-    //   })
-    //   .catch(function(){
-    //     setMessage('No user with that username exists sign up!')
-    //     setDisplayMessage(true)
-    //     setLoginSpin(false)
-    //   })
-    // }
 
     const handleLogout = ()=>{
       signOut(auth).then(() => {
@@ -157,20 +132,6 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
       changeBackgroundColor();
     }, [changeBackgroundColor]);
 
-    // const handleLogout = () => {
-    //   setUser({});
-    //   setUserExists(false);
-    //   setLoggedIn(false);
-    //   setSignupSuccess(false);
-    //   setDisplayHead(false);
-    //   setColorSelected('#f2e9e4');
-    //   setMenu(false);
-    //   changeBackgroundColor();
-    //   setLoginSpin(false);
-    //   reSetHome();
-    //   navigate('/'); 
-    // }
-
     const handleCategory = (e) => {
       setSelected(e.target.value); 
       setMenu(false); 
@@ -192,7 +153,9 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
       if (selected === 'Fighting'){
         filterCategory('Fighting');  
       }; 
-      setDisplayHead(true);
+      if (selected === 'Racing'){
+        filterCategory('Racing');  
+      };
       setPageNumberA(resultsPerPage); 
       setPageNumberB(0); 
       setOverallPage(1);
@@ -338,7 +301,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
                 :<div> 
                   <h2>Sign Up</h2>
                   <form onSubmit={handleSignup}>
-                    <input required type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
+                    <input required type="text" placeholder="Enter email" onChange={(e)=>setUsername(e.target.value)}/>
                     <input required type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
                     <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
                   </form>
@@ -405,7 +368,7 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
 
        :<div className={(menu)?'mobile-container-loggedOut' :'displayNone'}>
           <strong className='time'>{time}</strong>
-          <div>
+          <div className='mobileInputDiv'>
             <strong style={{color: 'white'}}>Filter a genre here </strong>
             <select className='mobileSelect' value={selected} onChange={handleCategory}>
               {

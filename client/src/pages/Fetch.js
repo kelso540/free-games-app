@@ -5,9 +5,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {UserContext} from '../context/UserContext';
 import './CSS/fetch.css'; 
 
-export default function Fetch({updatedData, handleInput, getAllGames, inputValue, baseUrl, spinnerDiv, genres, filterCategory}) { 
+export default function Fetch({ updatedData, spinnerDiv }) { 
 
-  const {resultsPerPage, pageNumberA, setPageNumberA, pageNumberB, setPageNumberB, setUpdatedData, selected, setSelected, user, setUser, hasAvatar, loggedIn, displayHead, setDisplayHead, category, setCategory, overallPage, setOverallPage} = useContext(UserContext);
+  const {
+    resultsPerPage, 
+    pageNumberA, 
+    setPageNumberA, 
+    pageNumberB, 
+    setPageNumberB, 
+    user, 
+    hasAvatar, 
+    loggedIn, 
+    displayHead, 
+    category, 
+    overallPage, 
+    setOverallPage
+  } = useContext(UserContext);
 
   const [display, setDisplay] = useState(false);
   const [pages, setPages] = useState([Math.floor(updatedData.length / resultsPerPage)]);
@@ -16,16 +29,11 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
       return <GameDiv 
       key={item.id} 
       id={item.id} 
-      dev={item.developer} 
       url={item.game_url} 
-      genre={item.genre} 
-      platform={item.platform} 
-      release={item.release_date} 
       description={item.short_description} 
       imgUrl={item.thumbnail} 
-      name={item.title} 
-      data={updatedData} 
-      overallPage={overallPage}/>
+      name={item.title}  
+      />
   });
 
   const addPage = useCallback((number)=>{
@@ -35,8 +43,6 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
         if(number === 1){
           setPageNumberA(resultsPerPage);
           setPageNumberB(0);
-          console.log(pageNumberB);
-          console.log(pageNumberA);
           const allNumbersOnPage = document.querySelectorAll('.number'); 
           const selectNumber = document.getElementById(number);
           for(let i = 0; i < allNumbersOnPage.length; i++){
@@ -62,7 +68,6 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
 
   useEffect(()=>{
     const setNumberOfPages = ()=>{
-      console.log(updatedData.length);
       let counter = 0; 
       const numberOfPages = Math.floor(updatedData.length / resultsPerPage);
       const newArray = [];  
@@ -81,7 +86,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
     setNumberOfPages();
   }, [updatedData.length, resultsPerPage]); 
 
-    useEffect(()=>{ //when selected state changes this code runs
+    useEffect(()=>{ //resets to current page number when back arrow on page is clicked. 
       setTimeout(()=>{
         addPage(overallPage);
       }, 200);

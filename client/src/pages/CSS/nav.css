@@ -44,19 +44,20 @@ a{
 }
 .header-modal{
     position: fixed;
-    bottom: 5px;
-    left: 20px;
-    right: 20px;
+    top: 60px;
+    right: 2px; 
     background-color: rgb(112, 107, 107);
     color: white;
     border-radius: 8px;
     padding: 10px;
+    width: 1000px;
 }
 .clearX{
     position: absolute;
-    top: -10px;
-    right: 12px; 
+    top: -20px;
+    right: 20px; 
     cursor: pointer;
+    font-size: 30px;
 }
 .clearX:hover{
     color: var(--red);
@@ -115,6 +116,8 @@ form{
     padding: 5px 10px;
     margin-bottom: 2px;
     cursor: pointer;
+    height: 40px;
+    width: 70px;
 }
 .login-btn:hover{
     border: solid 2px var(--red);
@@ -133,13 +136,17 @@ form{
     justify-content: center; 
     align-items: center;
 }
-.inputDiv > input{
-    height: 30px;
+.inputDiv input{
+    height: 40px;
     border: solid 1px var(--gray);
     border-radius: 20px;
     width: 40%;
     padding-left: 10px;
     margin: 0 5px;
+    font-size: 17px;
+}
+.inputDiv select option{
+    font-size: 20px;
 }
 .allBtn{
     background-color: var(--black);
@@ -149,27 +156,30 @@ form{
     padding: 7px;
     cursor: pointer;
     margin: 0 5px;
-    font-size: 16px;
+    font-size: 17px;
+    height: 40px;
 }
 .allBtn:hover{
     background-color: var(--white);
     color: var(--gray);
     border: solid 2px var(--black);
 }
-.inputDiv > select{
-    height: 30px;
+.inputDiv select{
+    height: 40px;
     border-radius: 20px;
     margin: 0 5px;
     padding: 5px;
     cursor: pointer;
+    font-size: 17px;
 }
-form > input{
+form input{
     width: 40%;
-    height: 30px;
+    height: 40px;
     border-radius: 20px; 
     border: solid 1px var(--black);
     margin: 5px;
     padding-left: 10px;
+    font-size: 20px;
 }
 .smallLogo{
     display: none;
@@ -206,6 +216,9 @@ form > input{
     .header{
         display: none;
     }
+    .header-modal{ 
+        width: 80%;
+    }
     .allBtn{
         padding: 4px;
         font-size: 14px;
@@ -231,6 +244,10 @@ form > input{
     .navDiv{
         display: none; 
     }
+    .header-modal{ 
+        top: 82px;
+        width: 93.8%;
+    }
     .mobileNavDiv{
         display: flex;
         justify-content: space-between;
@@ -246,7 +263,7 @@ form > input{
         padding: 20px 20px;
         color: var(--white);
     }
-    .mobileInputDiv > input{
+    .mobileInputDiv input{
         flex-grow: 1;
         height: 30px;
         border-radius: 20px;
@@ -298,14 +315,27 @@ form > input{
         transition: height .5s;
     }
     .bars{
-        margin-right: 20px;
-        margin-top: 20px;
+        margin-right: 10px;
+        margin-top: 23px;
+        color: var(--white);
+        width: 40px;
     }
     .allBtn{
         padding: 10px;
     } 
-    form > input{
+    form input{
         width: 70%;
+    }
+    .mobileInputDiv input{
+        height: 35px;
+    }
+    .mobileInputDiv select{
+        font-size: 20px;
+        height: 40px;
+    }
+    .mobileInputDiv select option{
+        width: 100%;
+        font-size: 20px;
     }
     .smallLogo{
         font-size: small;

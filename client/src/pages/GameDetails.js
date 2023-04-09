@@ -18,7 +18,6 @@ export default function GameDetails() {
   const game = data.filter(item=>item.id === Number(id))[0];
   
   const addNewSavedGame = async(id, name, imgUrl, description, url)=>{
-    console.log(user);
     try {
       setDoc(doc(db, "games", name), {
         user: user.uid,
@@ -28,7 +27,6 @@ export default function GameDetails() {
         description: description, 
         url: url,
       });
-      // console.log("Document written with ID: ", docRef.id);
       setSuccess(true)
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -47,7 +45,6 @@ export default function GameDetails() {
   }, [game.title]);
 
   const deleteSavedGame = async (name) => {
-    console.log(name);
     await deleteDoc(doc(db, "games", name)).catch(err=>console.log(err));
     setSuccess(false);
   };

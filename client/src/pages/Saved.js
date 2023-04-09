@@ -6,7 +6,7 @@ import './CSS/games.css';
 import { collection, getDocs, where, query } from "firebase/firestore";
 import { db } from '../Firebase';
 
-export default function Saved({baseUrl}) {
+export default function Saved() {
   
   const {user, userSavedGames, setUserSavedGames} = useContext(UserContext);
 
@@ -15,8 +15,7 @@ export default function Saved({baseUrl}) {
       const q = query(collection(db, "games"),  where("user", "==", user.uid));
       const querySnapshot = await getDocs(q);
       const newData = [];
-      querySnapshot.forEach((doc) => {
-        console.log(doc.id); 
+      querySnapshot.forEach((doc) => { 
         const newItem = doc.data();
         newData.push(newItem);
       });
@@ -26,8 +25,7 @@ export default function Saved({baseUrl}) {
   }, [user, setUserSavedGames]);
 
     const saved = userSavedGames.map((item)=>{
-      console.log(item); 
-        return <SavedDiv key={item.id} id={item.id} baseUrl={baseUrl} url={item.url} description={item.description} imgUrl={item.imgUrl} name={item.name} />
+        return <SavedDiv key={item.id} id={item.id} imgUrl={item.imgUrl} name={item.name} />
     })
 
   return (
