@@ -169,9 +169,9 @@ export default function Nav({baseUrl, time, handleInput, getAllGames, inputValue
     // }
 
     const handleCategory = (e) => {
-      setSelected(e.target.value);
-      setOverallPage(1); 
+      setSelected(e.target.value); 
       setMenu(false); 
+      setOverallPage(1);
     }
 
     const reSetHome = () => {

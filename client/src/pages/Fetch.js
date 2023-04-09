@@ -7,16 +7,16 @@ import './CSS/fetch.css';
 
 export default function Fetch({updatedData, handleInput, getAllGames, inputValue, baseUrl, spinnerDiv, genres, filterSports, filterShooter, filterStrategy, filterMMORPG, filterFighting}) {
 
-  const resultsPerPage = 22;
+  const resultsPerPage = 21;
 
   const [display, setDisplay] = useState(false);
-  const [pages, setPages] = useState([updatedData.length / resultsPerPage - 1]); 
+  const [pages, setPages] = useState([Math.floor(updatedData.length / resultsPerPage)]); 
   const [pageNumberA, setPageNumberA] = useState(resultsPerPage);
   const [pageNumberB, setPageNumberB] = useState(0); 
 
   const {setUpdatedData, selected, setSelected, user, setUser, hasAvatar, loggedIn, displayHead, setDisplayHead, category, setCategory, overallPage, setOverallPage} = useContext(UserContext);
 
-  const games = updatedData.filter((item, index)=>index > pageNumberB && index < pageNumberA).map((item)=>{
+  const games = updatedData.filter((item, index)=>index >= pageNumberB && index < pageNumberA).map((item)=>{
       return <GameDiv 
       key={item.id} 
       id={item.id} 
@@ -33,31 +33,31 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
   });
 
   const addPage = (number)=>{
-    if(number === 1){
-      setPageNumberA(resultsPerPage);
-      setPageNumberB(0);
+      if(number === 1){
+        setPageNumberA(resultsPerPage);
+        setPageNumberB(0);
+        console.log(pageNumberB);
+        console.log(pageNumberA);
+        const allNumbersOnPage = document.querySelectorAll('.number'); 
+        const selectNumber = document.getElementById(number);
+        for(let i = 0; i < allNumbersOnPage.length; i++){
+          allNumbersOnPage[i].style.textDecoration = 'none'; 
+        } 
+        selectNumber.style.textDecoration = 'underline'; 
+        return
+      };
+      const currentPageStart = number * resultsPerPage;  
+      setPageNumberB(currentPageStart); 
+      setPageNumberA(currentPageStart + resultsPerPage);
       console.log(pageNumberB);
       console.log(pageNumberA);
       const allNumbersOnPage = document.querySelectorAll('.number'); 
       const selectNumber = document.getElementById(number);
       for(let i = 0; i < allNumbersOnPage.length; i++){
         allNumbersOnPage[i].style.textDecoration = 'none'; 
-      } 
+      }
       selectNumber.style.textDecoration = 'underline'; 
-      return
     };
-    const currentPageStart = number * resultsPerPage;  
-    setPageNumberB(currentPageStart); 
-    setPageNumberA(currentPageStart + resultsPerPage);
-    console.log(pageNumberB);
-    console.log(pageNumberA);
-    const allNumbersOnPage = document.querySelectorAll('.number'); 
-    const selectNumber = document.getElementById(number);
-    for(let i = 0; i < allNumbersOnPage.length; i++){
-      allNumbersOnPage[i].style.textDecoration = 'none'; 
-    } 
-    selectNumber.style.textDecoration = 'underline'; 
-  };
 
   useEffect(()=>{
     const setNumberOfPages = ()=>{
@@ -82,19 +82,24 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
 
     useEffect(()=>{ //when selected state changes this code runs
       if (selected === 'Sports'){
-        filterSports(); 
+        filterSports();
+        setDisplayHead(true); 
       }
       if (selected === 'Shooter'){
         filterShooter(); 
+        setDisplayHead(true); 
       }
       if (selected === 'Strategy'){
         filterStrategy(); 
+        setDisplayHead(true); 
       }
       if (selected === 'MMORPG'){
         filterMMORPG(); 
+        setDisplayHead(true); 
       }
       if (selected === 'Fighting'){
         filterFighting(); 
+        setDisplayHead(true); 
       }
       setTimeout(()=>{
         addPage(overallPage);
@@ -109,6 +114,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
           setDisplay(false);
         }
       })
+      return document.removeEventListener("scroll", ()=>{})
     }, [display]);
 
     const scrollToTop = () =>{
@@ -159,7 +165,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
                 {games}
               </div>
               <div className='pageNumbersDiv'>
-                {displayHead &&
+                {updatedData.length > resultsPerPage &&
                   pages.map(item=>
                     <p key={item} id={item} className='number' onClick={()=>{addPage(item); scrollToTop(); setOverallPage(item)}}> {item} </p> 
                   )

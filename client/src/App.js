@@ -78,11 +78,10 @@ const [overallPage, setOverallPage] = useState(null);
       .catch(err => console.error(err)); 
   }, []);
 
-  useEffect(()=>{
+  useEffect(()=>{ //to make sure page goes to one when input is empty.
     if(inputValue.length < 1){
-      setUpdatedData([]); 
-      setDisplayHead(false);
-      setCategory('')
+      setOverallPage(1);
+      setSelected('');
     }
   }, [inputValue]); 
 
@@ -94,27 +93,32 @@ const [overallPage, setOverallPage] = useState(null);
   }, []);
 
   const handleInput = (e) => {
-    let filtered = data.filter(item=>item.title.toLowerCase().includes(e.target.value.toLowerCase()));
+    let filtered = data.filter(item=>item.title.includes(e.target.value));
+    console.log(filtered);
     setUpdatedData(filtered); 
     setInputValue(e.target.value);
     setCategory(e.target.value);
-    setOverallPage(1);
     setDisplayHead(true); 
+    setSelected(null); 
+    setOverallPage(1);
+    console.log(overallPage);
   }
 
   const getAllGames = () => {
-    setDisplayHead(true);
     setSpinnerDiv(false);
-    setSelected("Select category");
+    setSelected("Select genre");
     setInputValue('');
+    setDisplayHead(true);
     setTimeout(showAllGames, 300);
   }
 
   const showAllGames = () => {
     setSpinnerDiv(true);
     setUpdatedData(data);
-    console.log('hitter')
-    setCategory('All Games')
+    setCategory('All Games');
+    setSelected('Select Category');
+    setDisplayHead(true);
+    setOverallPage(1); 
   }
 
   const filterSports = () => {
