@@ -7,14 +7,14 @@ import './CSS/fetch.css';
 
 export default function Fetch({updatedData, handleInput, getAllGames, inputValue, baseUrl, spinnerDiv, genres, filterSports, filterShooter, filterStrategy, filterMMORPG, filterFighting}) {
 
-  const resultsPerPage = 21;
+  const resultsPerPage = 22;
 
   const [display, setDisplay] = useState(false);
   const [pages, setPages] = useState([updatedData.length / resultsPerPage - 1]); 
   const [pageNumberA, setPageNumberA] = useState(resultsPerPage);
   const [pageNumberB, setPageNumberB] = useState(0); 
 
-  const {setUpdatedData, selected, setSelected, user, setUser, hasAvatar, loggedIn, displayHead, setDisplayHead, category, setCategory} = useContext(UserContext);
+  const {setUpdatedData, selected, setSelected, user, setUser, hasAvatar, loggedIn, displayHead, setDisplayHead, category, setCategory, overallPage, setOverallPage} = useContext(UserContext);
 
   const games = updatedData.filter((item, index)=>index > pageNumberB && index < pageNumberA).map((item)=>{
       return <GameDiv 
@@ -27,15 +27,30 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
       release={item.release_date} 
       description={item.short_description} 
       imgUrl={item.thumbnail} 
-      name={item.title} />
+      name={item.title} 
+      data={updatedData} 
+      overallPage={overallPage}/>
   });
 
   const addPage = (number)=>{
+    if(number === 1){
+      setPageNumberA(resultsPerPage);
+      setPageNumberB(0);
+      console.log(pageNumberB);
+      console.log(pageNumberA);
+      const allNumbersOnPage = document.querySelectorAll('.number'); 
+      const selectNumber = document.getElementById(number);
+      for(let i = 0; i < allNumbersOnPage.length; i++){
+        allNumbersOnPage[i].style.textDecoration = 'none'; 
+      } 
+      selectNumber.style.textDecoration = 'underline'; 
+      return
+    };
     const currentPageStart = number * resultsPerPage;  
     setPageNumberB(currentPageStart); 
     setPageNumberA(currentPageStart + resultsPerPage);
-    console.log(pageNumberA);
     console.log(pageNumberB);
+    console.log(pageNumberA);
     const allNumbersOnPage = document.querySelectorAll('.number'); 
     const selectNumber = document.getElementById(number);
     for(let i = 0; i < allNumbersOnPage.length; i++){
@@ -48,7 +63,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
     const setNumberOfPages = ()=>{
       console.log(updatedData.length);
       let counter = 0; 
-      const numberOfPages = (updatedData.length / resultsPerPage) - 1;
+      const numberOfPages = Math.floor(updatedData.length / resultsPerPage);
       const newArray = [];  
       for(let i = 0; i < numberOfPages; i++){
         counter++;
@@ -60,7 +75,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
         if(allNumbersOnPage.length > 0){
           allNumbersOnPage[0].style.textDecoration = 'underline'; 
         }
-      }, 500); 
+      }, 100); 
     };
     setNumberOfPages();
   }, [updatedData.length]); 
@@ -81,12 +96,9 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
       if (selected === 'Fighting'){
         filterFighting(); 
       }
-      if(selected === "Select category"){
-        setUpdatedData([]);
-        getAllGames();
-      }
-      setPageNumberA(resultsPerPage);
-      setPageNumberB(0);
+      setTimeout(()=>{
+        addPage(overallPage);
+      }, 200);
     }, [selected]); 
 
     useEffect(() => {
@@ -101,7 +113,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
 
     const scrollToTop = () =>{
       window.scrollTo(0, 0); 
-  }
+  } 
 
   return (
 
@@ -140,7 +152,7 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
           </div>    
       }
       {
-          (spinnerDiv) ?
+          (spinnerDiv)?
             <div className='gamesResults'>
               <h2 className='category'>{category}</h2>
               <div className='gameResultsDiv'>
@@ -148,7 +160,9 @@ export default function Fetch({updatedData, handleInput, getAllGames, inputValue
               </div>
               <div className='pageNumbersDiv'>
                 {displayHead &&
-                  pages.map(item=><p key={item} id={item} className='number' onClick={()=>addPage(item)}>{item}</p>)
+                  pages.map(item=>
+                    <p key={item} id={item} className='number' onClick={()=>{addPage(item); scrollToTop(); setOverallPage(item)}}> {item} </p> 
+                  )
                 }
               </div>
             </div>

@@ -16,12 +16,8 @@
     align-items: center;
     margin-top: 10px;
 }
-.addButtonGame{
-    position: absolute;
-    top: 0;
-    right: 35px;
-}
 .singleGameDivB{
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -39,16 +35,45 @@
     display: block;
     background-color: var(--black);
     color: var(--white);
-    border: solid 2px var(--red);
-    border-radius: 20px;
+    border: solid 2px;
     padding: 7px;
     cursor: pointer;
     font-size: 16px;
+    position: absolute;
+    top: 0;
+    right: 25px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    transition: all 0.2s;
 }
 .addButtonGame:hover{
     background-color: var(--white);
     color: var(--black);
-    border: solid 2px var(--green);
+    scale: 1.1;
+    transition: all 0.2s;
+}
+.removeButtonGame{
+    display: block;
+    background-color: var(--red);
+    color: var(--white);
+    border: solid 2px var(--red);
+    padding: 7px;
+    cursor: pointer;
+    font-size: 16px;
+    position: absolute;
+    top: 0;
+    right: 25px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+.removeButtonGame:hover{
+    background-color: var(--white);
+    color: var(--red);
+    scale: 1.1;
+    transition: all 0.2s;
 }
 .clickHere:hover{
     color:var(--red); 
@@ -60,11 +85,16 @@
 .removeFromSaved{
     background-color: var(--red);
     border: solid 2px transparent;
-    border-radius: 20px;
+    border-radius: 50%;
     padding: 10px;
     font-size: large;
     color: var(--white);
     cursor: pointer;
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: 0;
+    right: 10px;
 }
 .removeFromSaved:hover{
     background-color: var(--white);
@@ -75,9 +105,17 @@
 @media screen and (max-width: 900px) {
     .singleGameDiv{
         width: auto;
-        border-bottom: solid 2px var(--black);
     }
     .gameDesc{
         width: 100%;
+    }
+    .removeFromSaved{
+        right: 0;
+    }
+    .addButtonGame{
+        right: 0;
+    }
+    .removeButtonGame{
+        right: 0;
     }
 }

@@ -3,14 +3,19 @@ import { UserContext } from '../context/UserContext';
 import './CSS/games.css';
 import { doc, deleteDoc, collection, getDocs, where, query } from "firebase/firestore";
 import { db } from '../Firebase';
+import {useNavigate} from 'react-router-dom';
+import { faX } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function SavedDiv({url, description, imgUrl, name}) {
+export default function SavedDiv({id, url, description, imgUrl, name}) {
+
+  const navigate = useNavigate();
 
   const {user, setUserSavedGames} = useContext(UserContext);
 
-  const deleteSavedGame = async () => {
+  const deleteSavedGame = async (name) => {
     console.log(name);
-    await deleteDoc(doc(db, "games", name));
+    await deleteDoc(doc(db, "games", name)).catch(err=>console.log(err));
     getData();
   };
 
@@ -25,6 +30,8 @@ export default function SavedDiv({url, description, imgUrl, name}) {
       setUserSavedGames(newData); 
     };
 
+    console.log(imgUrl); 
+
 
   // const deleteSavedGame = () => {
   //   axios.delete(`${baseUrl}/savedGames/${id}`)
@@ -37,13 +44,8 @@ export default function SavedDiv({url, description, imgUrl, name}) {
 
   return (
     <div className='singleGameDivB'>
-        <h1 className='gameName'>{name}</h1>
-        <img src={imgUrl} alt='GamePicture' className='gameImg' />
-        <div className='gameDescDiv'>
-          <h4>{description}</h4>
-        </div>
-        <a href={url}><h3 className='clickToPlay clickHere'>Click Here to Play!</h3></a>
-        <button onClick={deleteSavedGame} className='removeFromSaved'>Remove</button>
+        <img src={imgUrl} alt='GamePicture' className='gameImg' onClick={()=>navigate(`/gameDetails/${id}`)} />
+        <button onClick={()=>deleteSavedGame(name)} className='removeFromSaved'><FontAwesomeIcon icon={faX} /></button>
     </div>
   )
 }

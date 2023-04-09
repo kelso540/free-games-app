@@ -1,8 +1,6 @@
-import React, {useEffect, useContext, useState} from 'react';
+import React, {useEffect, useContext} from 'react';
 import SavedDiv from './SavedDiv';
 import {UserContext} from '../context/UserContext';
-import { faDownload, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './CSS/saved.css';
 import './CSS/games.css';
 import { collection, getDocs, where, query } from "firebase/firestore";
@@ -25,14 +23,10 @@ export default function Saved({baseUrl}) {
       setUserSavedGames(newData);
     }; 
     getData().catch(err=>console.log(err));
-  }, [user]);
-  
-  // useEffect(()=>{
-  //   console.log(newArray);
-  //   setUserSavedGames(newArray);
-  // }, [newArray, userSavedGames]);
+  }, [user, setUserSavedGames]);
 
     const saved = userSavedGames.map((item)=>{
+      console.log(item); 
         return <SavedDiv key={item.id} id={item.id} baseUrl={baseUrl} url={item.url} description={item.description} imgUrl={item.imgUrl} name={item.name} />
     })
 

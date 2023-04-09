@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faFloppyDisk, faX, faArrowLeft, faComputerMouse } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { doc, setDoc } from "firebase/firestore"; 
+import { doc, setDoc, deleteDoc, collection, getDocs, where, query } from "firebase/firestore"; 
 import { db } from '../Firebase';
 import './CSS/details.css'; 
 
@@ -15,13 +15,14 @@ export default function GameDetails() {
   const [success, setSuccess] = useState(false);
 
   const { id } = useParams(); 
-  const game = data.filter(item=>item.id == id)[0];
+  const game = data.filter(item=>item.id === Number(id))[0];
   
-  const addNewSavedGame = async(name, imgUrl, description, url)=>{
+  const addNewSavedGame = async(id, name, imgUrl, description, url)=>{
     console.log(user);
     try {
-      const docRef = await setDoc(doc(db, "games", name), {
+      setDoc(doc(db, "games", name), {
         user: user.uid,
+        id: id,
         name: name,
         imgUrl: imgUrl,
         description: description, 
@@ -34,40 +35,59 @@ export default function GameDetails() {
     }
   };
 
-    console.log(game);
+  useEffect(()=>{
+    const setSaved = async ()=>{
+      const q = query(collection(db, "games"),  where("name", "==", game.title));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(() => {
+        setSuccess(true); 
+      }); 
+    };
+    setSaved(); 
+  }, [game.title]);
+
+  const deleteSavedGame = async (name) => {
+    console.log(name);
+    await deleteDoc(doc(db, "games", name)).catch(err=>console.log(err));
+    setSuccess(false);
+  };
 
   return (
     <div className='detailsDiv'>
-      <div><h2 onClick={()=>navigate(-1)}>Back</h2></div>
         <h1 className='gameNameDetails'>{game.title}</h1>
+        <h2 onClick={()=>navigate(-1)} className='backBtn'><FontAwesomeIcon icon={faArrowLeft} /></h2>
         <h2 className='gameDevDetails'>{game.developer}</h2>
         { 
           (loggedIn) &&
-              <button onClick={()=>addNewSavedGame(game.title, game.thumbnail, game.short_description, game.game_url)} className='addButton'><FontAwesomeIcon icon={faDownload} /> Add to Saved Games</button>
+          <div>
+              {(success)?<button onClick={()=>deleteSavedGame(game.title)} className='removeButtonDetails'><FontAwesomeIcon icon={faX} /> Remove from Saved Games</button>
+                :<button onClick={()=>addNewSavedGame(game.id, game.title, game.thumbnail, game.short_description, game.game_url)} className='addButtonDetails'><FontAwesomeIcon icon={faFloppyDisk} /> Add to Saved Games</button>
+              }
+          </div>
         }
-          <img src={game.thumbnail} alt='GamePicture' className='gameImgDetails' />
-        <div className='gameDescDivDetails'>
-          <h3 className='gameDescDetails'>{game.short_description}</h3>
+        <div className='detailsSubDiv'>
+          <div className='imgDetail'>
+            <img src={game.thumbnail} alt='GamePicture' className='gameImgDetails' />
+            <div className='gameDescDivDetails'>
+              <h3 className='gameDescDetails'>{game.short_description}</h3>
+            </div>
+          </div>
+          <div className='strategyDivDetails'>
+            <div>
+              <h4>Genre:</h4>
+              <h3 className='gameTextDetails'>{game.genre}</h3>
+            </div>
+            <div>
+              <h4>Release Date:</h4>
+              <h3 className='gameTextDetails'>{game.release_date}</h3> 
+            </div>
+            <div>
+              <h4>Platform:</h4>
+              <h3 className='gameTextDetails'>{game.platform}</h3>
+            </div>
+          </div>
         </div>
-        <div className='strategyDivDetails'>
-          <div>
-            <h4>Genre:</h4>
-            <h3 className='gameTextDetails'>{game.genre}</h3>
-          </div>
-          <div>
-            <h4>Release Date:</h4>
-            <h3 className='gameTextDetails'>{game.release_date}</h3> 
-          </div>
-          <div>
-            <h4>Platform:</h4>
-            <h3 className='gameTextDetails'>{game.platform}</h3>
-          </div>
-        </div>
-        <a href={game.game_url} target="_blank" rel="noopener noreferrer" className='clickHere'> Click Here to Play!</a>
-        {
-          (success) &&
-          <p>Success!</p>
-        }
+        <a href={game.game_url} target="_blank" rel="noopener noreferrer" className='clickHere'><FontAwesomeIcon icon={faComputerMouse} /> Click Here to Play!</a>
     </div>
   )
 }

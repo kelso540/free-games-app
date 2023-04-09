@@ -34,7 +34,7 @@ const [loggedIn, setLoggedIn] = useState(false);
 const [selected, setSelected] = useState(genres[0]);
 const [hasAvatar, setHasAvatar] = useState(false);
 const [holdUsername, setHoldUsername] = useState('');
-const [holdAvatar, setHoldAvatar] = useState('');
+const [holdAvatar, setHoldAvatar] = useState('default');
 const [holdColor, setHoldColor] = useState('');
 const [colorSelected, setColorSelected] = useState('');
 const [time, setTime] = useState(''); 
@@ -44,6 +44,7 @@ const [userBtn, setUserBtn] = useState(true);
 const [menu, setMenu] = useState(false); 
 const [showNavInput, setShowNavInput] = useState(true);
 const [navPage, setNavPage] = useState('');
+const [overallPage, setOverallPage] = useState(null); 
 
   // mmorpg, shooter, strategy, moba, racing, sports, social, sandbox, open-world, survival, pvp, pve, pixel, voxel, zombie, turn-based, first-person, third-Person, top-down, tank, space, sailing, side-scroller, superhero, permadeath, card, battle-royale, mmo, mmofps, mmotps, 3d, 2d, anime, fantasy, sci-fi, fighting, action-rpg, action, military, martial-arts, flight, low-spec, tower-defense, horror, mmorts
 
@@ -90,13 +91,14 @@ const [navPage, setNavPage] = useState('');
     const newTime = time.toString().split(' '); 
     console.log(newTime); 
     setTime(newTime[0] + ' ' + newTime[1] + ' ' + newTime[2] + ' ' + newTime[3])
-  }, [])
+  }, []);
 
   const handleInput = (e) => {
     let filtered = data.filter(item=>item.title.toLowerCase().includes(e.target.value.toLowerCase()));
     setUpdatedData(filtered); 
     setInputValue(e.target.value);
-    setCategory(e.target.value)
+    setCategory(e.target.value);
+    setOverallPage(1);
     setDisplayHead(true); 
   }
 
@@ -120,6 +122,7 @@ const [navPage, setNavPage] = useState('');
     setDisplayHead(true);
     setUpdatedData(filterGames);
     setCategory('Sports')
+    setInputValue('');
   }
 
   const filterShooter = () => {
@@ -127,6 +130,7 @@ const [navPage, setNavPage] = useState('');
     setDisplayHead(true);
     setUpdatedData(filterGames);
     setCategory('Shooter')
+    setInputValue('');
   }
 
   const filterStrategy = () => {
@@ -134,6 +138,7 @@ const [navPage, setNavPage] = useState('');
     setDisplayHead(true);
     setUpdatedData(filterGames);
     setCategory('Strategy')
+    setInputValue('');
   }
 
   const filterMMORPG = () => {
@@ -141,6 +146,7 @@ const [navPage, setNavPage] = useState('');
     setDisplayHead(true);
     setUpdatedData(filterGames);
     setCategory('MMORPG')
+    setInputValue('');
   }
 
   const filterFighting = () => {
@@ -148,10 +154,32 @@ const [navPage, setNavPage] = useState('');
     setDisplayHead(true);
     setUpdatedData(filterGames);
     setCategory('Fighting')
+    setInputValue('');
   }
 
   return (
-    <UserContext.Provider value={{user, setUser, savedGames, setSavedGames, userSavedGames, setUserSavedGames, data, updatedData, setUpdatedData, loggedIn, setLoggedIn, selected, setSelected, hasAvatar, setHasAvatar, holdUsername, setHoldUsername, holdAvatar, setHoldAvatar, holdColor, setHoldColor, colorSelected, setColorSelected, changeBackgroundColor, displayHead, setDisplayHead, category, setCategory, navPage, setNavPage, showNavInput, setShowNavInput, menu, setMenu, spinnerDiv, setSpinnerDiv}}>
+    <UserContext.Provider value={{
+      user, setUser, 
+      savedGames, setSavedGames, 
+      userSavedGames, setUserSavedGames, 
+      data, 
+      updatedData, setUpdatedData, 
+      loggedIn, setLoggedIn, 
+      selected, setSelected, 
+      hasAvatar, setHasAvatar, 
+      holdUsername, setHoldUsername, 
+      holdAvatar, setHoldAvatar, 
+      holdColor, setHoldColor, 
+      colorSelected, setColorSelected, 
+      changeBackgroundColor, 
+      displayHead, setDisplayHead, 
+      category, setCategory, 
+      navPage, setNavPage, 
+      showNavInput, setShowNavInput, 
+      menu, setMenu, 
+      spinnerDiv, setSpinnerDiv, 
+      overallPage, setOverallPage
+    }}>
       <div className="App">
         <BrowserRouter>
         <Nav baseUrl={baseUrl} time={time} updatedData={updatedData} handleInput={handleInput} getAllGames={()=>getAllGames()} inputValue={inputValue} filterSports={filterSports} filterShooter={filterShooter} filterStrategy={filterStrategy} filterMMORPG={filterMMORPG} filterFighting={filterFighting} spinnerDiv={spinnerDiv} genres={genres} />

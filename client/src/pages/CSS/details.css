@@ -1,5 +1,23 @@
 .detailsDiv{
-    margin-top: 100px;
+    max-width: 1440px;
+    margin: auto;
+    position: relative;
+    top: 100px;
+}
+.backBtn{
+    position: absolute;
+    top: 0;
+    left: 100px;
+}
+.detailsSubDiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1440px;
+    margin: auto;
+}
+.imgDetail{
+    width: 50%;
 }
 .gameImgDetails{
     height: 300px;
@@ -7,38 +25,63 @@
     box-shadow: 2px 4px 8px var(--black);
     margin: 40px 0;
 }
-.addButton{
+.addButtonDetails{
     margin: 40px auto 20px auto;
     display: block;
     background-color: var(--green);
+    color: var(--white);
+    border: solid 2px;
+    border-radius: 20px;
+    padding: 7px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+.addButtonDetails:hover{
+    background-color: var(--white);
+    color: var(--black);
+    border: solid 2px var(--green);
+    scale: 1.1;
+    transition: all 0.3s;
+}
+.removeButtonDetails{
+    margin: 40px auto 20px auto;
+    display: block;
+    background-color: var(--red);
     color: var(--white);
     border: solid 2px transparent;
     border-radius: 20px;
     padding: 7px;
     cursor: pointer;
     font-size: 16px;
+    transition: all 0.3s;
 }
-.addButton:hover{
+.removeButtonDetails:hover{
     background-color: var(--white);
     color: var(--black);
-    border: solid 2px var(--green);
+    border: solid 2px var(--red);
+    scale: 1.1;
+    transition: all 0.3s;
+}
+.gameDescDivDetails{
+    width: 60%;
+    margin: auto;
 }
 .gameDescDetails{
     margin: 40px auto;
 }
 .strategyDivDetails{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 1fr;
-    margin: 100px auto 40px auto;
-    width: 70%;
+    display: flex;
+    flex-direction: column;
+    border: solid 1px;
+    width: 50%;
 }  
 .strategyDivDetails div{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-right: solid 2px;
+    border-bottom: solid 2px;
 }
 .strategyDivDetails div:last-child{
     border: none;
@@ -47,23 +90,43 @@
     font-size: 23px;
 }
 .clickHere{
-    color: var(--gray); 
+    margin: 40px auto 20px auto;
+    background-color: var(--green);
+    color: var(--white);
+    border-radius: 20px;
+    padding: 7px;
+    cursor: pointer;
     font-size: 30px;
     display: inline-block;
     margin: 20px;
+    padding: 10px;
 }  
 .clickHere:hover{
     color:var(--white); 
+    scale: 1.1;
 }
-@media screen and (max-width: 1000px) {
+.clickHere:active{
+    transform: translateY(3px);
+}
+@media screen and (max-width: 1200px) {
     .gameImgDetails{
         height: 200px;
+    }
+    .detailsSubDiv{
+        flex-direction: column;
+    }
+    .gameDescDivDetails{
+        width: 100%;
+    }
+    .imgDetail{
+        width: 100%;
     }
     .strategyDivDetails{
         grid-template-columns: 1fr;
         grid-template-rows: repeat(3, 1fr);
         width: 100%;
         margin: 0 auto;
+        border: none;
     }
     .strategyDivDetails div{
         border-right: none;
@@ -76,5 +139,9 @@
     }
     .clickHere{
         margin: 20px;
+    }
+    .backBtn{
+        top: -30px;
+        left: 5px;
     }
 }

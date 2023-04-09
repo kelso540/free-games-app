@@ -3,7 +3,12 @@
   --black: #000103; 
   --gray: #333138;
   --green: #749C75;
-  --red: #FF312E; 
+  --red: #FF312E;
+  --redBrick: #772014; 
+  --blue: #99B2DD; 
+  --darkGreen: #558564; 
+  --orange: #E9724C; 
+  --purple: #361134;  
 }
 html{
   scroll-behavior: smooth;
