@@ -4,8 +4,6 @@ import { faCircleUp, faSpinner, faHatWizard, faHeadset } from '@fortawesome/free
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {UserContext} from '../context/UserContext';
 import './CSS/fetch.css'; 
-import { collection, getDocs, where, query } from "firebase/firestore"; 
-import { db } from '../Firebase';
 
 export default function Fetch({ updatedData, spinnerDiv }) { 
 
@@ -22,8 +20,6 @@ export default function Fetch({ updatedData, spinnerDiv }) {
     category, 
     overallPage, 
     setOverallPage, 
-    successGameDiv, 
-    setSuccessGameDiv,
   } = useContext(UserContext);
 
   const [display, setDisplay] = useState(false);
@@ -110,18 +106,6 @@ export default function Fetch({ updatedData, spinnerDiv }) {
     const scrollToTop = () =>{
       window.scrollTo(0, 0); 
     }; 
-    
-    useEffect(()=>{
-      const setSaved = async ()=>{
-        const q = query(collection(db, "games"), where("user", "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach(() => {
-          console.log(user);
-          setSuccessGameDiv(true); 
-        }); 
-      };
-      setSaved(); 
-    }, [user]);
 
   return (
 

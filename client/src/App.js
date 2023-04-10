@@ -36,7 +36,7 @@ const [loggedIn, setLoggedIn] = useState(false);
 const [selected, setSelected] = useState(genres[0]);
 const [hasAvatar, setHasAvatar] = useState(false);
 const [holdUsername, setHoldUsername] = useState('');
-const [holdAvatar, setHoldAvatar] = useState('default');
+const [holdAvatar, setHoldAvatar] = useState(undefined);
 const [holdColor, setHoldColor] = useState('');
 const [colorSelected, setColorSelected] = useState('');
 const [time, setTime] = useState(''); 
@@ -49,7 +49,6 @@ const [navPage, setNavPage] = useState('');
 const [pageNumberA, setPageNumberA] = useState(resultsPerPage);
 const [pageNumberB, setPageNumberB] = useState(0);
 const [overallPage, setOverallPage] = useState(undefined);
-const [successGameDiv, setSuccessGameDiv] = useState(false); 
 
   // mmorpg, shooter, strategy, moba, racing, sports, social, sandbox, open-world, survival, pvp, pve, pixel, voxel, zombie, turn-based, first-person, third-Person, top-down, tank, space, sailing, side-scroller, superhero, permadeath, card, battle-royale, mmo, mmofps, mmotps, 3d, 2d, anime, fantasy, sci-fi, fighting, action-rpg, action, military, martial-arts, flight, low-spec, tower-defense, horror, mmorts
 
@@ -63,11 +62,11 @@ const [successGameDiv, setSuccessGameDiv] = useState(false);
       body.style.color = 'black';
       setUserBtn(true); 
     }
-  }
+  };
 
   const changeData = (data) => {
       setData(data); 
-  }
+  };
   
   useEffect(()=>{
       const options = {
@@ -154,8 +153,7 @@ const [successGameDiv, setSuccessGameDiv] = useState(false);
       overallPage, setOverallPage,
       pageNumberA, setPageNumberA, 
       pageNumberB, setPageNumberB, 
-      resultsPerPage, 
-      successGameDiv, setSuccessGameDiv,
+      resultsPerPage,
     }}>
       <div className="App">
         <BrowserRouter>

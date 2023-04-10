@@ -84,7 +84,7 @@ export default function GameDetails() {
             </div>
           </div>
         </div>
-        <a href={game.game_url} target="_blank" rel="noopener noreferrer" className='clickHere'><FontAwesomeIcon icon={faComputerMouse} /> Click Here to Play!</a>
+        <a href={game.game_url} target="_blank" rel="noopener noreferrer" className='clickHere'><FontAwesomeIcon icon={faComputerMouse} /> Play!</a>
     </div>
   )
 }

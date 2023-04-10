@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect, useCallback} from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { faGamepad, faBars, faX, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {Link, useNavigate} from 'react-router-dom';
@@ -6,6 +6,7 @@ import {UserContext} from '../context/UserContext';
 import './CSS/nav.css';
 import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from '../Firebase';
+import googleIcon from '../icons/icons8-google-48.png'; 
 
 export default function Nav({ time, handleInput, getAllGames, inputValue, genres, filterCategory }) {
 
@@ -47,7 +48,7 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
   const [displayMessage, setDisplayMessage] = useState(false); 
 
     const handleAvatar = () => {
-      if(holdAvatar !== 'default'){
+      if(holdAvatar){
         setHasAvatar(true); 
       } else {
         setHasAvatar(false);
@@ -89,10 +90,9 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
         setMenu(false)
         setUsername('')
         setPassword('')
-        reSetHome()})
-        .then(()=>{
-          handleAvatar(); 
-        })
+        reSetHome()
+        handleAvatar()
+      })
         .catch((error) => {
         const errorMessage = error.message;
         setMessage(errorMessage); 
@@ -114,10 +114,8 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
       setMenu(false)
       setUsername('')
       setPassword('')
-      reSetHome();
-    })
-    .then(()=>{
-      handleAvatar(); 
+      reSetHome()
+      handleAvatar()
     })
     .catch((error)=>{
       if(error.code === 'auth/wrong-password'){
@@ -315,7 +313,7 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
                     <input required type="email" placeholder="Enter email" onChange={(e)=>setUsername(e.target.value)}/>
                     <input required type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
                     <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
-                    <button onClick={googleLogIn}>Google</button>
+                    <button onClick={googleLogIn} className='googleBtn'><img src={googleIcon} alt='google' /> Sign in with Google</button>
                   </form>
                   { 
                   (loginSpin) ? 
@@ -333,7 +331,6 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
                     <input required type="text" placeholder="Enter email" onChange={(e)=>setUsername(e.target.value)}/>
                     <input required type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
                     <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
-                    <button onClick={googleLogIn}>Google</button>
                   </form>
                   { 
                   (loginSpin) ? 
@@ -427,6 +424,7 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
                 <input required type="text" placeholder="Enter username" onChange={(e)=>setUsername(e.target.value)}/>
                 <input required type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
                 <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
+                <button onClick={googleLogIn} className='googleBtn'><img src={googleIcon} alt='google' /> Sign in with Google</button>
               </form>
               { 
                   (loginSpin) ? 
