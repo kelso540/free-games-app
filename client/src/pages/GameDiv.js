@@ -3,7 +3,7 @@ import {UserContext} from '../context/UserContext';
 import './CSS/games.css';
 import { faFloppyDisk, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { doc, setDoc, deleteDoc, collection, getDocs, where, query } from "firebase/firestore"; 
+import { doc, setDoc, deleteDoc } from "firebase/firestore"; 
 import { db } from '../Firebase';
 import {useNavigate} from 'react-router-dom';
 
@@ -13,7 +13,7 @@ export default function GameDiv({id, url, description, imgUrl, name}) {
 
   const [success, setSuccess] = useState(undefined);
 
-  const {user, loggedIn} = useContext(UserContext);
+  const { user, loggedIn, successGameDiv } = useContext(UserContext);
 
   const addNewSavedGame = async(id, name, imgUrl, description, url)=>{
     try {
@@ -34,25 +34,14 @@ export default function GameDiv({id, url, description, imgUrl, name}) {
   const deleteSavedGame = async (name) => {
     await deleteDoc(doc(db, "games", name)).catch(err=>console.log(err));
     setSuccess(false);
-  };
-
-  useEffect(()=>{
-    const setSaved = async ()=>{
-      const q = query(collection(db, "games"),  where("name", "==", name));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach(() => {
-        setSuccess(true); 
-      }); 
-    };
-    setSaved(); 
-  }, [name]);
+  }; 
 
   return (
     <div className='singleGameDiv'>
         <img src={imgUrl} alt='GamePicture' className='gameImg' onClick={()=>navigate(`/gameDetails/${id}`)} />
         { (loggedIn) &&
             <div>
-              { (success)?
+              { (successGameDiv || success)?
                 <button onClick={()=>deleteSavedGame(name)} className='removeButtonGame'><FontAwesomeIcon icon={faX} /></button>
                 :<button onClick={()=>addNewSavedGame(id, name, imgUrl, description, url)} className='addButtonGame'><FontAwesomeIcon icon={faFloppyDisk} /></button>
               }

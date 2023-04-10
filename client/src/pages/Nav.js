@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {Link, useNavigate} from 'react-router-dom';
 import {UserContext} from '../context/UserContext';
 import './CSS/nav.css';
-import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from '../Firebase';
 
 export default function Nav({ time, handleInput, getAllGames, inputValue, genres, filterCategory }) {
@@ -46,16 +46,13 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
   const [loginSpin, setLoginSpin] = useState(false);
   const [displayMessage, setDisplayMessage] = useState(false); 
 
-  useEffect(()=>{
     const handleAvatar = () => {
       if(holdAvatar !== 'default'){
         setHasAvatar(true); 
       } else {
         setHasAvatar(false);
       }
-    }
-    handleAvatar(); 
-  }, [holdAvatar, setHasAvatar]);
+    };
 
   const handleSignup = (e)=>{
     e.preventDefault(); 
@@ -74,22 +71,53 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
     });
   };
 
-  const handleLogin = (e)=>{
-    e.preventDefault(); 
-    signInWithEmailAndPassword(auth, username, password)
-        .then((userCredential) => {
-        setUser(userCredential.user)
-        setHoldUsername(userCredential.user.email)
-        setHoldAvatar(userCredential.user.photoURL)
-        setColorSelected(userCredential.user.displayName)
+  const googleLogIn = ()=>{
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user)
+        setUser(result.user)
+        setHoldUsername(result.user.email)
+        setHoldAvatar(result.user.photoURL)
+        setColorSelected(result.user.displayName)
         setLoginSpin(false)
         setLoggedIn(true)
         setModal(false)
         setMessage('')
         setMenu(false)
-        setUsername('');
-        setPassword('');
-        reSetHome(); 
+        setUsername('')
+        setPassword('')
+        reSetHome()})
+        .then(()=>{
+          handleAvatar(); 
+        })
+        .catch((error) => {
+        const errorMessage = error.message;
+        setMessage(errorMessage); 
+    });
+  }; 
+
+  const handleLogin = (e)=>{
+    e.preventDefault(); 
+    signInWithEmailAndPassword(auth, username, password)
+    .then((userCredential) => {
+      setUser(userCredential.user)
+      setHoldUsername(userCredential.user.email)
+      setHoldAvatar(userCredential.user.photoURL)
+      setColorSelected(userCredential.user.displayName)
+      setLoginSpin(false)
+      setLoggedIn(true)
+      setModal(false)
+      setMessage('')
+      setMenu(false)
+      setUsername('')
+      setPassword('')
+      reSetHome();
+    })
+    .then(()=>{
+      handleAvatar(); 
     })
     .catch((error)=>{
       if(error.code === 'auth/wrong-password'){
@@ -287,6 +315,7 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
                     <input required type="email" placeholder="Enter email" onChange={(e)=>setUsername(e.target.value)}/>
                     <input required type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
                     <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
+                    <button onClick={googleLogIn}>Google</button>
                   </form>
                   { 
                   (loginSpin) ? 
@@ -304,6 +333,7 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
                     <input required type="text" placeholder="Enter email" onChange={(e)=>setUsername(e.target.value)}/>
                     <input required type="password" placeholder="Enter password" onChange={(e)=>setPassword(e.target.value)}/>
                     <button className='login-btn' type="submit" onClick={showSpinner}>Submit</button>
+                    <button onClick={googleLogIn}>Google</button>
                   </form>
                   { 
                   (loginSpin) ? 
