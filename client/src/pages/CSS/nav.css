@@ -44,7 +44,7 @@ a{
 }
 .header-modal{
     position: fixed;
-    top: 60px;
+    top: 62px;
     right: 2px; 
     background-color: rgb(112, 107, 107);
     color: white;
@@ -117,6 +117,8 @@ form{
     margin: 10px 0;
     cursor: pointer;
     height: 40px;
+    position: relative;
+    top: 5px;
 }
 .login-btn:hover{
     border: solid 2px var(--red);
@@ -132,7 +134,7 @@ form{
     color: var(--white);
     padding: 2px 10px 2px 2px;
     border: none;
-    margin-top: 5px;
+    margin-top: 20px;
     cursor: pointer;
 }
 .googleBtn img{
@@ -308,7 +310,7 @@ form input{
         left: 0;
         right: 0;
         background-color: var(--gray);
-        height: 300px;
+        height: 400px;
         contain: content;
         transition: height .5s;
     }
@@ -334,6 +336,9 @@ form input{
         margin-top: 23px;
         color: var(--white);
         width: 40px;
+    }
+    .login-btn{
+        top: 0;
     }
     .allBtn{
         padding: 10px;

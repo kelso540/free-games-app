@@ -24,7 +24,7 @@ export default function Saved() {
     getData().catch(err=>console.log(err));
   }, [user, setUserSavedGames]);
 
-    const saved = userSavedGames.map((item)=>{
+    const saved = userSavedGames.map((item)=>{ 
         return <SavedDiv key={item.id} id={item.id} imgUrl={item.imgUrl} name={item.name} />
     })
 

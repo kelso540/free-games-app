@@ -48,11 +48,13 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
   const [displayMessage, setDisplayMessage] = useState(false); 
 
     const handleAvatar = () => {
-      if(holdAvatar){
-        setHasAvatar(true); 
-      } else {
-        setHasAvatar(false);
-      }
+      setTimeout(()=>{
+        if(holdAvatar){
+          setHasAvatar(true); 
+        } else {
+          setHasAvatar(false);
+        }
+      }, 0);
     };
 
   const handleSignup = (e)=>{
@@ -60,8 +62,6 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
     createUserWithEmailAndPassword(auth, username, password)
     .then((userCredential) => {
       // Signed in 
-      const user = userCredential.user;
-      console.log(user)
       setSignupSuccess(true)
       setLoginSpin(false)
       setDisplayMessage(true)
@@ -77,8 +77,6 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
     const auth = getAuth();
     signInWithPopup(auth, provider)
       .then((result) => {
-        const user = result.user;
-        console.log(user)
         setUser(result.user)
         setHoldUsername(result.user.email)
         setHoldAvatar(result.user.photoURL)

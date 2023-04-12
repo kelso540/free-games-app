@@ -4,6 +4,7 @@ import { faCircleUp, faSpinner, faHatWizard, faHeadset } from '@fortawesome/free
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {UserContext} from '../context/UserContext';
 import './CSS/fetch.css'; 
+import scrollToTop from './functions/ScrollToTop';
 
 export default function Fetch({ updatedData, spinnerDiv }) { 
 
@@ -102,10 +103,6 @@ export default function Fetch({ updatedData, spinnerDiv }) {
       })
       return document.removeEventListener("scroll", ()=>{})
     }, [display]);
-
-    const scrollToTop = () =>{
-      window.scrollTo(0, 0); 
-    }; 
 
   return (
 

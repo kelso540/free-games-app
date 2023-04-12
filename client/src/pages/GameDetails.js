@@ -33,7 +33,7 @@ export default function GameDetails() {
     }
   };
 
-  useEffect(()=>{
+ useEffect(()=>{
     const setSaved = async ()=>{
       const q = query(collection(db, "games"),  where("name", "==", game.title));
       const querySnapshot = await getDocs(q);
