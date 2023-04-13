@@ -8,7 +8,6 @@ import {UserContext} from './context/UserContext';
 import UserProfile from './pages/UserProfile';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import KEYS from './config'; 
 import GameDetails from './pages/GameDetails';
 
 function App() {
@@ -72,7 +71,7 @@ const [overallPage, setOverallPage] = useState(undefined);
       const options = {
       method: 'GET',
       headers: {
-          'X-RapidAPI-Key': KEYS.GAME_API,
+          'X-RapidAPI-Key': process.env.GAME_API,
           'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com'
       }
       };
