@@ -71,7 +71,7 @@ const [overallPage, setOverallPage] = useState(undefined);
       const options = {
       method: 'GET',
       headers: {
-          'X-RapidAPI-Key': process.env.GAME_API,
+          'X-RapidAPI-Key': process.env.REACT_APP_GAME_API,
           'X-RapidAPI-Host': 'free-to-play-games-database.p.rapidapi.com'
       }
       };
