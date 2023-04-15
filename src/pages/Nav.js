@@ -48,12 +48,12 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
   const [displayMessage, setDisplayMessage] = useState(false); 
 
     const handleAvatar = () => {
-      console.log('Thank you for logging in and joining my website!'); 
+      console.log('Thank you for logging in and joining my website!');  
       setTimeout(()=>{
-        if(holdAvatar !== 'default' || holdAvatar !== null || holdAvatar !== '' || holdAvatar !== undefined){
-          setHasAvatar(true); 
-        } else {
+        if(holdAvatar === 'default' || holdAvatar === null){
           setHasAvatar(false);
+        } else {
+          setHasAvatar(true);
         }
       }, 500);
     };
@@ -62,7 +62,6 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
     e.preventDefault(); 
     createUserWithEmailAndPassword(auth, username, password)
     .then((userCredential) => {
-      // Signed in 
       setSignupSuccess(true)
       setLoginSpin(false)
       setDisplayMessage(true)
