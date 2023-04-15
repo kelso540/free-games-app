@@ -38,21 +38,23 @@ export default function GameDiv({id, url, description, imgUrl, name}) {
 
   useEffect(()=>{
     const setSaved = async ()=>{
-      const q = query(collection(db, "games"), where("user", "==", user.uid));
-      const querySnapshot = await getDocs(q);
-      const newData = [];
-      querySnapshot.forEach((doc) => {  
-        const newItem = doc.data();
-        newData.push(newItem);
-      });
-      for(let i = 0; i < newData.length; i++){
-        if(newData[i].name === name){
-          setSuccess(true); 
-        }
-      }
-    };
-    setSaved(); 
-  }, [name, user.uid]);
+      if(loggedIn){
+        const q = query(collection(db, "games"), where("user", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        const newData = [];
+        querySnapshot.forEach((doc) => {  
+          const newItem = doc.data();
+          newData.push(newItem);
+        });
+        for(let i = 0; i < newData.length; i++){
+          if(newData[i].name === name){
+            setSuccess(true); 
+          };
+        };
+      };
+    }
+    setSaved().catch(err=>console.log(err)); 
+  }, [name, user.uid, loggedIn]);
 
   return (
     <div className='singleGameDiv'>

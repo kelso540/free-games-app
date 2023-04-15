@@ -19,8 +19,8 @@ export default function Fetch({ updatedData, spinnerDiv }) {
     loggedIn, 
     displayHead, 
     category, 
-    overallPage, 
-    setOverallPage, 
+    currentPageNum, 
+    setCurrentPageNum, 
   } = useContext(UserContext);
 
   const [display, setDisplay] = useState(false);
@@ -38,7 +38,6 @@ export default function Fetch({ updatedData, spinnerDiv }) {
   });
 
   const addPage = useCallback((number)=>{
-    console.log(updatedData.length)
     if(updatedData.length > resultsPerPage){
       setTimeout(()=>{
         if(number === 1){
@@ -55,17 +54,15 @@ export default function Fetch({ updatedData, spinnerDiv }) {
         const currentPageStart = number * resultsPerPage;  
         setPageNumberB(currentPageStart); 
         setPageNumberA(currentPageStart + resultsPerPage);
-        console.log(pageNumberB);
-        console.log(pageNumberA);
         const allNumbersOnPage = document.querySelectorAll('.number'); 
         const selectNumber = document.getElementById(number);
         for(let i = 0; i < allNumbersOnPage.length; i++){
           allNumbersOnPage[i].style.textDecoration = 'none'; 
         }
         selectNumber.style.textDecoration = 'underline';
-      }, 100);
+      }, 0);
     } 
-    }, [pageNumberA, pageNumberB, updatedData.length, setPageNumberA, setPageNumberB, resultsPerPage]);
+    }, [updatedData.length, setPageNumberA, setPageNumberB, resultsPerPage]);
 
   useEffect(()=>{
     const setNumberOfPages = ()=>{
@@ -82,16 +79,16 @@ export default function Fetch({ updatedData, spinnerDiv }) {
         if(allNumbersOnPage.length > 0){
           allNumbersOnPage[0].style.textDecoration = 'underline'; 
         }
-      }, 100); 
+      }, 0); 
     };
     setNumberOfPages();
   }, [updatedData.length, resultsPerPage]); 
 
     useEffect(()=>{ //resets to current page number when back arrow on page is clicked. 
       setTimeout(()=>{
-        addPage(overallPage);
-      }, 200);
-    }, [addPage, overallPage]); 
+        addPage(currentPageNum);
+      }, 0);
+    }, [addPage, currentPageNum]); 
 
     useEffect(() => {
       document.addEventListener("scroll", () => {
@@ -149,8 +146,8 @@ export default function Fetch({ updatedData, spinnerDiv }) {
               </div>
               <div className='pageNumbersDiv'>
                 {updatedData.length > resultsPerPage &&
-                  pages.map(item=>
-                    <p key={item} id={item} className='number' onClick={()=>{addPage(item); scrollToTop(); setOverallPage(item)}}> {item} </p> 
+                  pages.map(number=>
+                    <p key={number} id={number} className='number' onClick={()=>{addPage(number); scrollToTop(); setCurrentPageNum(number)}}> {number} </p> 
                   )
                 }
               </div>

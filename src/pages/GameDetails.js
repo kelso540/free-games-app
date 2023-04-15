@@ -33,16 +33,25 @@ export default function GameDetails() {
     }
   };
 
- useEffect(()=>{
+  useEffect(()=>{
     const setSaved = async ()=>{
-      const q = query(collection(db, "games"),  where("name", "==", game.title));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach(() => {
-        setSuccess(true); 
-      }); 
-    };
-    setSaved(); 
-  }, [game.title]);
+      if(loggedIn){
+        const q = query(collection(db, "games"), where("user", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        const newData = [];
+        querySnapshot.forEach((doc) => {  
+          const newItem = doc.data();
+          newData.push(newItem);
+        });
+        for(let i = 0; i < newData.length; i++){
+          if(newData[i].name === game.title){
+            setSuccess(true); 
+          };
+        };
+      };
+    }
+    setSaved().catch(err=>console.log(err)); 
+  }, [game.title, user.uid, loggedIn]);
 
   const deleteSavedGame = async (name) => {
     await deleteDoc(doc(db, "games", name)).catch(err=>console.log(err));

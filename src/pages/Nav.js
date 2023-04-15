@@ -31,7 +31,7 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
     setShowNavInput, 
     menu, 
     setMenu, 
-    setOverallPage, 
+    setCurrentPageNum, 
     resultsPerPage, 
     setPageNumberA, 
     setPageNumberB
@@ -182,8 +182,8 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
       };
       setPageNumberA(resultsPerPage); 
       setPageNumberB(0); 
-      setOverallPage(1);
-    }, [selected, filterCategory, setDisplayHead, setOverallPage, setPageNumberA, setPageNumberB, resultsPerPage]);
+      setCurrentPageNum(1);
+    }, [selected, filterCategory, setDisplayHead, setCurrentPageNum, setPageNumberA, setPageNumberB, resultsPerPage]);
 
     const reSetHome = () => {
       setUpdatedData([]);
@@ -269,7 +269,7 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
         <div className='inputDiv'>
           <input type='text' onChange={handleInput} value={inputValue} placeholder='Type here to search for games'/>
           <button className='allBtn' onClick={getAllGames}>Show All Games</button>
-          <select value={selected} onChange={handleCategory}>
+          <select value={(selected !== null)?selected:genres[0].text} onChange={handleCategory}>
             {
               genres.map((item)=>{
                 return <option key={item.id} value={item.value}>{item.text}</option>
@@ -395,7 +395,7 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
           <strong className='time'>{time}</strong>
           <div className='mobileInputDiv'>
             <strong style={{color: 'white'}}>Filter a genre here </strong>
-            <select className='mobileSelect' value={selected} onChange={handleCategory}>
+            <select className='mobileSelect' value={(selected !== null)?selected:genres[0].text} onChange={handleCategory}>
               {
                 genres.map((item)=>{
                   return <option key={item.id} value={item.value}>{item.text}</option>

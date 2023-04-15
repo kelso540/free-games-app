@@ -47,7 +47,7 @@ const [showNavInput, setShowNavInput] = useState(true);
 const [navPage, setNavPage] = useState('');
 const [pageNumberA, setPageNumberA] = useState(resultsPerPage);
 const [pageNumberB, setPageNumberB] = useState(0);
-const [overallPage, setOverallPage] = useState(undefined);
+const [currentPageNum, setCurrentPageNum] = useState(undefined);
 
   // mmorpg, shooter, strategy, moba, racing, sports, social, sandbox, open-world, survival, pvp, pve, pixel, voxel, zombie, turn-based, first-person, third-Person, top-down, tank, space, sailing, side-scroller, superhero, permadeath, card, battle-royale, mmo, mmofps, mmotps, 3d, 2d, anime, fantasy, sci-fi, fighting, action-rpg, action, military, martial-arts, flight, low-spec, tower-defense, horror, mmorts
 
@@ -83,7 +83,7 @@ const [overallPage, setOverallPage] = useState(undefined);
 
   useEffect(()=>{ //to make sure page goes to one when input is empty.
     if(inputValue.length < 1){
-      setOverallPage(1);
+      setCurrentPageNum(1);
       setSelected('');
     }
   }, [inputValue]); 
@@ -101,7 +101,7 @@ const [overallPage, setOverallPage] = useState(undefined);
     setCategory(e.target.value);
     setDisplayHead(true); 
     setSelected(null); 
-    setOverallPage(1);
+    setCurrentPageNum(1);
   }
 
   const getAllGames = () => {
@@ -118,7 +118,7 @@ const [overallPage, setOverallPage] = useState(undefined);
     setCategory('All Games');
     setSelected('Select Category');
     setDisplayHead(true);
-    setOverallPage(1); 
+    setCurrentPageNum(1); 
   }
 
   const filterCategory = useCallback((category) => {
@@ -149,7 +149,7 @@ const [overallPage, setOverallPage] = useState(undefined);
       showNavInput, setShowNavInput, 
       menu, setMenu, 
       spinnerDiv, setSpinnerDiv, 
-      overallPage, setOverallPage,
+      currentPageNum, setCurrentPageNum,
       pageNumberA, setPageNumberA, 
       pageNumberB, setPageNumberB, 
       resultsPerPage,
