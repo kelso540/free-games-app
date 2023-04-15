@@ -48,13 +48,14 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
   const [displayMessage, setDisplayMessage] = useState(false); 
 
     const handleAvatar = () => {
+      console.log('Thank you for logging in and joining my website!'); 
       setTimeout(()=>{
-        if(holdAvatar){
+        if(holdAvatar !== 'default' || holdAvatar !== null || holdAvatar !== '' || holdAvatar !== undefined){
           setHasAvatar(true); 
         } else {
           setHasAvatar(false);
         }
-      }, 0);
+      }, 500);
     };
 
   const handleSignup = (e)=>{
@@ -88,8 +89,8 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
         setMenu(false)
         setUsername('')
         setPassword('')
-        reSetHome()
         handleAvatar()
+        reSetHome()
       })
         .catch((error) => {
         const errorMessage = error.message;
@@ -112,8 +113,8 @@ export default function Nav({ time, handleInput, getAllGames, inputValue, genres
       setMenu(false)
       setUsername('')
       setPassword('')
-      reSetHome()
       handleAvatar()
+      reSetHome()
     })
     .catch((error)=>{
       if(error.code === 'auth/wrong-password'){
