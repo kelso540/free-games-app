@@ -25,7 +25,7 @@ export default function Saved() {
   }, [user, setUserSavedGames]);
 
     const saved = userSavedGames.map((item)=>{ 
-        return <SavedDiv key={item.id} id={item.id} imgUrl={item.imgUrl} name={item.name} />
+        return <SavedDiv key={item.name} id={item.id} imgUrl={item.imgUrl} name={item.name} />
     })
 
   return (
