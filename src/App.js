@@ -93,7 +93,7 @@ const [currentPageNum, setCurrentPageNum] = useState(undefined);
   }, []);
 
   const handleInput = (e) => {
-    let filtered = data.filter(item=>item.title.includes(e.target.value));
+    let filtered = data.filter(item=>item.title.toLowerCase().includes(e.target.value.toLowerCase()));
     setUpdatedData(filtered); 
     setInputValue(e.target.value);
     setCategory(e.target.value);
